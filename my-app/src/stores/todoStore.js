@@ -1,55 +1,61 @@
-// import browser storage
-import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
+import { supabase } from '../supabase.js';
+export const todos = writable([]);
 
-// const stored = window.localStorage.storedTodos;
-
-export const todos = writable( []);
-
-export const addTodo = (/** @type {any} */ todo) => {
-	todos.update((todos) => {
-		if (todo.id) {
-			return [...todos, todo];
-		}
-        else {
-		return [...todos, { text: todo, completed: false, id: Date.now() }];
-        }
-	});
+export const loadTodos = async () => {
+	const { data, error } = await supabase.from('todos').select();
+	
+	if (error) {
+		return console.error(error);
+	}
+	todos.set(data);
 };
 
-export const deleteTodo = (id) => {
-	todos.update((todos) => {
-		return todos.filter((todo) => todo.id !== id);
-	});
+export const addTodo = async (text, user_id) => {
+	// get the new todos from the database
+
+	const { data, error } = await supabase
+		.from('todos')
+		.insert([{ text, user_id }])
+		.then(() => loadTodos());
+
+	if (error) {
+		return console.error(error);
+	}
 };
 
-export const toggleTodoCompleted = (id) => {
+ 
+
+export const deleteTodo = async (id) => {
+	const { error } = await supabase.from('todos').delete().match({ id });
+
+	if (error) {
+		return console.error(error);
+	}
+
+	todos.update((todos) => todos.filter((todo) => todo.id !== id));
+};
+
+export const toggleTodoCompleted = async (id, currentState) => {
+	const { error } = await supabase.from('todos').update({ completed: !currentState }).match({ id });
+
+	if (error) {
+		return console.error(error);
+	}
+
 	todos.update((todos) => {
 		let index = -1;
 		for (let i = 0; i < todos.length; i++) {
 			if (todos[i].id === id) {
 				index = i;
-				todos[i].completed = !todos[i].completed;
 				break;
 			}
 		}
-		if (index === -1) {
+		if (index !== -1) {
 			todos[index].completed = !todos[index].completed;
 		}
 		return todos;
 	});
 };
 
-
-if (browser) {
-	// client-only code here
-    const stored = window.localStorage.storedTodos;
-    if (stored) {
-        todos.set(JSON.parse(stored));
-    }
-    todos.subscribe((todos) => {
-        window.localStorage.storedTodos = JSON.stringify(todos);
-    } );
-}
-
-
+loadTodos();

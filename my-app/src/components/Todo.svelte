@@ -2,7 +2,7 @@
     /**
 	 * @type {{ completed: boolean; id: any; text: any; }}
 	 */
-     export let todo;
+    export let todo;
     import {deleteTodo, toggleTodoCompleted} from '../stores/todoStore.js';
     
 </script>
