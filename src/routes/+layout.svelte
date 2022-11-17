@@ -1,24 +1,26 @@
 <script>
-  import { user } from '../stores/authStore.js';
+  import { account } from '../stores/authStore.js';
   import { supabase } from '../supabase.js';
   import Auth from '../components/Auth.svelte';
 	import { loadTodos } from '../stores/todoStore.js';
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
- user.set(supabase.auth.getUser())
 
   supabase.auth.onAuthStateChange(( _, session) => {
-      user.set(session?.user);
+      account.set(session?.user);
       if(session?.user){
           loadTodos();
+      }
+      else if (!session?.user){
+          account.set(false);
       }
   });
 
 </script>
 
 <div class="container mx-auto my-6 max-w-lg">
-  {#if $user} 
+  {#if $account} 
     <Navbar/>
     <slot>  </slot>
   {:else}

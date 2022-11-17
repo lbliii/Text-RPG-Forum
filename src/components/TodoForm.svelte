@@ -1,11 +1,11 @@
 <script>
     let text = '';
     import {addTodo, loadTodos} from '../stores/todoStore.js';
-    import {user} from '../stores/authStore.js';
+    import {account} from '../stores/authStore.js';
     const handleSubmit = () => {
         // if input is empty, do nothing
         if (!text) return;
-        addTodo(text, $user.id);
+        addTodo(text, $account.id);
         console.log("Submitting...")
         text = '';
     }
