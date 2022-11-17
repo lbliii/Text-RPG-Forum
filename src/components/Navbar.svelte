@@ -1,5 +1,5 @@
  <script>
-	import { user } from 'src/stores/authStore.js';
+	import { user } from '../stores/authStore.js';
     import { supabase } from '../supabase.js';
 
     const logout = () => {
