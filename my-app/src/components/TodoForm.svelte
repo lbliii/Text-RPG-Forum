@@ -1,10 +1,11 @@
 <script>
     let text = '';
     import {addTodo, loadTodos} from '../stores/todoStore.js';
+    import {user} from '../stores/authStore.js';
     const handleSubmit = () => {
         // if input is empty, do nothing
         if (!text) return;
-        addTodo(text);
+        addTodo(text, $user.id);
         console.log("Submitting...")
         text = '';
     }
@@ -14,6 +15,6 @@
     <div class="flex flex-col text-sm mb-2">
         <label class="font-bold mb-2 text-gray-800" for="todo">Todo</label>
         <input type="text" bind:value={text} class="apperance-none shadow-sm border border-gray-200 p-2 focus:outline-none focus:border-gray-500 rounded-lg" id="todo" name="todo" placeholder="What ya need done?" />
-        <button type="submit" class="w-full shadow-sm rounded bg-blue-500 hover:bg-blue-600 text-white py-2 px-4" >Submit</button>
     </div>
+    <button type="submit" class="w-full shadow-sm rounded bg-blue-500 hover:bg-blue-600 text-white py-2 px-4" >Submit</button>
 </form>
