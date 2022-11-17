@@ -6,7 +6,7 @@
 	import { loadTodos } from '../stores/todoStore.js';
   import Navbar from '../components/Navbar.svelte';
 
-  $: console.log(user)
+  $: console.log($user)
 
  // check if user is logged in
   supabase.auth.onAuthStateChange(async (event, session) => {
