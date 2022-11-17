@@ -8,18 +8,15 @@
 
 
 
- user.set(supabase.auth.currentUser)
- supabase.auth.onAuthStateChange((event, session) => {
-    user.set(session?.user)
-    if (session?.user) {
-      loadTodos()
+// check if there's a user logged in
+  supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN') {
+      user.set(session.user);
+      loadTodos();
+    } else {
+      user.set(null);
     }
-    else {
-  
-    }
-  })
-
-  console.log(user)
+  });
 
 </script>
 
