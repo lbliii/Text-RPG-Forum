@@ -9,12 +9,13 @@
 
 
 // check if there's a user logged in
+  user.set(false);
   supabase.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN') {
       user.set(session.user);
       loadTodos();
     } else {
-      user.set(null);
+      user.set(false);
     }
   });
 
