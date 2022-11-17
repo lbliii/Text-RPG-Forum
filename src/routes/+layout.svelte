@@ -13,6 +13,7 @@
       loadTodos();
     }
     if (event === 'SIGNED_OUT') {
+      console.log('signed out');
       user.set(false);
     }
   });
