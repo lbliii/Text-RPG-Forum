@@ -6,24 +6,29 @@
 	import { loadTodos } from '../stores/todoStore.js';
   import Navbar from '../components/Navbar.svelte';
 
-  console.log(supabase.auth.getUser())
-  user.set(supabase.auth.getUser())
-  supabase.auth.onAuthStateChange((_, session) => {
+
+
+ user.set(supabase.auth.currentUser)
+ supabase.auth.onAuthStateChange((event, session) => {
     user.set(session?.user)
     if (session?.user) {
-      console.log('User is signed in')
       loadTodos()
-    } else {
-      console.log('User is not signed in')
+    }
+    else {
+  
     }
   })
+
+  console.log(user)
+
 </script>
 
 <div class="container mx-auto my-6 max-w-lg">
-  {#if $user}
+  {#if $user }
     <Navbar/>
     <slot>  </slot>
   {:else}
     <Auth />
   {/if}
 </div>
+

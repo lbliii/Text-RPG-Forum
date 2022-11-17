@@ -1,9 +1,12 @@
  <script>
+	import { user } from 'src/stores/authStore.js';
     import { supabase } from '../supabase.js';
 
-    const logout = async () => {
-        await supabase.auth.signOut();
+    const logout = () => {
+      supabase.auth.signOut();
+      user.set(false)
     }
+
  </script>
 
  <div class="my-4 flex justify-end">
