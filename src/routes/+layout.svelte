@@ -7,7 +7,7 @@
   import Navbar from '../components/Navbar.svelte';
 
  // check if user is logged in
-  $: supabase.auth.onAuthStateChange(async (event, session) => {
+  supabase.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN') {
       user.set(session.user);
       loadTodos();
@@ -16,7 +16,7 @@
       console.log('signed out');
       user.set(false);
     }
-  });
+  })
 
 </script>
 
