@@ -1,7 +1,6 @@
  <script>
    import { supabase } from '../supabase.js';
-     import { Navbar, NavBrand, NavHamburger, NavUl, NavLi} from 'flowbite-svelte'
-
+   import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, Button, Input } from 'flowbite-svelte'
 
    const logout = () => {
       supabase.auth.signOut();
@@ -9,16 +8,19 @@
 
  </script>
 
- 
 
 <Navbar let:hidden let:toggle>
   <NavBrand href="/">
-    <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Emdash</span>
+    <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+      Emdash
+    </span>
   </NavBrand>
-  <NavHamburger on:click={toggle} />
-  <NavUl {hidden}>
-    <NavLi href="/">Home</NavLi>
-    <NavLi href="/" on:click={logout}>Log Out</NavLi>
+  <div class="flex md:order-2">
+    <Button size="sm" on:click={logout}>log out</Button>
+    <NavHamburger on:click={toggle} />
+  </div>
+  <NavUl {hidden} class="order-1">
+    <NavLi href="/" active={true}>Home</NavLi>
   </NavUl>
 </Navbar>
 
