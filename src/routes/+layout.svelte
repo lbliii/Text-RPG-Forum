@@ -6,15 +6,16 @@
 	import { loadTodos } from '../stores/todoStore.js';
   import Navbar from '../components/Navbar.svelte';
 
- supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log("auth state change", event, session);
-    if (event === 'SIGNED_IN') {
-      user.set(session.user);
-      loadTodos();
-    } else {
-      user.set(false);
-    }
-  });
+// check for user session
+  const session = supabase.auth.getSession();
+  if (session) {
+    user.set(session.user);
+    // load todos
+    loadTodos();
+  }
+  else {
+    user.set(false);
+  }
 
 </script>
 
