@@ -9,8 +9,8 @@
 
 
 // check if there's a user logged in
-  user.set(false);
-  supabase.auth.onAuthStateChange(async (event, session) => {
+  $: supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log("auth state change", event, session);
     if (event === 'SIGNED_IN') {
       user.set(session.user);
       loadTodos();
@@ -22,7 +22,7 @@
 </script>
 
 <div class="container mx-auto my-6 max-w-lg">
-  {#if $user }
+  {#if $user !== true }
     <Navbar/>
     <slot>  </slot>
   {:else}
