@@ -6,7 +6,6 @@
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
-
   supabase.auth.onAuthStateChange(( _, session) => {
       account.set(session?.user);
       if(session?.user){
@@ -19,7 +18,7 @@
 
 </script>
 
-<div class="container mx-auto my-6 max-w-lg">
+<div class="container mx-auto my-6 max-w-lg p-1">
   {#if $account} 
     <Navbar/>
     <slot>  </slot>
