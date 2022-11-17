@@ -18,6 +18,7 @@
 
 </script>
 
+
 <div class="container mx-auto my-6 max-w-lg p-1">
   {#if $account} 
     <Navbar/>
@@ -26,4 +27,6 @@
     <Auth />
   {/if}
 </div>
+
+
 
