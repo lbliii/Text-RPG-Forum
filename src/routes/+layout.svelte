@@ -1,24 +1,23 @@
 <script>
+  import { user } from '../stores/authStore.js';
   import { supabase } from '../supabase.js';
   import Auth from '../components/Auth.svelte';
-  import {user} from '../stores/authStore.js';
-  import "../app.css";
 	import { loadTodos } from '../stores/todoStore.js';
   import Navbar from '../components/Navbar.svelte';
+  import "../app.css";
 
-  $: console.log($user)
+ const { data, error } = await supabase.auth.getSession() 
 
- // check if user is logged in
-  supabase.auth.onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_IN') {
-      user.set(session.user);
-      loadTodos();
-    }
-    if (event === 'SIGNED_OUT') {
-      console.log('signed out');
-      user.set(false);
-    }
-  })
+  let session = data;
+  $:if (session === null) {
+    user.set(false);
+  }
+  $:if (session !== null) {
+    loadTodos();
+  }
+  $:if (error) {
+    console.log(error);
+  }
 
 </script>
 

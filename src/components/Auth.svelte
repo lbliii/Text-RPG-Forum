@@ -11,7 +11,7 @@
             if (error) throw error
             alert('Check your email for the login link!')
         } catch (error) {
-            alert(error.error_description || error.message)
+            alert("error: " + error.message || error.error_description)
         } finally {
             loading = false
         }

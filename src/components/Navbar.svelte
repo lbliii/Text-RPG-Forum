@@ -2,8 +2,6 @@
    import { supabase } from '../supabase.js';
    import { user } from '../stores/authStore.js';
 
-
-   console.log(user)
    const logout = () => {
       supabase.auth.signOut();
    }
