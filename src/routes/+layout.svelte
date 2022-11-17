@@ -7,16 +7,15 @@
   import Navbar from '../components/Navbar.svelte';
 
  // check if user is logged in
- const { data: { session }, } = await supabase.auth.getSession().then(async (session) => {
-   if (session) {
-     user.set(session.user);
-     await loadTodos();
-   }
-   else {
-     user.set(null);
-   }
- });
-
+  $: supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN') {
+      user.set(session.user);
+      loadTodos();
+    }
+    if (event === 'SIGNED_OUT') {
+      user.set(false);
+    }
+  });
 
 </script>
 
@@ -24,7 +23,7 @@
   {#if $user} 
     <Navbar/>
     <slot>  </slot>
-  {:else if !$user}
+  {:else}
     <Auth />
   {/if}
 </div>
