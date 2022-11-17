@@ -13,6 +13,7 @@
     user.set(false);
   }
   $:if (session !== null) {
+    user.set(true);
     loadTodos();
   }
   $:if (error) {
