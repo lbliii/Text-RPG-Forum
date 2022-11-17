@@ -8,12 +8,7 @@ export const loadTodos = async () => {
 	if (error) {
 		return console.error(error);
 	}
-	else if (data) {
-		todos.set(data);
-	}
-	else {
-		console.log('no todos');
-	}
+	todos.set(data);
 };
 
 export const addTodo = async (text, user_id) => {
