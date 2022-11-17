@@ -16,6 +16,7 @@
   $:if (session !== null && session !== undefined) {
     console.log("There is a session.")
     user.set(true)
+    loadTodos()
   }
   $:if (error) {
     console.log(error);
