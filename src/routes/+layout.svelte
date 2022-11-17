@@ -6,19 +6,22 @@
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
- const { data, error } = await supabase.auth.getSession() 
+ const { data, error } = supabase.auth.getSession() 
 
   let session = data;
-  $:if (session === null) {
-    user.set(false);
+  $:if (session === null || session === undefined) {
+    console.log("There is no session.")
+    user.set(false)
   }
-  $:if (session !== null) {
-    user.set(true);
-    loadTodos();
+  $:if (session !== null && session !== undefined) {
+    console.log("There is a session.")
+    user.set(true)
   }
   $:if (error) {
     console.log(error);
   }
+
+  console.log(user )
 
 </script>
 
