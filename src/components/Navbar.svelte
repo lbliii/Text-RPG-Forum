@@ -1,11 +1,12 @@
  <script>
-	import { user } from '../stores/authStore.js';
-    import { supabase } from '../supabase.js';
+   import { supabase } from '../supabase.js';
 
-    const logout = () => {
-      supabase.auth.signOut();
-      user.set(false)
-    }
+   const logout = () => {
+      // get the session 
+      const session = supabase.auth.getSession();
+      const refresh_token = session.refresh_token;
+      supabase.auth.signOut(refresh_token);
+   }
 
  </script>
 

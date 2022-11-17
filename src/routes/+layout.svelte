@@ -6,10 +6,7 @@
 	import { loadTodos } from '../stores/todoStore.js';
   import Navbar from '../components/Navbar.svelte';
 
-
-
-// check if there's a user logged in
-  $: supabase.auth.onAuthStateChange(async (event, session) => {
+ supabase.auth.onAuthStateChange(async (event, session) => {
     console.log("auth state change", event, session);
     if (event === 'SIGNED_IN') {
       user.set(session.user);
@@ -22,7 +19,7 @@
 </script>
 
 <div class="container mx-auto my-6 max-w-lg">
-  {#if $user !== true }
+  {#if $user} 
     <Navbar/>
     <slot>  </slot>
   {:else}
