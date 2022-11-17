@@ -6,18 +6,16 @@
 	import { loadTodos } from '../stores/todoStore.js';
   import Navbar from '../components/Navbar.svelte';
 
-// check for user session
-  const session = supabase.auth.getSession();
-  if (session) {
-    user.set(session.user);
-    // load todos
-    loadTodos();
-  }
-  else {
-    user.set(false);
-  }
+ // check if user is logged in
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN') {
+      user.set(session.user);
+      loadTodos(session.user.id);
+    } else {
+      user.set(null);
+    }
+  });
 
-console.log(user);
 </script>
 
 <div class="container mx-auto my-6 max-w-lg">

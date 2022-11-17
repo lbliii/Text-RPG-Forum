@@ -2,10 +2,7 @@
    import { supabase } from '../supabase.js';
 
    const logout = () => {
-      // get the session 
-      const session = supabase.auth.getSession();
-      const refresh_token = session.refresh_token;
-      supabase.auth.signOut(refresh_token);
+      supabase.auth.signOut();
    }
 
  </script>
