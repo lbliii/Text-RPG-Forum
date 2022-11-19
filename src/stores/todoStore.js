@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
+
 export const todos = writable([]);
 
 export const loadTodos = async () => {
@@ -17,11 +18,13 @@ export const addTodo = async (text, user_id) => {
 	const { data, error } = await supabase
 		.from('todos')
 		.insert([{ text, user_id }])
-		.then(() => loadTodos());
+		.select()
 
 	if (error) {
 		return console.error(error);
 	}
+
+	loadTodos();
 };
 
  
@@ -56,6 +59,14 @@ export const toggleTodoCompleted = async (id, currentState) => {
 		}
 		return todos;
 	});
+};
+
+export const updateTodo = async (id, text) => {
+	const { error } = await supabase.from('todos').update({ text }).match({ id });
+
+	if (error) {
+		return console.error(error);
+	}
 };
 
 loadTodos();
