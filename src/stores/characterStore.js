@@ -36,9 +36,5 @@ export const deleteCharacter = async (id) => {
     characters.update((characters) => characters.filter((character) => character.id !== id));
 }
 
-// export const updateCharacter = async (id) => {
-//     // change the name of the character
-//     const { error } = await supabase.from('characters').update({ first_name: 'new name' }).match({ id });
-// }
 
 loadCharacters();
