@@ -14,13 +14,13 @@ export const loadCharacters = async () => {
 }
 
 export const addCharacter = async (character) => {
+    console.log(character)
     const { data, error } = await supabase
         .from('characters')
         .insert([{ ...character }])
-        .select()
 
     if (error) {
-        return console.error(error || 'Error adding character');
+        return console.error(error);
     }
     loadCharacters();
   
