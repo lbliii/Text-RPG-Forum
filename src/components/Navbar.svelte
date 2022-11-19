@@ -20,7 +20,9 @@
     <NavHamburger on:click={toggle} />
   </div>
   <NavUl {hidden} class="order-1">
-    <NavLi href="/" active={true}>Home</NavLi>
+    <NavLi href="/" active={false}>Home</NavLi>
+    <NavLi href="/characters" active={false}>Characters</NavLi>
+    <NavLi href="/threads" active={false}>Threads</NavLi>
   </NavUl>
 </Navbar>
 

@@ -5,7 +5,7 @@
 </script>
 
 <main>
-    <h1 class="text-3xl font-bold dark:text-white">Characters</h1>
+    <h1 class="text-3xl font-bold dark:text-white text-center">Create a Character</h1>
     <CharacterForm />
 
     {#each $characters as character}

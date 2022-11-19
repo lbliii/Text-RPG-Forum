@@ -1,17 +1,53 @@
 <script>
     export let character;
-    import {Avatar, Card, Tooltip} from 'flowbite-svelte'
-    
+    import {Avatar, Badge, Button, Card, Heading, P, Tooltip} from 'flowbite-svelte'
+    import {deleteCharacter,} from '../stores/characterStore.js';
+    import { supabase } from '../supabase.js';
+
+     function checkIfOwner() {
+        if (character.owner_id === supabase.auth.getUser().id) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 </script>
 
 
 <div class="my-2">
      <Card size="lg" padding="sm">
-        <Avatar data-name="{character.first_name}" rounded>{character.first_name}</Avatar>
+        <Avatar data-name="{character.first_name}" class="my-2" rounded href="/character/{character.id}">{character.first_name}</Avatar>
         <Tooltip triggeredBy="[data-name]" on:show={e => name = e.target.dataset.name}>{name}</Tooltip>
-        <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
-        {character.bio}
-        </p>
+
+        <Heading tag="h2" class="mb-2"> {character.first_name} {character.last_name}</Heading>
+
+        <div class="flex flex-row justify-between my-2"> 
+            <P weight="bold"> Basic Info</P>
+            {#if character.age}
+            <Badge color="pink">{character.age} </Badge>
+            {/if}
+            {#if character.gender}
+            <Badge color="yellow">{character.gender} </Badge>
+            {/if}
+            {#if character.relationship_status}
+            <Badge color="blue">{character.relationship_status}</Badge>
+            {/if}
+            {#if character.soul}
+            <Badge color="purple">{character.soul} </Badge>
+            {/if}
+            {#if character.species}
+            <Badge color="green">{character.species} </Badge>
+            {/if}
+        </div>
+
+        <P class="my-2">{character.bio}</P>
+        {#if checkIfOwner()}
+        <div class="flex justify-end my-2">
+            <Button size="xs" color="light" class="mr-2">Edit</Button>
+            <Button size="xs" color="red" on:click={() => deleteCharacter(character.id)}>Delete</Button>
+        </div>
+        {/if}
     </Card>
 </div>
 
