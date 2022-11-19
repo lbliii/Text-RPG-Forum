@@ -16,13 +16,14 @@
     </span>
   </NavBrand>
   <div class="flex md:order-2">
-    <Button size="sm" on:click={logout}>log out</Button>
+    <Button outline={true} size="xs" color="green" class="mr-2" href="/character/create">Create Character</Button>
+    <Button outline={true} size="xs" color="blue" class="mr-2" href="/character/create">Create Thread</Button>
+    <Button outline={true} size="xs" color="dark" on:click={logout}>log out</Button>
     <NavHamburger on:click={toggle} />
   </div>
   <NavUl {hidden} class="order-1">
-    <NavLi href="/" active={false}>Home</NavLi>
     <NavLi href="/characters" active={false}>Characters</NavLi>
-    <NavLi href="/threads" active={false}>Threads</NavLi>
+    <!-- <NavLi href="/threads" active={false}>Threads</NavLi> -->
   </NavUl>
 </Navbar>
 

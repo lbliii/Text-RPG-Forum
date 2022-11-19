@@ -16,8 +16,8 @@
 
 
 <div class="my-2">
-     <Card size="lg" padding="sm">
-        <Avatar data-name="{character.first_name}" class="my-2" rounded href="/character/{character.id}">{character.first_name}</Avatar>
+     <Card size="lg" padding="sm" href="/character/{character.id}">
+        <Avatar data-name="{character.first_name}" class="my-2" rounded>{character.first_name}</Avatar>
         <Tooltip triggeredBy="[data-name]" on:show={e => name = e.target.dataset.name}>{name}</Tooltip>
 
         <Heading tag="h2" class="mb-2"> {character.first_name} {character.last_name}</Heading>

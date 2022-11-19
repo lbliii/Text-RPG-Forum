@@ -64,7 +64,7 @@
     const handleSubmit = () => {
         // if character is empty, do nothing
         if (!character) return;
-        addCharacter(character);
+        addCharacter(character)
         character = {};
    
     }

@@ -5,17 +5,16 @@
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
-  supabase.auth.getSession() // check if user is logged in
+
+  supabase.auth.getSession()
     .then(({ data, error }) => {
-      // if null, user is not logged in
       if (data.session === null) {
         console.log("user is not logged in");
         account.set(false);
       }
-      // if not null, user is logged in
       else if (data.session !== null) {
         console.log("user is logged in");
-        account.set(true);
+        account.set(data.session?.user);
       }
       else if (error) {
         console.log("error: " + error.message);
@@ -24,14 +23,13 @@
 
   supabase.auth.onAuthStateChange(( _, session) => {
       account.set(session?.user);
-      if(session?.user){
-          account.set(true);
-      }
-      else if (!session?.user){
+
+      if (!session?.user){
           account.set(false);
       }
   });
 
+console.log(account)
 </script>
 
 <body class="bg-white dark:bg-gray-800">
