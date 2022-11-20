@@ -1,22 +1,13 @@
 <script>
-    import {completeDetails} from '../stores/userStore.js';
+    export let profile
+    import {completeDetails } from '../stores/userStore.js';
     import {account} from '../stores/authStore.js';
     import { Label, Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
     let user = {
         user_id: $account.id,
     };
-
-    let gender = [
-        {value: 'Androgyne', name: 'Androgyne'},
-        {value: 'Cisgender', name: 'Cisgender'},
-        {value: 'Bigender', name: 'Bigender'},
-        {value: 'Fluid', name: 'Fluid'},
-        {value: 'Non-Binary', name: 'Non-Binary'},
-        {value: 'Queer', name: 'Queer'},
-        {value: 'Transgender Man', name: 'Transgender Man'},
-        {value: 'Transgender Woman', name: 'Transgender Woman'},
-    ]
+    
 
     let time_zone = [
         {value: 'ESD', name: 'Eastern Standard Time'},
@@ -25,12 +16,13 @@
         {value: 'PST', name: 'Pacific Standard Time'}
     ]
 
+    console.log($profile)
+
     const handleSubmit = () => {
         // if character is empty, do nothing
         if (!user) return;
         completeDetails(user)
     }
-    
 </script>
 
 

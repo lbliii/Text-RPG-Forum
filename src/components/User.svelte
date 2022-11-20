@@ -30,24 +30,7 @@
             {#if user.gender}
             <Badge color="yellow">{user.gender} </Badge>
             {/if}
-            {#if user.relationship_status}
-            <Badge color="blue">{user.relationship_status}</Badge>
-            {/if}
-            {#if character.soul}
-            <Badge user="purple">{character.soul} </Badge>
-            {/if}
-            {#if user.species}
-            <Badge color="green">{character.species} </Badge>
-            {/if}
         </div>
-
-        <P class="my-2">{user.bio}</P>
-        {#if checkIfOwner()}
-        <div class="flex justify-end my-2">
-            <Button size="xs" color="light" class="mr-2">Edit</Button>
-            <Button size="xs" color="red" on:click={() => deleteCharacter(user.id)}>Delete</Button>
-        </div>
-        {/if}
     </Card>
 </div>
 
