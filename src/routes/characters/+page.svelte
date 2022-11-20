@@ -3,8 +3,8 @@
     import {characters} from '../../stores/characterStore.js';
 </script>
 
-<main>
-    <h1 class="text-3xl font-bold dark:text-white text-center">Your Characters</h1>
+<main class="m-2">
+    <h1 class="text-4xl font-bold dark:text-white text-center my-6">Your Characters</h1>
 
     {#each $characters as character}
          <Character character={character} index={characters.id} />

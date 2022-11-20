@@ -32,15 +32,14 @@
 console.log(account)
 </script>
 
-<body class="bg-white dark:bg-gray-800">
-  <div class="container mx-auto my-6 max-w-xl px-1">
-{#if $account}
-    <Navbar/>
-    <slot>  </slot>
- {:else}
-    <Auth />
-  {/if}
- </div>
+<body class="bg-transparent dark:bg-gray-800 container mx-auto my-6 max-w-xl px-1">
+ 
+  {#if $account}
+      <Navbar/>
+      <slot>  </slot>
+  {:else}
+      <Auth />
+    {/if}
 </body>
 
 
