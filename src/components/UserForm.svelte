@@ -1,12 +1,25 @@
 <script>
-    let details
-    import {completeDetails} from '../stores/userStore.js';
+
+    import {completeDetails, updateDetails} from '../stores/userStore.js';
     import {account} from '../stores/authStore.js';
     import { Label, Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
-    let user = {
+    let user;
+
+    // these exports provide an insert for the prop passed in from the parent component
+    export let edit = false; 
+    export let profile; 
+
+$: if (profile !== null && profile !== undefined) {
+        user = profile
+        console.log(profile)
+    }
+    else {
+        user = {
         user_id: $account.id,
-    };
+        };
+    }
+
     
     let time_zone = [
         {value: 'ESD', name: 'Eastern Standard Time'},
@@ -16,9 +29,15 @@
     ]
     const handleSubmit = () => {
         // if character is empty, do nothing
-        if (!user) return;
-        completeDetails(user)
+        if (!user) return;        
+        if (edit){
+            updateDetails(user)
+        }
+        else {
+            completeDetails(user)
+        }
     }
+
 </script>
 
 
@@ -39,7 +58,7 @@
 
     </div>
     <div class="flex justify-center">
-         <Button size="lg" type="submit">Complete Profile</Button>
+         <Button size="lg" type="submit">Update Profile</Button>
     </div>
 
     <!-- TODO: Confetti event -->

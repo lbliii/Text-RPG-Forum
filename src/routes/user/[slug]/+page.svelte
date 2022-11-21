@@ -11,7 +11,8 @@
 <User user={user} />
 
 {#if user.profile_setup == false}
-<UserForm user={user} />
+<UserForm user={user} edit={false}/>
 {/if}
+
 
 </main>

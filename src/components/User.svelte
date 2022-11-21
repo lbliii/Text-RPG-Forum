@@ -1,10 +1,12 @@
 <script>
     export let user;
-    import {Avatar, Badge, Button, Card, Heading, P, Tooltip} from 'flowbite-svelte'
+    import {Avatar, Badge, Button, Card, Heading, Modal, P, Tooltip} from 'flowbite-svelte'
     import {account} from '../stores/authStore.js';
     import Character from '../components/Character.svelte';
+    import UserForm from '../components/UserForm.svelte';
     import {characters} from '../stores/characterStore.js';
 
+    let editProfile = false;
     let id = $account.id
     function checkIfOwner() {
 
@@ -14,12 +16,6 @@
         else {
             return false;
         }
-    }
-
-    function editDetails() {
-        console.log('edit details')
-
-
     }
 </script>
 
@@ -51,7 +47,7 @@
 
         {#if checkIfOwner()}
         <div class="flex justify-end my-2">
-            <Button size="xs" color="light" class="mr-2" on:click={editDetails}>Edit</Button>
+            <Button size="xs" color="light" class="mr-2" on:click={() => editProfile = true}>Edit</Button>
         </div>
         {/if}
 
@@ -63,3 +59,6 @@
     </Card>
 </div>
 
+<Modal bind:open={editProfile} size="xs" autoclose={false}>
+    <UserForm profile="{user}" edit="true"/>
+</Modal>

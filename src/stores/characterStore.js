@@ -12,7 +12,7 @@ export const loadCharacters = async () => {
     characters.set(data);
 }
 
-export const addCharacter = async (character) => {
+export const addCharacter = async (/** @type {any} */ character) => {
     console.log(character)
     const { data, error } = await supabase
         .from('characters')
@@ -25,7 +25,7 @@ export const addCharacter = async (character) => {
   
 }
 
-export const deleteCharacter = async (id) => {
+export const deleteCharacter = async (/** @type {any} */ id) => {
     const { error } = await supabase.from('characters').delete().match({ id });
 
     if (error) {

@@ -4,7 +4,7 @@ import { supabase } from '../supabase.js';
 export const users = writable([]);
 export const profile = writable({});
 
-export const completeDetails = async (user) => {
+export const completeDetails = async (/** @type {any} */ user) => {
     console.log(user);
 		const { data, error } = await supabase.from('users').insert([{ ...user }]);
 
@@ -13,7 +13,16 @@ export const completeDetails = async (user) => {
 		}
 }
 
-export const loadProfile = async (id) => {
+export const updateDetails = async (/** @type {any} */ user) => {
+
+		const { data, error } = await supabase.from('users').update([{ ...user }]).match({ id: user.user_id });
+
+		if (error) {
+			return console.error(error);
+		}
+}
+
+export const loadProfile = async (/** @type {any} */ id) => {
 	let user_id = id;
 	const { data, error } = await supabase.from('users').select().match({ user_id });
 
