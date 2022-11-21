@@ -1,5 +1,5 @@
 <script>
-    import {Avatar, Badge, Button, Card, Heading, Modal, P, Popover, Tooltip} from 'flowbite-svelte'
+    import {Badge, Button, Card, Heading, Modal, P} from 'flowbite-svelte'
     import {deleteCharacter} from '../stores/characterStore.js';
     import CharacterForm from '../components/CharacterForm.svelte';
     import {account} from '../stores/authStore.js';

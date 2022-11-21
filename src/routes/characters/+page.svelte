@@ -7,7 +7,7 @@
     <h1 class="text-4xl font-bold dark:text-white text-center my-6">All Characters</h1>
 
     {#each $characters as character}
-         <Character character={character} index={characters.id} />
+         <Character character={character} />
     {/each}
 
 </main>

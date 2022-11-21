@@ -4,7 +4,7 @@ import { supabase } from '../supabase.js';
 export const characters = writable([]);
 
 export const loadCharacters = async () => {
-    const { data, error } = await supabase.from('characters').select();
+    const { data, error } = await supabase.from('characters').select( '*' );
 
     if (error) {
         return console.error(error);
