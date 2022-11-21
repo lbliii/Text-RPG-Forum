@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
 export const users = writable([]);
-export const profile = writable(null);
+export const profile = writable({});
 
 export const completeDetails = async (user) => {
     console.log(user);
@@ -15,13 +15,18 @@ export const completeDetails = async (user) => {
 
 }
 
-export const loadUser = async () => {
-	const { data, error } = await supabase.from('users').select();
+export async function getUser(id) {
+	let abc;
+	const { data, error } = await supabase.from('users').select('*').eq('user_id', id).single()
 
-	if (error) {
-		return console.error(error);
+	if (data) {
+		console.log(data)
+		profile.set(data[0]);
+		abc = data[0];
+
+		return abc 
+
 	}
-	profile.set(data[0]);
-};
 
-loadUser()
+}
+ 

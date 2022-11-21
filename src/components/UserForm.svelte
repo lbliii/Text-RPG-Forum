@@ -1,6 +1,6 @@
 <script>
-    export let profile
-    import {completeDetails } from '../stores/userStore.js';
+    let details
+    import {completeDetails} from '../stores/userStore.js';
     import {account} from '../stores/authStore.js';
     import { Label, Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
@@ -8,16 +8,12 @@
         user_id: $account.id,
     };
     
-
     let time_zone = [
         {value: 'ESD', name: 'Eastern Standard Time'},
         {value: 'CSD', name: 'Central Standard Time'},
         {value: 'MST', name: 'Mountain Standard Time'},
         {value: 'PST', name: 'Pacific Standard Time'}
     ]
-
-    console.log($profile)
-
     const handleSubmit = () => {
         // if character is empty, do nothing
         if (!user) return;

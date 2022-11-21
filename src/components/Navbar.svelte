@@ -1,6 +1,9 @@
  <script>
    import { supabase } from '../supabase.js';
    import { Chevron, Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger, Button, Input } from 'flowbite-svelte'
+   import {account} from '../stores/authStore.js'
+
+   let profile = $account.id
 
    const logout = () => {
       supabase.auth.signOut();
@@ -19,6 +22,7 @@
   <NavUl {hidden}>
     <NavLi id="account-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
     <Dropdown color="green"  triggeredBy="#account-menu" class="w-44 z-20">
+      <DropdownItem class="hover:bg-white" href="/user/{profile}">View Profile</DropdownItem>
       <DropdownItem class="hover:bg-white" href="/character/create">Create a Character</DropdownItem>
       <DropdownItem class="hover:bg-white" href="/characters">View Your Characters</DropdownItem>
       <DropdownDivider />
