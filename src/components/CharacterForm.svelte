@@ -20,8 +20,7 @@
         {value: 'Fluid', name: 'Fluid'},
         {value: 'Non-Binary', name: 'Non-Binary'},
         {value: 'Queer', name: 'Queer'},
-        {value: 'Transgender Man', name: 'Transgender Man'},
-        {value: 'Transgender Woman', name: 'Transgender Woman'},
+        {value: 'Transgender', name: 'Transgender'},
     ]
     let soul = [
         {value: 'Ghost', name: 'Ghost'},

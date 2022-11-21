@@ -22,15 +22,16 @@
 
 <div class="my-2">
      <Card size="lg" padding="sm">
+        
         <div class="flex flex-row justify-end  my-2"> 
             {#if user.age}
             <Badge color="pink">{user.age} </Badge>
             {/if}
             {#if user.time_zone}
-            <Badge color="yellow">{user.time_zone} </Badge>
+            <Badge color="dark">{user.time_zone} </Badge>
             {/if}
         </div>
-        <Heading tag="h1" class="mb-4"> {user.alias}</Heading>
+        <Heading tag="h1" class="mb-4"> {user.alias} </Heading>
 
         {#if user.likes}
             <Heading tag="h2" class="mb-2"> Likes</Heading>
@@ -59,7 +60,7 @@
         </Hr>
         {#each $characters as character}
             {#if character.user_id === user.user_id}
-                <Character character={character} />
+                <Character character={character} profile={user} />
             {/if}
         {/each}
     </Card>
