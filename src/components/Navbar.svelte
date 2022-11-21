@@ -1,6 +1,9 @@
  <script>
    import { supabase } from '../supabase.js';
-   import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, Button, Input } from 'flowbite-svelte'
+   import { Chevron, Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger, Button, Input } from 'flowbite-svelte'
+   import {account} from '../stores/authStore.js'
+
+   let profile = $account.id
 
    const logout = () => {
       supabase.auth.signOut();
@@ -9,18 +12,21 @@
  </script>
 
 
-<Navbar let:hidden let:toggle>
+<Navbar color="green" class="rounded" let:hidden let:toggle>
   <NavBrand href="/">
     <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
       Emdash
     </span>
   </NavBrand>
-  <div class="flex md:order-2">
-    <Button size="sm" on:click={logout}>log out</Button>
-    <NavHamburger on:click={toggle} />
-  </div>
-  <NavUl {hidden} class="order-1">
-    <NavLi href="/" active={true}>Home</NavLi>
+  <NavHamburger on:click={toggle} />
+  <NavUl {hidden}>
+    <NavLi id="account-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
+    <Dropdown color="green"  triggeredBy="#account-menu" class="w-44 z-20">
+      <DropdownItem class="hover:bg-white" href="/user/{profile}">View Profile</DropdownItem>
+      <DropdownItem class="hover:bg-white" href="/character/create">Create a Character</DropdownItem>
+      <DropdownItem class="hover:bg-white" href="/characters">View Your Characters</DropdownItem>
+      <DropdownDivider />
+      <DropdownItem href="/" on:click={logout}>Sign Out</DropdownItem>
+    </Dropdown>
   </NavUl>
 </Navbar>
-

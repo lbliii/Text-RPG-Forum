@@ -37,6 +37,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@supabase/supabase-js": "^2.1.0"
+		"@supabase/supabase-js": "^2.1.0",
+		"svelte-confetti": "^1.2.2"
 	}
 }
