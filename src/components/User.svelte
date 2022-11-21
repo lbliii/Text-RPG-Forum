@@ -5,7 +5,6 @@
     import Character from '../components/Character.svelte';
     import {characters} from '../stores/characterStore.js';
 
-    console.log(user);
     let id = $account.id
     function checkIfOwner() {
 
@@ -16,12 +15,18 @@
             return false;
         }
     }
+
+    function editDetails() {
+        console.log('edit details')
+
+
+    }
 </script>
 
 
 <div class="my-2">
-     <Card size="lg" padding="sm" href="/user/{user.user_id}">
-        <Avatar data-name="{user.alias}" class="my-2" rounded>{user.alias}</Avatar>
+     <Card size="lg" padding="sm">
+        <Avatar data-name="{user.alias}" class="my-2" rounded href="/user/{user.user_id}">{user.alias}</Avatar>
         <Tooltip triggeredBy="[data-name]" on:show={e => name = e.target.dataset.name}>{name}</Tooltip>
 
         <Heading tag="h2" class="mb-2"> {user.alias}</Heading>
@@ -46,7 +51,7 @@
 
         {#if checkIfOwner()}
         <div class="flex justify-end my-2">
-            <Button size="xs" color="light" class="mr-2">Edit</Button>
+            <Button size="xs" color="light" class="mr-2" on:click={editDetails}>Edit</Button>
         </div>
         {/if}
 

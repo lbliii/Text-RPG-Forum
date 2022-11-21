@@ -10,7 +10,6 @@ export const loadCharacters = async () => {
         return console.error(error);
     }
     characters.set(data);
-    console.log(characters)
 }
 
 export const addCharacter = async (character) => {
@@ -35,6 +34,7 @@ export const deleteCharacter = async (id) => {
 
     characters.update((characters) => characters.filter((character) => character.id !== id));
 }
+
 
 
 loadCharacters();

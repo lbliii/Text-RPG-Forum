@@ -13,18 +13,16 @@ export const completeDetails = async (user) => {
 		}
 }
 
-export async function getUser(id) {
-	let abc;
-	const { data, error } = await supabase.from('users').select('*').eq('user_id', id).single()
+export const loadProfile = async (id) => {
+	let user_id = id;
+	const { data, error } = await supabase.from('users').select().match({ user_id });
 
-	if (data) {
-		console.log(data)
-		profile.set(data[0]);
-		abc = data[0];
-
-		return abc 
+	if (error) {
+		return console.error(error);
 	}
-}
+	profile.set(data[0]);
+};
+
  
 
 export const loadUsers = async () => {
