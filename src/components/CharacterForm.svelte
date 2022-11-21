@@ -1,11 +1,17 @@
 <script>
-    import {addCharacter} from '../stores/characterStore.js';
+    import {addCharacter, updateCharacter} from '../stores/characterStore.js';
     import {account} from '../stores/authStore.js';
     import { Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
-    let character = {
-        user_id: $account.id,
-    };
+    // these exports provide an insert for the prop passed in from the parent component
+    export let edit;
+    export let character
+
+    $: if (character === null || character === undefined) {
+        character = {
+            user_id: $account.id,
+            };
+        }
 
     let gender = [
         {value: 'Androgyne', name: 'Androgyne'},
@@ -63,10 +69,12 @@
 
     const handleSubmit = () => {
         // if character is empty, do nothing
-        if (!character) return;
-        addCharacter(character)
-        character = {};
-   
+        if (edit === true) {
+            updateCharacter(character)
+        }
+        else {
+            addCharacter(character)
+        }
     }
 </script>
 
@@ -94,7 +102,7 @@
 
     </div>
     <div class="flex justify-center">
-         <Button size="lg" type="submit">Create Character</Button>
+         <Button size="lg" type="submit">Save</Button>
     </div>
 
     <!-- TODO: Confetti event -->

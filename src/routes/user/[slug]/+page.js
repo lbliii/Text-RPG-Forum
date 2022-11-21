@@ -1,6 +1,5 @@
 import { supabase } from '../../../supabase.js';
 
-/** @type {import('./$types').PageLoad} */
 
 export async function load({ params }) {
 	let user_id = params.slug;
@@ -10,6 +9,5 @@ export async function load({ params }) {
 	if (error) {
 		return console.error(error || 'Error loading character');
 	}
-
 	return data[0];
 }

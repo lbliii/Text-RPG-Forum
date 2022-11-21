@@ -15,11 +15,12 @@ export const completeDetails = async (/** @type {any} */ user) => {
 
 export const updateDetails = async (/** @type {any} */ user) => {
 
-		const { data, error } = await supabase.from('users').update([{ ...user }]).match({ id: user.user_id });
+		const { data, error } = await supabase.from('users').update([{ ...user }]).match({ user_id: user.user_id });
 
 		if (error) {
 			return console.error(error);
 		}
+	loadUsers();
 }
 
 export const loadProfile = async (/** @type {any} */ id) => {

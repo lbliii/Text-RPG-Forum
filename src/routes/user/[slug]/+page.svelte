@@ -7,11 +7,10 @@
 
 <main>
 
-
 <User user={user} />
 
 {#if user.profile_setup == false}
-<UserForm user={user} edit={false}/>
+  <UserForm user={user} edit={false}/>
 {/if}
 
 

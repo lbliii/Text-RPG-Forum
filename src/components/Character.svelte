@@ -2,12 +2,14 @@
     export let character;
     import {Avatar, Badge, Button, Card, Heading, Modal, P, Popover} from 'flowbite-svelte'
     import {deleteCharacter} from '../stores/characterStore.js';
+    import CharacterForm from '../components/CharacterForm.svelte';
     import {account} from '../stores/authStore.js';
     import {profile, loadProfile} from '../stores/userStore.js';
 
     let deleteModal = false;
+    let editModal = false;
 
-     function checkIfOwner() {
+    function checkIfOwner() {
         let id = $account.id
         if (character.user_id === id) {
             return true;
@@ -27,7 +29,7 @@
         <Popover triggeredBy="[data-name]" class="w-64 text-sm font-light text-gray-500 bg-white dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
             <div class="p-3">
             <div class="flex justify-between items-center mb-2">
-                <a href="/user/{character.user_id}">Played by {$profile.alias}</a>
+                <a href="/user/{character.user_id}">@{$profile.alias}</a>
                 <Button size="xs">Follow</Button>
             </div>
             <ul class="flex text-sm font-light">
@@ -72,13 +74,17 @@
         <P class="my-2">{character.bio}</P>
         {#if checkIfOwner()}
         <div class="flex justify-end my-2">
-            <Button size="xs" color="light" class="mr-2">Edit</Button>
+            <Button size="xs" color="light" on:click={() => editModal = true}>Edit</Button>
             <Button size="xs" color="red" on:click={() => deleteModal = true}>Delete</Button>
         </div>
         {/if}
     </Card>
 </div>
 
+
+<Modal bind:open={editModal} size="xs" autoclose={false}>
+    <CharacterForm character="{character}" edit={true}/>
+</Modal>
 
 <Modal bind:open={deleteModal} size="xs" autoclose>
   <div class="text-center">

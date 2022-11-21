@@ -25,6 +25,19 @@ export const addCharacter = async (/** @type {any} */ character) => {
   
 }
 
+export const updateCharacter = async (/** @type {any} */ character) => {
+	const { data, error } = await supabase
+		.from('characters')
+		.update([{ ...character }])
+		.match({ user_id: character.user_id });
+
+	if (error) {
+		return console.error(error);
+	}
+    loadCharacters();
+};
+
+
 export const deleteCharacter = async (/** @type {any} */ id) => {
     const { error } = await supabase.from('characters').delete().match({ id });
 
