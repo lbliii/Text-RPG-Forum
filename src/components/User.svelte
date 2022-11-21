@@ -2,9 +2,13 @@
     export let user;
     import {Avatar, Badge, Button, Card, Heading, P, Tooltip} from 'flowbite-svelte'
     import {account} from '../stores/authStore.js';
+    import Character from '../components/Character.svelte';
+    import {characters} from '../stores/characterStore.js';
 
+    console.log(user);
+    let id = $account.id
     function checkIfOwner() {
-        let id = $account.id
+
         if (user.user_id === id) {
             return true;
         }
@@ -23,7 +27,7 @@
         <Heading tag="h2" class="mb-2"> {user.alias}</Heading>
 
         <div class="flex flex-row justify-between my-2"> 
-            <P weight="bold"> Basic Info</P>
+            <P size="3xl" weight="bold"> Basic Info</P>
             {#if user.age}
             <Badge color="pink">{user.age} </Badge>
             {/if}
@@ -32,9 +36,11 @@
             {/if}
         </div>
         {#if user.likes}
+            <P size="2xl" weight="bold">Likes</P>
             <P>{user.likes}</P>
         {/if}
         {#if user.dislikes}
+            <P size="2xl" weight="bold">Dislikes</P>
             <P>{user.dislikes}</P>
         {/if}
 
@@ -43,6 +49,12 @@
             <Button size="xs" color="light" class="mr-2">Edit</Button>
         </div>
         {/if}
+
+        {#each $characters as character}
+            {#if character.user_id === user.user_id}
+                <Character character={character} />
+            {/if}
+        {/each}
     </Card>
 </div>
 

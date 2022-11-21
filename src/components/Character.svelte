@@ -2,10 +2,11 @@
     export let character;
     import {Avatar, Badge, Button, Card, Heading, P, Tooltip} from 'flowbite-svelte'
     import {deleteCharacter,} from '../stores/characterStore.js';
-    import { supabase } from '../supabase.js';
+    import {account} from '../stores/authStore.js';
 
      function checkIfOwner() {
-        if (character.owner_id === supabase.auth.getUser().id) {
+        let id = $account.id
+        if (character.user_id === id) {
             return true;
         }
         else {

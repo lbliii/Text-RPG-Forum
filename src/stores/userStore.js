@@ -11,8 +11,6 @@ export const completeDetails = async (user) => {
 		if (error) {
 			return console.error(error);
 		}
-
-
 }
 
 export async function getUser(id) {
@@ -25,8 +23,18 @@ export async function getUser(id) {
 		abc = data[0];
 
 		return abc 
-
 	}
-
 }
  
+
+export const loadUsers = async () => {
+	const { data, error } = await supabase.from('users').select();
+
+	if (error) {
+		return console.error(error);
+	}
+	users.set(data);
+	console.log(users);
+};
+
+loadUsers()
