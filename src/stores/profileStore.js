@@ -5,21 +5,22 @@ export const users = writable([]);
 export const profile = writable({});
 
 export const completeProfileDetails = async (/** @type {any} */ user) => {
-    console.log(user);
-		const { data, error } = await supabase.from('users').insert([{ ...user }]);
 
-		if (error) {
-			return console.error(error);
-		}
+	const { data, error } = await supabase.from('users').insert([{ ...user }]);
+
+	if (error) {
+		return console.error(error);
+	}
 }
 
 export const updateProfileDetails = async (/** @type {any} */ user) => {
 
-		const { data, error } = await supabase.from('users').update([{ ...user }]).match({ user_id: user.user_id });
+	const { data, error } = await supabase.from('users').update([{ ...user }]).match({ user_id: user.user_id });
 
-		if (error) {
-			return console.error(error);
-		}
+	if (error) {
+		return console.error(error);
+	}
+
 	loadProfiles();
 }
 
@@ -30,8 +31,8 @@ export const loadProfiles = async () => {
 	if (error) {
 		return console.error(error);
 	}
+
 	users.set(data);
-	console.log(users);
 };
 
 export const loadProfile = async (/** @type {any} */ id) => {
@@ -41,6 +42,7 @@ export const loadProfile = async (/** @type {any} */ id) => {
 	if (error) {
 		return console.error(error);
 	}
+
 	profile.set(data[0]);
 };
 

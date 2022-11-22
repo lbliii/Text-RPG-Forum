@@ -25,6 +25,9 @@
         // if character is empty, do nothing
         if (!profile) return;      
 
+        // store character.bio as html in the database
+        profile.likes = profile.likes.replace(/\r?\n/g, '<br />');
+        profile.dislikes = profile.dislikes.replace(/\r?\n/g, '<br />');
         if (edit === true) {
             updateProfileDetails(profile)
             console.log("editing exising profile")

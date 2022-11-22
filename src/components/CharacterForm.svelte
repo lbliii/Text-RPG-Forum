@@ -67,9 +67,10 @@
     ]
 
     const handleSubmit = () => {
-        // if character is empty, do nothing
+        // store character.bio as html in the database
+        character.bio = character.bio.replace(/\r?\n/g, '<br />');
         if (edit === true) {
-            // preserve line breaks for textarea
+
             updateCharacter(character)
         }
         else {
