@@ -1,7 +1,7 @@
 <script>
     let text = '';
     import {addTodo, loadTodos} from '../stores/todoStore.js';
-    import {account} from '../stores/authStore.js';
+    import {account} from '../stores/accountStore.js';
     const handleSubmit = () => {
         // if input is empty, do nothing
         if (!text) return;

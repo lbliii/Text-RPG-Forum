@@ -2,7 +2,7 @@
     import {Badge, Button, Card, Heading, Modal, P} from 'flowbite-svelte'
     import {deleteCharacter} from '../stores/characterStore.js';
     import CharacterForm from '../components/CharacterForm.svelte';
-    import {account} from '../stores/authStore.js';
+    import {account} from '../stores/accountStore.js';
 
     export let character;
     export let profile;

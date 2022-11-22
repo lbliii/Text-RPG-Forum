@@ -1,8 +1,8 @@
 <script>
     import Character from '../../components/Character.svelte';
     import {characters} from '../../stores/characterStore.js';
-    import {users} from '../../stores/userStore.js';
-    import {account} from '../../stores/authStore.js';
+    import {users} from '../../stores/profileStore.js';
+    import {account} from '../../stores/accountStore.js';
 </script>
 
 <main class="m-2">

@@ -1,7 +1,7 @@
 <script>
-  import { account } from '../stores/authStore.js';
+  import { account } from '../stores/accountStore.js';
   import { supabase } from '../supabase.js';
-  import Auth from '../components/Auth.svelte';
+  import Auth from '../components/Account.svelte';
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 

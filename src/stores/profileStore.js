@@ -4,7 +4,7 @@ import { supabase } from '../supabase.js';
 export const users = writable([]);
 export const profile = writable({});
 
-export const completeDetails = async (/** @type {any} */ user) => {
+export const completeProfileDetails = async (/** @type {any} */ user) => {
     console.log(user);
 		const { data, error } = await supabase.from('users').insert([{ ...user }]);
 
@@ -13,15 +13,26 @@ export const completeDetails = async (/** @type {any} */ user) => {
 		}
 }
 
-export const updateDetails = async (/** @type {any} */ user) => {
+export const updateProfileDetails = async (/** @type {any} */ user) => {
 
 		const { data, error } = await supabase.from('users').update([{ ...user }]).match({ user_id: user.user_id });
 
 		if (error) {
 			return console.error(error);
 		}
-	loadUsers();
+	loadProfiles();
 }
+
+
+export const loadProfiles = async () => {
+	const { data, error } = await supabase.from('users').select();
+
+	if (error) {
+		return console.error(error);
+	}
+	users.set(data);
+	console.log(users);
+};
 
 export const loadProfile = async (/** @type {any} */ id) => {
 	let user_id = id;
@@ -33,16 +44,4 @@ export const loadProfile = async (/** @type {any} */ id) => {
 	profile.set(data[0]);
 };
 
- 
-
-export const loadUsers = async () => {
-	const { data, error } = await supabase.from('users').select();
-
-	if (error) {
-		return console.error(error);
-	}
-	users.set(data);
-	console.log(users);
-};
-
-loadUsers()
+loadProfiles()

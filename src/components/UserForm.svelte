@@ -1,7 +1,7 @@
 <script>
 
-    import {completeDetails, updateDetails} from '../stores/userStore.js';
-    import {account} from '../stores/authStore.js';
+    import {completeProfileDetails, updateProfileDetails} from '../stores/profileStore.js';
+    import {account} from '../stores/accountStore.js';
     import { Label, Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
     // these exports provide an insert for the prop passed in from the parent component
@@ -26,12 +26,12 @@
         if (!profile) return;      
 
         if (edit === true) {
-            updateDetails(profile)
+            updateProfileDetails(profile)
             console.log("editing exising profile")
     
         }
         else {
-            completeDetails(profile)
+            completeProfileDetails(profile)
             console.log("fresh start")
         }
     }

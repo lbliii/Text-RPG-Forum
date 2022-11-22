@@ -1,6 +1,6 @@
 <script>
     import User from '../../components/User.svelte';
-    import {users} from '../../stores/userStore.js';
+    import {users} from '../../stores/profileStore.js';
 </script>
 
 <main class="m-2">

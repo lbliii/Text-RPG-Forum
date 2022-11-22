@@ -1,7 +1,7 @@
 <script>
     export let user;
     import {Avatar, Badge, Button, Card, Heading, Hr, Modal, P} from 'flowbite-svelte'
-    import {account} from '../stores/authStore.js';
+    import {account} from '../stores/accountStore.js';
     import Character from '../components/Character.svelte';
     import UserForm from '../components/UserForm.svelte';
     import {characters} from '../stores/characterStore.js';

@@ -1,6 +1,6 @@
 <script>
     import {addCharacter, updateCharacter} from '../stores/characterStore.js';
-    import {account} from '../stores/authStore.js';
+    import {account} from '../stores/accountStore.js';
     import { Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
     // these exports provide an insert for the prop passed in from the parent component

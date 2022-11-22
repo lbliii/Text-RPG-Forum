@@ -1,7 +1,7 @@
  <script>
    import { supabase } from '../supabase.js';
    import { Chevron, Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger } from 'flowbite-svelte'
-   import {account} from '../stores/authStore.js'
+   import {account} from '../stores/accountStore.js'
 
    let profile = $account.id
 
