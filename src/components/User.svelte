@@ -22,7 +22,6 @@
 
 <div class="my-2">
      <Card size="lg" padding="sm">
-        
         <div class="flex flex-row justify-end  my-2"> 
             {#if user.age}
             <Badge color="pink">{user.age} </Badge>

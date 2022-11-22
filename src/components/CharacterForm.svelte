@@ -69,12 +69,15 @@
     const handleSubmit = () => {
         // if character is empty, do nothing
         if (edit === true) {
+            // preserve line breaks for textarea
             updateCharacter(character)
         }
         else {
             addCharacter(character)
         }
     }
+
+ 
 </script>
 
 

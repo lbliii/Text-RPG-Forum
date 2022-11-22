@@ -20,6 +20,9 @@
         }
     }
 
+   
+
+
 
 </script>
 
@@ -48,7 +51,8 @@
             {/if}
         </div>
 
-        <P class="my-2">{character.bio}</P>
+        <P class="my-2">{@html character.bio}</P>
+   
         {#if checkIfOwner()}
         <div class="flex justify-end my-2">
             <Button size="xs" color="light" on:click={() => editModal = true}>Edit</Button>
