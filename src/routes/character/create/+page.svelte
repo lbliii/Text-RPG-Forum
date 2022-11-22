@@ -1,7 +1,5 @@
 <script>
     import CharacterForm from '../../../components/CharacterForm.svelte';
-    import Character from '../../../components/Character.svelte';
-    import {characters} from '../../../stores/characterStore.js';
 </script>
 
 <main>

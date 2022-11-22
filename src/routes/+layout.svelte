@@ -1,9 +1,10 @@
 <script>
-  import { account } from '../stores/authStore.js';
+  import { account } from '../stores/accountStore.js';
   import { supabase } from '../supabase.js';
-  import Auth from '../components/Auth.svelte';
+  import Auth from '../components/Account.svelte';
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
+	import {loadProfile } from '../stores/profileStore.js';
 
 
   supabase.auth.getSession()
@@ -15,6 +16,8 @@
       else if (data.session !== null) {
         console.log("user is logged in");
         account.set(data.session?.user);
+        loadProfile(data.session?.user.id);
+
       }
       else if (error) {
         console.log("error: " + error.message);
