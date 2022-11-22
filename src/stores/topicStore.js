@@ -24,11 +24,12 @@ export const loadTopic = async (/** @type {any} */ id) => {
     topic.set(data[0]);
 }
 
-export const addTopic = async (/** @type {any} */ title, /** @type {any} */ content, /** @type {any} */ user_id) => {
+export const addTopic = async (topic) => {
+    console.log(topic)
     const { data, error } = await supabase
         .from('topics')
-        .insert([{ title, content, user_id }])
-        .then(() => loadTopics());
+        .insert([{ ...topic }])
+        .select();
 
     if (error) {
         return console.error(error);

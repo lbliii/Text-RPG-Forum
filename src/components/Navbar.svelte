@@ -20,7 +20,8 @@
   </NavBrand>
   <NavHamburger on:click={toggle} />
   <NavUl {hidden}>
-    <NavLi href="/users">Explore Users</NavLi>
+    <NavLi href="/users">Users</NavLi>
+    <NavLi href="/topics">Topics</NavLi>
     <NavLi id="account-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
     <Dropdown color="green"  triggeredBy="#account-menu" class="w-44 z-20">
       <DropdownItem class="hover:bg-white" href="/user/{profile}">View Profile</DropdownItem>

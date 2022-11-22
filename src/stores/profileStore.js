@@ -36,7 +36,14 @@ export const loadProfiles = async () => {
 };
 
 export const loadProfile = async (/** @type {any} */ id) => {
-	let user_id = id;
+
+	let user_id;
+	if (!id) {
+		 
+	}
+	else {
+	 user_id = id;
+	}
 	const { data, error } = await supabase.from('users').select().match({ user_id });
 
 	if (error) {
@@ -46,4 +53,5 @@ export const loadProfile = async (/** @type {any} */ id) => {
 	profile.set(data[0]);
 };
 
+loadProfile()
 loadProfiles()
