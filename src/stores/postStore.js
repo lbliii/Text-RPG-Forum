@@ -39,7 +39,7 @@ export const deletePost = async (post) => {
 }
 
 export const updatePost = async (post) => {
-    // change the name of the post
+    let id = post.thread;
     const { error } = await supabase.from('posts').update({ ...post }).match({ id });
 
     if (error) {

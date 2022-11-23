@@ -41,7 +41,7 @@
 
 
 <Modal bind:open={editModal} size="xs" autoclose={false}>
-    <PostForm post={post} edit={true}/>
+    <PostForm editPost={post} edit={true}/>
 </Modal>
 
 <Modal bind:open={deleteModal} size="xs" autoclose>

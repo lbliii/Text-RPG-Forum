@@ -3,14 +3,22 @@
     import {account} from '../stores/accountStore.js';
     import {Button, Select, Textarea } from 'flowbite-svelte'
 
+
     export let edit; 
     export let thread;
+    export let editPost = {}
 
-    let  post = {
-        user_id: $account.id,
-        thread: thread.id,
+    let post 
+
+    if (editPost) {
+        post = editPost
     }
-
+    else {
+        post = {
+            user_id: $account.id,
+            thread: thread.id,
+        }
+    }
     
     const handleSubmit = () => {
         post.body = post.body.replace(/\r?\n/g, '<br />');
