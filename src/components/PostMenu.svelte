@@ -2,6 +2,7 @@
   import {Button, Modal} from 'flowbite-svelte'
   import PostForm from '../components/PostForm.svelte'
 
+  export let thread
   let createModal = false
 
 </script>
@@ -14,5 +15,5 @@
 
 
 <Modal bind:open={createModal} size="xs" autoclose={false}>
-    <PostForm  />
+    <PostForm thread={thread} edit={false} />
 </Modal>

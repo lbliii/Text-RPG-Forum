@@ -17,12 +17,14 @@ export const addPost = async (post) => {
     const { data, error } = await supabase
         .from('posts')
         .insert([{ ...post }])
-        .then(() => loadPosts())
+        .then(() => loadPosts(post.thread));
+        
 
 
     if (error) {
         return console.error(error);
     }
+
 }
 
 export const deletePost = async (id) => {
