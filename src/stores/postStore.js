@@ -27,7 +27,8 @@ export const addPost = async (post) => {
 
 }
 
-export const deletePost = async (id) => {
+export const deletePost = async (post) => {
+    let id = post.id;
     const { error } = await supabase.from('posts').delete().match({ id });
 
     if (error) {

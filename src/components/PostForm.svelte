@@ -5,11 +5,12 @@
 
     export let edit; 
     export let thread;
-    
-    let post = {
-            user_id: $account.id,
-            thread: thread.id,
-        };
+
+    let  post = {
+        user_id: $account.id,
+        thread: thread.id,
+    }
+
     
     const handleSubmit = () => {
         post.body = post.body.replace(/\r?\n/g, '<br />');
