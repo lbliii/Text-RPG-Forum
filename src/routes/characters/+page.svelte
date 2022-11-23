@@ -5,7 +5,7 @@
     import {account} from '../../stores/accountStore.js';
 </script>
 
-<main class="m-2">
+<main>
     <h1 class="text-4xl font-bold dark:text-white text-center my-6">Your Characters</h1>
 
     {#each $users as user}

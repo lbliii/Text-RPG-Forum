@@ -34,11 +34,11 @@
 
         {#if user.likes}
             <Heading tag="h2" class="mb-2"> Likes</Heading>
-            <P>{@html user.likes}</P>
+            <P class="my-2">{@html user.likes}</P>
         {/if}
         {#if user.dislikes}
             <Heading tag="h2" class="mb-2"> Dislikes</Heading>
-            <P>{@html user.dislikes}</P>
+            <P class="my-2">{@html user.dislikes}</P>
         {/if}
 
         {#if checkIfOwner()}

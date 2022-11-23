@@ -1,6 +1,6 @@
 <script>
     import {Badge, Button, Card, Heading, Modal, P} from 'flowbite-svelte'
-    import {deleteTopic, updateTopic} from '../stores/topicStore.js';
+    import {deleteTopic} from '../stores/topicStore.js';
     import TopicForm from '../components/TopicForm.svelte';
     import {profile} from '../stores/profileStore.js';
 
@@ -18,7 +18,7 @@
             return false;
         }
     }
-
+    
 </script>
 
 
@@ -27,6 +27,7 @@
      <Card size="lg" padding="sm" href="/topic/{topic.id}">
         <Heading tag="h2" class="mb-2"> {topic.title}</Heading>
         <P class="my-2">{@html topic.description}</P>
+    
     </Card>
     {#if checkIfAdmin()}
         <div class="flex justify-end my-2">

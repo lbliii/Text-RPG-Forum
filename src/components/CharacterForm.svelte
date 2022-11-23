@@ -7,7 +7,7 @@
     export let edit;
     export let character
 
-    $: if (character === null || character === undefined) {
+    $: if (character === null || character === undefined || character === "") {
         character = {
             user_id: $account.id,
             };

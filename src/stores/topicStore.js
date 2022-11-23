@@ -3,6 +3,7 @@ import { supabase } from '../supabase.js';
 
 export const topics = writable([]);
 export const topic = writable({});
+export const childTopics = writable([]);
 
 export const loadTopics = async () => {
     const { data, error } = await supabase.from('topics').select();
@@ -11,6 +12,7 @@ export const loadTopics = async () => {
         return console.error(error);
     }
     topics.set(data);
+
 }
 
 export const loadTopic = async (/** @type {any} */ id) => {
@@ -22,7 +24,9 @@ export const loadTopic = async (/** @type {any} */ id) => {
     }
 
     topic.set(data[0]);
+
 }
+
 
 export const addTopic = async (topic) => {
     console.log(topic)
@@ -36,10 +40,11 @@ export const addTopic = async (topic) => {
     }
 }
 
-export const updateTopic = async (/** @type {any} */ id, /** @type {any} */ title, /** @type {any} */ content) => {
+export const updateTopic = async (topic) => {
+    let id = topic.id;
     const { data, error } = await supabase
         .from('topics')
-        .update({ title, content })
+        .update({ ...topic })
         .match({ id });
 
     if (error) {
@@ -47,7 +52,8 @@ export const updateTopic = async (/** @type {any} */ id, /** @type {any} */ titl
     }
 }
 
-export const deleteTopic = async (/** @type {any} */ id) => {
+export const deleteTopic = async (topic) => {
+    let id = topic.id;
     const { error } = await supabase.from('topics').delete().match({ id });
 
     if (error) {
@@ -56,5 +62,6 @@ export const deleteTopic = async (/** @type {any} */ id) => {
 
     topics.update((topics) => topics.filter((topic) => topic.id !== id));
 }
+
 
 loadTopics()

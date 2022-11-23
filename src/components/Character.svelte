@@ -3,6 +3,7 @@
     import {deleteCharacter} from '../stores/characterStore.js';
     import CharacterForm from '../components/CharacterForm.svelte';
     import {account} from '../stores/accountStore.js';
+   
 
     export let character;
     export let profile;
@@ -21,10 +22,6 @@
 
     }
 
-   
-
-
-
 </script>
 
 
@@ -33,7 +30,6 @@
         <Button pill={true} size="xs" outline={true} class="w-fit" href="/user/{character.user_id}">@{profile.alias}</Button>
 
         <Heading tag="h2" class="mb-2"> {character.first_name} {character.last_name}</Heading>
-
         <div class="flex flex-row justify-between my-2"> 
             {#if character.age}
             <Badge color="pink">{character.age} </Badge>
