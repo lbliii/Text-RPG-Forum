@@ -23,12 +23,15 @@
         thread.description = thread.description.replace(/\r?\n/g, '<br />');
 
         if (edit === true) {
-            updateThread(thread);
+            updateThread(thread)
             updatePost(post);
         } else {
-            addThread(thread);
-            
-            addPost(post);
+            addThread(thread).then((res) => {
+                post.thread = res[0].id;
+                addPost(post);
+            });
+
+
         }
 
         // reset the form

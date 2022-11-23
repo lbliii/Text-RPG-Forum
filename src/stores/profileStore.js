@@ -47,7 +47,6 @@ export const loadProfile = async (/** @type {any} */ id) => {
 	if (error) {
 		return console.error(error);
 	}
-	console.log(data[0])
 	profile.set(data[0]);
 };
 

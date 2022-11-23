@@ -25,19 +25,21 @@ export const loadThread = async (/** @type {any} */ id) => {
     thread.set(data[0]);
 }
 
+// NOTES: see threadForm for best working example.
 export const addThread = async (thread) => {
     const { data, error } = await supabase
         .from('threads')
         .insert([{ ...thread }])
-        .then(() => loadThreads());
-
+        .select()
+        
     if (error) {
         return console.error(error);
     }
-    thread.set(data);
-    post.set(thread_id = data.id);
+
+   return data;
 }
 
+ 
 export const updateThread = async (thread) => {
     const { data, error } = await supabase
         .from('threads')

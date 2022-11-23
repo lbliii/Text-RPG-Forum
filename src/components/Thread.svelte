@@ -24,8 +24,6 @@
 
 </script>
 
-
-
 <div class="my-6">
      <Card size="lg" padding="sm" href="/thread/{thread.id}">
         <Heading tag="h2" class="mb-2"> {thread.title}</Heading>

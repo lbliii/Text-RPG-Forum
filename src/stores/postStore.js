@@ -4,8 +4,8 @@ import { supabase } from '../supabase.js';
 export const posts = writable([]);
 export const post = writable({});
 
-export const loadPosts = async () => {
-    const { data, error } = await supabase.from('posts').select();
+export const loadPosts = async (id) => {
+    const { data, error } = await supabase.from('posts').select().match({ thread: id });
 
     if (error) {
         return console.error(error);
