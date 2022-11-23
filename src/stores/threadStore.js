@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
+import { post } from './postStore.js';
 
 export const threads = writable([]);
 export const thread = writable({});
@@ -24,10 +25,24 @@ export const loadThread = async (/** @type {any} */ id) => {
     thread.set(data[0]);
 }
 
-export const addThread = async (/** @type {any} */ title, /** @type {any} */ content, /** @type {any} */ user_id) => {
+export const addThread = async (thread) => {
     const { data, error } = await supabase
         .from('threads')
-        .insert([{ title, content, user_id }])
+        .insert([{ ...thread }])
+        .then(() => loadThreads());
+
+    if (error) {
+        return console.error(error);
+    }
+    thread.set(data);
+    post.set(thread_id = data.id);
+}
+
+export const updateThread = async (thread) => {
+    const { data, error } = await supabase
+        .from('threads')
+        .update({ ...thread })
+        .match({ thread_id: thread.thread_id })
         .then(() => loadThreads());
 
     if (error) {
@@ -35,7 +50,8 @@ export const addThread = async (/** @type {any} */ title, /** @type {any} */ con
     }
 }
 
-export const deleteThread = async (/** @type {any} */ id) => {
+export const deleteThread = async (thread) => {
+    let id = thread.id;
     const { error } = await supabase.from('threads').delete().match({ id });
 
     if (error) {
