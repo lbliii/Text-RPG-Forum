@@ -39,16 +39,33 @@ export const loadProfile = async (/** @type {any} */ id) => {
 
 	let user_id;
 	if (!id) {
-		 return
+		return
 	}
 	 user_id = id;
-	const { data, error } = await supabase.from('users').select().match({ user_id });
+	const { data, error } = await supabase.from('users').select().match({ user_id }).then(res => {
+		profile.set(res.data[0]);
+	});
 
 	if (error) {
 		return console.error(error);
 	}
-	profile.set(data[0]);
+	
 };
+
+export const getProfile = async (/** @type {any} */ id) => {
+
+	const res = await supabase.from('users').select().match({ user_id: id });
+
+	if (res.error) {
+		return console.error(res.error);
+	}
+
+	let profile = res.data[0];
+
+	return profile;
+
+}
+	
 
 loadProfile()
 loadProfiles()

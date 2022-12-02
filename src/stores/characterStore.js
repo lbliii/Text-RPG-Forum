@@ -1,7 +1,21 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
+export const character = writable({});
 export const characters = writable([]);
+export const playableCharacters = writable([]);
+
+export const loadCharacter = async (/** @type {any} */ id) => {
+    const { data, error } = await supabase.from('characters').select().match({ id }).then(res => {
+        character.set(res.data[0]);
+    });
+
+    if (error) {
+        return console.error(error);
+    }
+
+    return data;
+};
 
 export const loadCharacters = async () => {
     const { data, error } = await supabase.from('characters').select( '*' );
@@ -12,6 +26,17 @@ export const loadCharacters = async () => {
     characters.set(data);
 }
 
+export const loadPlayableCharacters = async (id) => {
+    // get characters matching the user_id of the current user
+    const { data, error } = await supabase.from('characters').select( '*' ).match({ user_id: id}).then (res => {
+        playableCharacters.set(res.data);
+    });
+
+    if (error) {
+        return console.error(error);
+    }
+
+}
 export const addCharacter = async (/** @type {any} */ character) => {
     console.log(character)
     const { data, error } = await supabase
@@ -57,7 +82,6 @@ export const deleteCharacter = async (/** @type {any} */ character) => {
 
     window.location.href = `/user/${character.user_id}`;
 }
-
 
 
 loadCharacters();

@@ -3,6 +3,7 @@
     import {deleteCharacter} from '../stores/characterStore.js';
     import CharacterForm from '../components/CharacterForm.svelte';
     import {account} from '../stores/accountStore.js';
+    import {getProfile} from '../stores/profileStore.js';
    
 
     export let character;
@@ -10,6 +11,17 @@
 
     let deleteModal = false;
     let editModal = false;
+
+    if (!profile) {
+        // TODO: refactor and consolidate loadProfile/getProfile if possible
+        let promise =  getProfile($account.id);
+
+        promise.then((result) => {
+            profile = result;
+        });
+
+    }
+
 
     function checkIfOwner() {
         let id = $account.id
@@ -26,7 +38,9 @@
 
 <div class="my-2">
      <Card size="lg" padding="sm">
+        {#if profile}
         <Button pill={true} size="xs" outline={true} class="w-fit" href="/user/{character.user_id}">@{profile.alias}</Button>
+        {/if}
 
         <Heading tag="h2" class="mb-2"> {character.first_name} {character.last_name}</Heading>
         <div class="flex flex-row justify-between my-2"> 

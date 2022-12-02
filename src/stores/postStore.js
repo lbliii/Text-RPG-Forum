@@ -18,8 +18,6 @@ export const addPost = async (post) => {
         .from('posts')
         .insert([{ ...post }])
         .then(() => loadPosts(post.thread));
-        
-
 
     if (error) {
         return console.error(error);
@@ -39,7 +37,7 @@ export const deletePost = async (post) => {
 }
 
 export const updatePost = async (post) => {
-    let id = post.thread;
+    let id = post.id;
     const { error } = await supabase.from('posts').update({ ...post }).match({ id });
 
     if (error) {

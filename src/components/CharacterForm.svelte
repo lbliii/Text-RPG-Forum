@@ -70,7 +70,7 @@
         // store character.bio as html in the database
         character.bio = character.bio.replace(/\r?\n/g, '<br />');
         if (edit === true) {
-
+            console.log("edit character");
             updateCharacter(character)
         }
         else {

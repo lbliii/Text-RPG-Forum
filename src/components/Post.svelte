@@ -1,16 +1,19 @@
 <script>
-  import { supabase } from '../supabase.js';
-  import {Avatar, Card, Tooltip, P, Button, Modal} from 'flowbite-svelte'
-  import {deletePost, updatePost} from '../stores/postStore.js';
+  import {Avatar, Card, P, Button, Modal} from 'flowbite-svelte'
+  import {deletePost} from '../stores/postStore.js';
   import {account} from '../stores/accountStore.js';
   import {profile} from '../stores/profileStore.js';
   import PostForm from '../components/PostForm.svelte';
+  import {character, loadCharacter} from '../stores/characterStore.js';
 
   export let post
-  
+
 
   let editModal = false
   let deleteModal = false
+
+  loadCharacter(post.character)
+
 
   function checkIfOwner() {
         let id = $account.id
@@ -27,6 +30,13 @@
 
 
   <Card size="lg" padding="sm" class="my-2">
+    {#if $profile}
+        {$profile.alias}
+    {/if}
+    {#if character}
+        {$character.first_name} {$character.last_name}
+    {/if}
+
       <Avatar />
       <P class="my-2">{post.body}</P>
 
