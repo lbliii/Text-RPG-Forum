@@ -5,7 +5,7 @@
   import UserForm from '../../../components/UserForm.svelte'
   import ProfileMenu from '../../../components/ProfileMenu.svelte'
 
-  console.log(user)
+  console.log(data)
 
 </script>
 

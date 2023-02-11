@@ -1,17 +1,17 @@
 import { supabase } from '../../../supabase.js';
 
-export async function loadUser({ params }) {
-	let userId = params.slug;
 
-	const { data, error } = await supabase.from('users').select().match({ user_id: userId });
+export async function load({ params }) {
+	let user_id = params.slug;
+
+	const { data, error } = await supabase.from('users').select().match({ user_id });
 
 	if (error) {
-		return console.error(`Error loading user: ${error}`);
+		return console.error(error || 'Error loading character');
 	}
-
-	if (data.length === 0) {
-		return null;
-	}
-
 	return data[0];
 }
+
+
+
+

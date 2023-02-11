@@ -1,23 +1,27 @@
 <script>
-    export let user;
-    import {Avatar, Badge, Button, Card, Heading, Hr, Modal, P} from 'flowbite-svelte'
-    import {account} from '../stores/accountStore.js';
-    import Character from '../components/Character.svelte';
-    import UserForm from '../components/UserForm.svelte';
-    import {characters} from '../stores/characterStore.js';
+  export let user;
 
-    let editProfile = false;
-    let id = $account.id
-    function checkIfOwner() {
+  import {
+    Avatar,
+    Badge,
+    Button,
+    Card,
+    Heading,
+    Hr,
+    Modal,
+    P
+  } from 'flowbite-svelte';
+  import { account } from '../stores/accountStore.js';
+  import Character from '../components/Character.svelte';
+  import UserForm from '../components/UserForm.svelte';
+  import { characters } from '../stores/characterStore.js';
 
-        if (user.user_id === id) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    checkIfOwner()
+  let editProfile = false;
+  let id = account.id;
+
+  function isOwner() {
+    return user.user_id === id;
+  }
 </script>
 
 
@@ -42,7 +46,7 @@
             <P class="my-2">{@html user.dislikes}</P>
         {/if}
 
-        {#if checkIfOwner()}
+        {#if isOwner()}
         <div class="flex justify-end my-2">
             <Button size="xs" color="light" class="mr-2" on:click={() => editProfile = true}>Edit</Button>
         </div>
