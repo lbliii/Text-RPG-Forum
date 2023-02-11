@@ -13,7 +13,7 @@
 
     function checkIfOwner() {
         let id = $account.id
-        if ($profile.user_id === id) {
+        if (profile.user_id === id) {
             return true;
         }
         else {

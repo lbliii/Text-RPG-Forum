@@ -11,7 +11,7 @@
     let editModal = false;
 
     function checkIfAdmin() {
-        if ($profile.admin === true) {
+        if (profile.admin === true) {
             return true;
         }
         else {

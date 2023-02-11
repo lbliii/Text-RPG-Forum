@@ -17,6 +17,7 @@
             return false;
         }
     }
+    checkIfOwner()
 </script>
 
 

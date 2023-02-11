@@ -1,87 +1,101 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
-export const character = writable({});
-export const characters = writable([]);
-export const playableCharacters = writable([]);
+const createCharacterStore = () => writable({});
+const createCharactersStore = () => writable([]);
 
-export const loadCharacter = async (/** @type {any} */ id) => {
-    const { data, error } = await supabase.from('characters').select().match({ id }).then(res => {
-        character.set(res.data[0]);
-    });
+export const character = createCharacterStore();
+export const characters = createCharactersStore();
+export const playableCharacters = createCharactersStore();
 
-    if (error) {
-        return console.error(error);
-    }
+const handleResponse = (store) => (res) => {
+	store.set(res.data);
+};
 
-    return data;
+const handleError = (error) => {
+	console.error(error);
+};
+
+const handleSuccess = (res) => {
+	if (res.error) {
+		return handleError(res.error);
+	}
+	return res.data;
+};
+
+export const loadCharacter = async (id) => {
+	const { data, error } = await supabase
+		.from('characters')
+		.select()
+		.match({ id })
+		.then(handleResponse(character))
+		.catch(handleError);
+
+	return handleSuccess({ data, error });
 };
 
 export const loadCharacters = async () => {
-    const { data, error } = await supabase.from('characters').select( '*' );
-
-    if (error) {
-        return console.error(error);
-    }
-    characters.set(data);
-}
-
-export const loadPlayableCharacters = async (id) => {
-    // get characters matching the user_id of the current user
-    const { data, error } = await supabase.from('characters').select( '*' ).match({ user_id: id}).then (res => {
-        playableCharacters.set(res.data);
-    });
-
-    if (error) {
-        return console.error(error);
-    }
-
-}
-export const addCharacter = async (/** @type {any} */ character) => {
-    console.log(character)
-    const { data, error } = await supabase
-        .from('characters')
-        .insert([{ ...character }])
-        .select();
-
-    if (error) {
-        return console.error(error);
-    }
-
-    // get the character_id from the response
-    const id = data[0].id;
-
-    // route browser to /character/[character_id]
-    window.location.href = `/character/${id}`;
-}
-
-export const updateCharacter = async (/** @type {any} */ character) => {
 	const { data, error } = await supabase
 		.from('characters')
-		.update([{ ...character }])
-		.match({ user_id: character.user_id });
+		.select('*')
+		.then(handleResponse(characters))
+		.catch(handleError);
 
-	if (error) {
-		return console.error(error);
-	}
-    loadCharacters();
+	return handleSuccess({ data, error });
 };
 
+export const loadPlayableCharacters = async (id) => {
+	const { data, error } = await supabase
+		.from('characters')
+		.select('*')
+		.match({ user_id: id })
+		.then(handleResponse(playableCharacters))
+		.catch(handleError);
 
-export const deleteCharacter = async (/** @type {any} */ character) => {
-    let id = character.id;
-    const { error } = await supabase.from('characters').delete().match({ id });
+	return handleSuccess({ data, error });
+};
 
-    if (error) {
-        return console.error(error);
-    }
+export const addCharacter = async (newCharacter) => {
+	const { data, error } = await supabase
+		.from('characters')
+		.insert([newCharacter])
+		.select()
+		.then(handleSuccess)
+		.catch(handleError);
 
-    characters.update((characters) => characters.filter((character) => character.id !== id));
+	const id = data[0].id;
+	window.location.href = `/character/${id}`;
 
-    // route to profile at /users/[user_id]
+	return handleSuccess({ data, error });
+};
 
-    window.location.href = `/user/${character.user_id}`;
-}
+export const updateCharacter = async (updatedCharacter) => {
+	const { data, error } = await supabase
+		.from('characters')
+		.update([updatedCharacter])
+		.match({ user_id: updatedCharacter.user_id })
+		.then(handleSuccess)
+		.catch(handleError)
+		.finally(loadCharacters);
 
+	return handleSuccess({ data, error });
+};
+
+export const deleteCharacter = async (deletedCharacter) => {
+	const { error } = await supabase
+		.from('characters')
+		.delete()
+		.match({ id: deletedCharacter.id })
+		.then(() =>
+			characters.update((characters) =>
+				characters.filter((character) => character.id !== deletedCharacter.id)
+			)
+		)
+		.catch(handleError);
+
+	window.location.href = `/user/${deletedCharacter.user_id}`;
+
+	return handleSuccess({ error });
+};
 
 loadCharacters();

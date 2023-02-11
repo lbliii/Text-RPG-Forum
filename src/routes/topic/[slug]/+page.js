@@ -1,12 +1,19 @@
 import { supabase } from '../../../supabase.js';
 
-export async function load({ params }) {
-	let id = params.slug;
+export async function loadTopic({ params }) {
+	const id = params.slug;
 
-	const { data, error } = await supabase.from('topics').select().match({ id });
+	try {
+		const { data } = await supabase.from('topics').select().match({ id });
+		const topic = data[0];
 
-	if (error) {
-		return console.error(error || 'Error loading topic');
+		if (!topic) {
+			throw new Error(`Topic with id '${id}' not found`);
+		}
+
+		return topic;
+	} catch (error) {
+		console.error(`Error loading topic: ${error.message}`);
+		return null;
 	}
-	return data[0];
 }

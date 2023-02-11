@@ -4,68 +4,56 @@ import { supabase } from '../supabase.js';
 export const users = writable([]);
 export const profile = writable({});
 
-export const completeProfileDetails = async (/** @type {any} */ user) => {
-
-	const { data, error } = await supabase.from('users').insert([{ ...user }]);
-
+const handleError = (error) => {
 	if (error) {
-		return console.error(error);
-	}
-}
-
-export const updateProfileDetails = async (/** @type {any} */ user) => {
-
-	const { data, error } = await supabase.from('users').update([{ ...user }]).match({ user_id: user.user_id });
-
-	if (error) {
-		return console.error(error);
+		console.error(error);
+		return true;
 	}
 
+	return false;
+};
+
+export const completeProfileDetails = async (user) => {
+	const { error } = await supabase.from('users').insert([{ ...user }]);
+
+	handleError(error);
+};
+
+export const updateProfileDetails = async (user) => {
+	const { error } = await supabase
+		.from('users')
+		.update([{ ...user }])
+		.match({ user_id: user.user_id });
+
+	handleError(error);
 	loadProfiles();
-}
-
+};
 
 export const loadProfiles = async () => {
 	const { data, error } = await supabase.from('users').select();
 
-	if (error) {
-		return console.error(error);
-	}
+	if (handleError(error)) return;
 
 	users.set(data);
 };
 
-export const loadProfile = async (/** @type {any} */ id) => {
+export const loadProfile = async (id) => {
+	if (!id) return;
 
-	let user_id;
-	if (!id) {
-		return
-	}
-	 user_id = id;
-	const { data, error } = await supabase.from('users').select().match({ user_id }).then(res => {
-		profile.set(res.data[0]);
-	});
+	const { data, error } = await supabase.from('users').select().match({ user_id: id });
 
-	if (error) {
-		return console.error(error);
-	}
-	
+	if (handleError(error)) return;
+
+	profile.set(data[0]);
 };
 
-export const getProfile = async (/** @type {any} */ id) => {
+export const getProfile = async (id) => {
+	const { data, error } = await supabase.from('users').select().match({ user_id: id });
 
-	const res = await supabase.from('users').select().match({ user_id: id });
+	if (handleError(error)) return;
 
-	if (res.error) {
-		return console.error(res.error);
-	}
+	return data[0];
+};
 
-	let profile = res.data[0];
-
-	return profile;
-
-}
-	
-
-loadProfile()
-loadProfiles()
+loadProfile();
+loadProfiles();
