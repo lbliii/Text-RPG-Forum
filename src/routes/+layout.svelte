@@ -1,31 +1,17 @@
 <script>
   import { account } from '../stores/accountStore.js';
-  import { supabase } from '../supabase.js';
   import { loadProfile } from '../stores/profileStore.js';
   import Auth from '../components/Account.svelte';
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
-  const handleSession = ({ data, error }) => {
-    if (error) {
-      console.error(`Error: ${error.message}`);
-      return;
-    }
+  let user;
 
-    if (data.session) {
-      account.set(data.session.user);
-      loadProfile(data.session.user.id);
-    }
-  };
+  $: user = $account;
 
-  supabase.auth
-    .getSession()
-    .then(handleSession)
-    .catch(console.error);
-
-  supabase.auth.onAuthStateChange((_, session) => {
-    account.set(session?.user || false);
-  });
+  $: if (user) {
+    loadProfile(user.id);
+  }
 
 </script>
 
