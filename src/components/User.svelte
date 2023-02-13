@@ -8,7 +8,14 @@
   import { characterStore } from '../stores/characterStore.js';
 
   let editProfile = false;
-  let account = accountStore.account;
+  
+  let account;
+
+  $: accountStore.subscribe(user => {
+    account = user;
+
+    console.log(account)
+  });
 
   function isOwner() {
     return user.user_id === account.id;
