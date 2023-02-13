@@ -1,21 +1,15 @@
 <script>
   export let user;
+  export let account;
 
   import { Avatar, Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
-  import { accountStore } from '../stores/accountStore.js';
-  import Character from '../components/Character.svelte';
+  import Characters from '../components/Characters.svelte';
   import UserForm from '../components/UserForm.svelte';
-  import { characterStore } from '../stores/characterStore.js';
+  
 
   let editProfile = false;
-  
-  let account;
 
-  $: accountStore.subscribe(user => {
-    account = user;
-
-    console.log(account)
-  });
+  let characters;
 
   function isOwner() {
     return user.user_id === account.id;
@@ -51,11 +45,7 @@
         {/if}
         <Hr class="my-8" width="w-64" height="h-1" icon>...
         </Hr>
-        <!-- {#each characters as character}
-            {#if character.user_id === user.user_id}
-                <Character character={character} profile={user} />
-            {/if}
-        {/each} -->
+        <Characters user={user} />
     </Card>
 </div>
 

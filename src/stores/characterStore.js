@@ -2,103 +2,79 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
 const createCharacterStore = () => {
-	const store = writable({});
-
-	const handleResponse = (res) => {
-		store.set(res.data);
-	};
-
-	const handleError = (error) => {
-		console.error(error);
-	};
-
-	const handleSuccess = (res) => {
-		if (res.error) {
-			return handleError(res.error);
-		}
-		return res.data;
-	};
+	const store = writable([]);
 
 	const loadCharacter = async (id) => {
-		const { data, error } = await supabase
+		const { data } = await supabase
 			.from('characters')
 			.select()
-			.match({ id })
-			.then(handleResponse)
-			.catch(handleError);
+			.eq('id', id)
+			.then((res) => res.data[0])
+			.catch((error) => {
+				console.error(error);
+				return null;
+			});
 
-		return handleSuccess({ data, error });
+		return data;
 	};
 
-	const loadCharacters = async () => {
-		const { data, error } = await supabase
-			.from('characters')
-			.select('*')
-			.then(handleResponse)
-			.catch(handleError);
-
-		return handleSuccess({ data, error });
-	};
-
-	const loadPlayableCharacters = async (id) => {
-		const { data, error } = await supabase
-			.from('characters')
-			.select('*')
-			.match({ user_id: id })
-			.then(handleResponse)
-			.catch(handleError);
-
-		return handleSuccess({ data, error });
+	const loadCharacters = async (user_id) => {
+		let { data: characters, error } = await supabase.from('characters').select().eq('user_id', user_id);
+		if (error) {
+			console.error(error);
+			return null;
+		}
+		console.log(characters[0].first_name)
+		store.set(characters);
+		return characters;
 	};
 
 	const addCharacter = async (newCharacter) => {
-		const { data, error } = await supabase
+		const { data } = await supabase
 			.from('characters')
 			.insert([newCharacter])
 			.select()
-			.then(handleSuccess)
-			.catch(handleError);
+			.catch((error) => {
+				console.error(error);
+				return null;
+			});
 
 		const id = data[0].id;
 		window.location.href = `/character/${id}`;
 
-		return handleSuccess({ data, error });
+		return data;
 	};
 
 	const updateCharacter = async (updatedCharacter) => {
-		const { data, error } = await supabase
+		await supabase
 			.from('characters')
 			.update([updatedCharacter])
-			.match({ user_id: updatedCharacter.user_id })
-			.then(handleSuccess)
-			.catch(handleError)
-			.finally(loadCharacters);
+			.eq('id', updatedCharacter.id)
+			.catch((error) => {
+				console.error(error);
+			});
 
-		return handleSuccess({ data, error });
+		return loadCharacters(updatedCharacter.user_id);
 	};
 
 	const deleteCharacter = async (deletedCharacter) => {
-		const { error } = await supabase
+		await supabase
 			.from('characters')
 			.delete()
-			.match({ id: deletedCharacter.id })
-			.then(() =>
-				store.update((characters) =>
-					characters.filter((character) => character.id !== deletedCharacter.id)
-				)
-			)
-			.catch(handleError);
+			.eq('id', deletedCharacter.id)
+			.catch((error) => {
+				console.error(error);
+			});
 
 		window.location.href = `/user/${deletedCharacter.user_id}`;
 
-		return handleSuccess({ error });
+		return loadCharacters(deletedCharacter.user_id);
 	};
 
 	return {
 		subscribe: store.subscribe,
 		loadCharacter,
 		loadCharacters,
-		loadPlayableCharacters,
 		addCharacter,
 		updateCharacter,
 		deleteCharacter
