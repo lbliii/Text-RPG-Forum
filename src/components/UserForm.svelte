@@ -4,7 +4,6 @@
     import {accountStore} from '../stores/accountStore.js';
     import { Label, Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
-    // these exports provide an insert for the prop passed in from the parent component
     export let edit;
     export let profile; 
 
@@ -22,22 +21,11 @@
     ]
 
     const handleSubmit = () => {
-        // if character is empty, do nothing
-        if (!profile) return;      
-
-        // store character.bio as html in the database
+        if (!profile) return;
         profile.likes = profile.likes.replace(/\r?\n/g, '<br />');
         profile.dislikes = profile.dislikes.replace(/\r?\n/g, '<br />');
-        if (edit === true) {
-            profileStore.updateProfileDetails(profile)
-            console.log("editing exising profile")
-    
-        }
-        else {
-            profileStore.completeProfileDetails(profile)
-            console.log("fresh start")
-        }
-    }
+        (edit === true) ? profileStore.updateProfileDetails(profile) : profileStore.completeProfileDetails(profile);
+    };
 
 </script>
 

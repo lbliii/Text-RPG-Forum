@@ -27,7 +27,7 @@
             <Badge color="dark">{user.time_zone} </Badge>
             {/if}
         </div>
-        <Heading tag="h1" class="mb-4"> {user.alias} </Heading>
+        <Button pill={true} size="xl" outline={true} class="w-fit" href="/user/{user.user_id}">@{user.alias}</Button>
 
         {#if user.likes}
             <Heading tag="h2" class="mb-2"> Likes</Heading>
@@ -43,7 +43,7 @@
             <Button size="xs" color="light" class="mr-2" on:click={() => editProfile = true}>Edit</Button>
         </div>
         {/if}
-        <Hr class="my-8" width="w-64" height="h-1" icon>...
+        <Hr class="my-8" width="w-64" height="h-1" > ... 
         </Hr>
         <Characters user={user} />
     </Card>

@@ -25,15 +25,7 @@ const createProfileStore = () => {
 
 	const completeProfileDetails = async (user) => {
 		try {
-			await handleAddUser(user);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const handleAddUser = async (user) => {
-		try {
-			await supabase.from('users').insert([{ ...user }]);
+			await supabase.from('users').insert([{ ...user, profile_setup: true}]);
 		} catch (error) {
 			console.error(error);
 		}
@@ -41,19 +33,11 @@ const createProfileStore = () => {
 
 	const updateProfileDetails = async (user) => {
 		try {
-			await handleUpdateUser(user);
-			fetchProfile(user.user_id);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const handleUpdateUser = async (user) => {
-		try {
 			await supabase
 				.from('users')
 				.update([{ ...user }])
 				.eq('user_id', user.user_id);
+			fetchProfile(user.user_id);
 		} catch (error) {
 			console.error(error);
 		}

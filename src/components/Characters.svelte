@@ -1,24 +1,20 @@
-<!-- todo: make a component that figures out how many characters there are and then passes it down to the character component or just renders them all itself. -->
-
 <script>
 import { Avatar, Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
 import { characterStore } from '../stores/characterStore.js';
 
 export let user;
-
 let characters;
 
 characterStore.loadCharacters(user.user_id).then(res => {
   characters = res;
 });
 
-
 </script>
 
 {#if characters}
     <div>
         {#each characters as character}
-            <Card  size="lg" padding="sm">
+            <Card  size="lg" padding="sm" class="my-2">
                 <Heading tag="h2" class="mb-2"> {character.first_name} {character.last_name}</Heading>
                 <div class="flex flex-row justify-between my-2"> 
                     {#if character.age}
