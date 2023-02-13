@@ -2,8 +2,8 @@
     import {Badge, Button, Card, Heading, Modal, P} from 'flowbite-svelte'
     import {deleteCharacter} from '../stores/characterStore.js';
     import CharacterForm from '../components/CharacterForm.svelte';
-    import {account} from '../stores/accountStore.js';
-    import {getProfile} from '../stores/profileStore.js';
+    import {accountStore} from '../stores/accountStore.js';
+    import {profileStore} from '../stores/profileStore.js';
    
 
     export let character;
@@ -12,19 +12,17 @@
     let deleteModal = false;
     let editModal = false;
 
-    if (!profile) {
-        // TODO: refactor and consolidate loadProfile/getProfile if possible
-        let promise =  getProfile($account.id);
+    $: if (!profile && $accountStore.id) {
+        let promise = profileStore.fetchProfile($accountStore.id);
 
         promise.then((result) => {
             profile = result;
         });
-
     }
 
 
     function checkIfOwner() {
-        let id = $account.id
+        let id = $accountStore.id
         if (character.user_id === id) {
             return true;
         }

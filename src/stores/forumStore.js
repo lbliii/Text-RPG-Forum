@@ -15,10 +15,7 @@ const createForumStore = () => {
 
 	const addTopic = async (topic) => {
 		try {
-			await supabase.from('topics').insert({
-				user_id: topic.user_id,
-				title: topic.title
-			});
+			await supabase.from('topics').insert(topic);
 
 			store.update(topics => [...topics, topic]);
 			console.log('addTopic', topic);

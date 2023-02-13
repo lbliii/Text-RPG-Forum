@@ -1,59 +1,77 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
-export const users = writable([]);
-export const profile = writable({});
+const createProfileStore = () => {
+	const users = writable([]);
+	const profile = writable({});
 
-const handleError = (error) => {
-	if (error) {
-		console.error(error);
-		return true;
-	}
+	const fetchUsers = async () => {
+		try {
+			const { data } = await supabase.from('users').select();
+			users.set(data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
-	return false;
+	const fetchProfile = async (id) => {
+		try {
+			const { data } = await supabase.from('users').select().eq('user_id', id);
+			profile.set(data[0]);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const completeProfileDetails = async (user) => {
+		try {
+			await handleAddUser(user);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleAddUser = async (user) => {
+		try {
+			await supabase.from('users').insert([{ ...user }]);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const updateProfileDetails = async (user) => {
+		try {
+			await handleUpdateUser(user);
+			fetchProfile(user.user_id);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleUpdateUser = async (user) => {
+		try {
+			await supabase
+				.from('users')
+				.update([{ ...user }])
+				.eq('user_id', user.user_id);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	fetchUsers();
+
+	return {
+		users: {
+			subscribe: users.subscribe
+		},
+		profile: {
+			subscribe: profile.subscribe
+		},
+		completeProfileDetails,
+		updateProfileDetails,
+		fetchProfile
+	};
 };
 
-export const completeProfileDetails = async (user) => {
-	const { error } = await supabase.from('users').insert([{ ...user }]);
-
-	handleError(error);
-};
-
-export const updateProfileDetails = async (user) => {
-	const { error } = await supabase
-		.from('users')
-		.update([{ ...user }])
-		.match({ user_id: user.user_id });
-
-	handleError(error);
-	loadProfiles();
-};
-
-export const loadProfiles = async () => {
-	const { data, error } = await supabase.from('users').select();
-
-	if (handleError(error)) return;
-
-	users.set(data);
-};
-
-export const loadProfile = async (id) => {
-	if (!id) return;
-
-	const { data, error } = await supabase.from('users').select().match({ user_id: id });
-
-	if (handleError(error)) return;
-
-	profile.set(data[0]);
-};
-
-export const getProfile = async (id) => {
-	const { data, error } = await supabase.from('users').select().match({ user_id: id });
-
-	if (handleError(error)) return;
-
-	return data[0];
-};
-
-loadProfile();
-loadProfiles();
+export const profileStore = createProfileStore();

@@ -1,6 +1,13 @@
 <script>
     import User from '../../components/User.svelte';
-    import {users} from '../../stores/profileStore.js';
+    import {profileStore} from '../../stores/profileStore.js';
+
+    let users;
+
+    $: {
+        users = profileStore.users;
+    }
+
 </script>
 
 <main>

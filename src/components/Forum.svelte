@@ -1,30 +1,37 @@
 <script>
 import { forumStore } from '../stores/forumStore.js';
-import { Button, Input, Modal, Card, P } from 'flowbite-svelte';
-import { account } from '../stores/accountStore.js';
+import { Button, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
+import { accountStore } from '../stores/accountStore.js';
 
 let user = {};
-$: user = $account;
+$: user = $accountStore;
 
-let newTopic = '';
+let newTopic = {};
 let editingTopic = false;
+let deletingTopic = false;
 let activeTopic = {};
 
 </script>
 
 <section> 
-    <Input bind:value={newTopic} placeholder="Enter a new topic" />
-    <Button on:click={() => forumStore.addTopic({
-        created_at: Date.now(),
-        title: newTopic,
-        user_id: user.id,
-      })}>Add Topic</Button>
+
+  <Card size="lg" padding="sm" class="my-2">
+    <Input bind:value={newTopic.title} placeholder="Enter a new topic" class="my-2" />
+    <Textarea type="text" bind:value={newTopic.description} id="description" name="description" placeholder="Enter a description here." class="my-2" />
+    <Button on:click={() => {forumStore.addTopic({
+      user_id: user.id,
+      ...newTopic
+      }),
+      newTopic = {}
+      }}>Add Topic</Button>
+  </Card>
 
   {#each $forumStore as topic}
     <Card size="lg" padding="sm" class="my-2">
-      <h2 class="text-4xl font-bold dark:text-white text-center my-6">{topic.title}</h2>
+      <h1 class="text-5xl font-bold dark:text-white text-center my-6">{topic.title}</h1>
+      <P class="text-2xl font-bold dark:text-white text-center my-6">{topic.description}</P>
       <P>
-        <Button on:click={() => forumStore.removeTopic(topic)}>Remove</Button>
+        <Button on:click={() => {activeTopic = topic; deletingTopic = true;}}>Remove</Button>
         <Button on:click={() => { activeTopic = topic; editingTopic = true; }}>Update</Button>
       </P>
     </Card>
@@ -35,9 +42,21 @@ let activeTopic = {};
     <Input bind:value={activeTopic.title} />
     <Button on:click={() => {
       forumStore.updateTopic(activeTopic),
-      editingTopic = false, 
+      deletingTopic = false, 
       activeTopic = {}
       } }>Update</Button>
+  </Modal>
+
+  <!-- create a modal for removingTopic -->
+
+  <Modal bind:open={deletingTopic} title="Remove Topic">
+    <Input bind:value={activeTopic.title} />
+    <P>Are you sure you want to delete this topic?</P>
+    <Button on:click={() => {
+    forumStore.removeTopic(activeTopic),
+    deletingTopic = false,
+    activeTopic = {}
+    }}>Remove</Button>
   </Modal>
 
 </section>

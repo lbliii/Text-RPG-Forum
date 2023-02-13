@@ -1,7 +1,3 @@
-// import {writable} from 'svelte/store';
- 
-// export const account = writable(false);
-
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
@@ -16,7 +12,6 @@ const createAccountStore = () => {
 
 		if (data.session) {
 			store.set(data.session.user);
-			loadProfile(data.session.user.id);
 		}
 	};
 
@@ -34,4 +29,4 @@ const createAccountStore = () => {
 	};
 };
 
-export const account = createAccountStore();
+export const accountStore = createAccountStore();

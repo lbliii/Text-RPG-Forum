@@ -1,7 +1,7 @@
 <script>
 
-    import {completeProfileDetails, updateProfileDetails} from '../stores/profileStore.js';
-    import {account} from '../stores/accountStore.js';
+    import {profileStore} from '../stores/profileStore.js';
+    import {accountStore} from '../stores/accountStore.js';
     import { Label, Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
     // these exports provide an insert for the prop passed in from the parent component
@@ -10,7 +10,7 @@
 
     $: if (profile === null || profile === undefined) {
         profile = {
-            user_id: $account.id,
+            user_id: $accountStore.id,
             };
         }
 
