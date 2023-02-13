@@ -29,12 +29,12 @@
         profile.likes = profile.likes.replace(/\r?\n/g, '<br />');
         profile.dislikes = profile.dislikes.replace(/\r?\n/g, '<br />');
         if (edit === true) {
-            updateProfileDetails(profile)
+            profileStore.updateProfileDetails(profile)
             console.log("editing exising profile")
     
         }
         else {
-            completeProfileDetails(profile)
+            profileStore.completeProfileDetails(profile)
             console.log("fresh start")
         }
     }

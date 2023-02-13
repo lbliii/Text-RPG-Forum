@@ -1,5 +1,5 @@
 <script>
-    import {addCharacter, updateCharacter} from '../stores/characterStore.js';
+    import {characterStore} from '../stores/characterStore.js';
     import {accountStore} from '../stores/accountStore.js';
     import { Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
@@ -71,10 +71,10 @@
         character.bio = character.bio.replace(/\r?\n/g, '<br />');
         if (edit === true) {
             console.log("edit character");
-            updateCharacter(character)
+            characterStore.updateCharacter(character)
         }
         else {
-            addCharacter(character)
+            characterStore.addCharacter(character)
         }
     }
 
