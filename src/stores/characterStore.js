@@ -5,70 +5,84 @@ const createCharacterStore = () => {
 	const store = writable([]);
 
 	const loadCharacter = async (id) => {
-		const { data } = await supabase
-			.from('characters')
-			.select()
-			.eq('id', id)
-			.then((res) => res.data[0])
-			.catch((error) => {
-				console.error(error);
-				return null;
-			});
+		try {
+			const { data } = await supabase
+				.from('characters')
+				.select()
+				.eq('id', id)
+				.then((res) => res.data[0])
+				.catch((error) => {
+					console.error(error);
+					return null;
+				});
 
-		return data;
-	};
+			return data;
 
-	const loadCharacters = async (user_id) => {
-		let { data: characters, error } = await supabase.from('characters').select().eq('user_id', user_id);
-		if (error) {
+		} catch (error) {
 			console.error(error);
 			return null;
 		}
-		console.log(characters[0].first_name)
-		store.set(characters);
-		return characters;
+		
+	};
+
+	const loadCharacters = async (user_id) => {
+		try {
+			let { data: characters, error } = await supabase.from('characters').select().eq('user_id', user_id);
+			store.set(characters);
+			return characters;
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
 	};
 
 	const addCharacter = async (newCharacter) => {
-		const { data } = await supabase
-			.from('characters')
-			.insert([newCharacter])
-			.select()
-			.catch((error) => {
-				console.error(error);
-				return null;
-			});
+		try { 
+			const { data } = await supabase
+				.from('characters')
+				.insert([newCharacter])
+				.select()
 
-		const id = data[0].id;
-		window.location.href = `/character/${id}`;
+			const id = data[0].id;
+			window.location.href = `/character/${id}`;
+			return data;
 
-		return data;
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
 	};
 
 	const updateCharacter = async (updatedCharacter) => {
-		await supabase
-			.from('characters')
-			.update([updatedCharacter])
-			.eq('id', updatedCharacter.id)
-			.catch((error) => {
-				console.error(error);
-			});
+		try {
+			await supabase
+				.from('characters')
+				.update([updatedCharacter])
+				.eq('id', updatedCharacter.id)
 
-		return loadCharacters(updatedCharacter.user_id);
+			loadCharacter(updatedCharacter.id)
+			return loadCharacters(updatedCharacter.user_id);
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
 	};
 
 	const deleteCharacter = async (deletedCharacter) => {
-		await supabase
-			.from('characters')
-			.delete()
-			.eq('id', deletedCharacter.id)
-			.catch((error) => {
-				console.error(error);
-			});
+		try {
+			await supabase
+				.from('characters')
+				.delete()
+				.eq('id', deletedCharacter.id)
 
-		window.location.href = `/user/${deletedCharacter.user_id}`;
+			window.location.href = `/user/${deletedCharacter.user_id}`;
+			return loadCharacters(deletedCharacter.user_id);
 
-		return loadCharacters(deletedCharacter.user_id);
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
+		
 	};
 
 	return {

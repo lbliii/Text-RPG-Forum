@@ -9,11 +9,10 @@
 
   let editProfile = false;
 
-  let characters;
-
   function isOwner() {
     return user.user_id === account.id;
   }
+
 </script>
 
 
@@ -45,7 +44,7 @@
         {/if}
         <Hr class="my-8" width="w-64" height="h-1" > ... 
         </Hr>
-        <Characters user={user} />
+        <Characters user={user} owner={isOwner()} />
     </Card>
 </div>
 

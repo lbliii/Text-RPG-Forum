@@ -2,10 +2,11 @@
     import {characterStore} from '../stores/characterStore.js';
     import {accountStore} from '../stores/accountStore.js';
     import { Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
+    import { createEventDispatcher } from 'svelte';
 
-    // these exports provide an insert for the prop passed in from the parent component
     export let edit;
     export let character
+  
 
     $: if (character === null || character === undefined || character === "") {
         character = {
@@ -67,18 +68,22 @@
     ]
 
     const handleSubmit = () => {
-        // store character.bio as html in the database
         character.bio = character.bio.replace(/\r?\n/g, '<br />');
         if (edit === true) {
             console.log("edit character");
             characterStore.updateCharacter(character)
+            // dispatches an event to the parent component
+            dispatch('notify', false)
         }
         else {
             characterStore.addCharacter(character)
         }
     }
 
- 
+
+    const dispatch = createEventDispatcher();
+
+
 </script>
 
 
