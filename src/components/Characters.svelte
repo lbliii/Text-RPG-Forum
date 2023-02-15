@@ -57,8 +57,11 @@ function callbackFunction(event) {
                 <P class="my-2">{@html character.bio}</P>
 
                 {#if owner}
-                   <Button size="xs" color="light" class="mr-2" on:click={() => {editModal = true; selectedCharacter = character;}}>Edit</Button>
-                   <Button size="xs" color="red" class="mr-2" on:click={() => {deleteModal = true; selectedCharacter = character;}}>Delete</Button>
+                    <div class="flex justify-end my-2">
+                        <Button size="xs" color="light" class="mr-2" on:click={() => {editModal = true; selectedCharacter = character;}}>Edit</Button>
+                        <Button size="xs" color="red" class="mr-2" on:click={() => {deleteModal = true; selectedCharacter = character;}}>Delete</Button>
+
+                    </div>
                 {/if}
             </Card>
         {/each}

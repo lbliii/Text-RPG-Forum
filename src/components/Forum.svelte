@@ -1,6 +1,6 @@
 <script>
 import { forumStore } from '../stores/forumStore.js';
-import { Button, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
+import { Button, ButtonGroup, CloseButton, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
 import { accountStore } from '../stores/accountStore.js';
 
 let user = {};
@@ -27,22 +27,26 @@ let activeTopic = {};
   </Card>
 
   {#each $forumStore as topic}
-    <Card size="lg" padding="sm" class="my-2">
-      <h1 class="text-5xl font-bold dark:text-white text-center my-6">{topic.title}</h1>
-      <P class="text-2xl font-bold dark:text-white text-center my-6">{topic.description}</P>
-      <P>
-        <Button on:click={() => {activeTopic = topic; deletingTopic = true;}}>Remove</Button>
-        <Button on:click={() => { activeTopic = topic; editingTopic = true; }}>Update</Button>
-      </P>
-    </Card>
-
+    <section class="my-5">
+      <Card size="lg" padding="sm" class="my-2" href="/topic/{topic.id}">
+        <h1 class="text-5xl font-bold dark:text-white text-center my-6">{topic.title}</h1>
+        <P class="text-2xl font-bold dark:text-white text-center my-6">{topic.description}</P>
+      </Card>
+      <div class="text-right">
+        <ButtonGroup class="space-x-px">
+          <Button outline  on:click={() => { activeTopic = topic; editingTopic = true; }}>Update</Button>
+          <Button outline  on:click={() => {activeTopic = topic; deletingTopic = true;}}>Remove</Button>
+        </ButtonGroup>
+      </div>
+    </section>
   {/each}
 
   <Modal bind:open={editingTopic} title="Edit Topic">
     <Input bind:value={activeTopic.title} />
+    <Textarea type="text" bind:value={newTopic.description} id="description" name="description" placeholder="Enter a description here." class="my-2" />
     <Button on:click={() => {
       forumStore.updateTopic(activeTopic),
-      deletingTopic = false, 
+      editingTopic = false, 
       activeTopic = {}
       } }>Update</Button>
   </Modal>

@@ -1,55 +1,91 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
-export const threads = writable([]);
-export const thread = writable({});
+export const createThreadStore = () => {
+	const threads = writable([]);
+	const thread = writable(null);
 
-const handleError = (error) => {
-	console.error(error);
-	return error;
+	const loadThreads = async (topic_id) => {
+		try {
+			const { data } = await supabase.from('threads').select().match({ topic_id: topic_id });
+			threads.set(data);
+			return data;
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
+	};
+
+	const loadThread = async (thread) => {
+		try {
+			const { data } = await supabase.from('threads').select().match({ id: thread.id });
+			thread.set(data[0]);
+		} catch (error) {
+			console.error(error);
+			thread.set(null);
+		}
+	};
+
+	const addThread = async (topic_id, thread) => {
+		try {
+			const { data } = await supabase.from('threads').insert([{ ...thread }]);
+
+			threads.update((threads) => [...threads, data[0]]);
+			console.log('addThread', data[0]);
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
+	};
+
+	const updateThread = async (thread) => {
+		try {
+			const { data, error } = await supabase
+				.from('threads')
+				.update({ ...thread })
+				.match({ id: thread.id })
+				.select()
+
+			if (error) {
+				throw error;
+			}
+
+			// Update the threads store
+			threads.update((threads) => {
+				const index = threads.findIndex((t) => t.id === thread.id);
+				if (index !== -1) {
+					threads[index] = data[0];
+				}
+				return threads;
+			});
+
+			return data[0];
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
+	};
+
+	const deleteThread = async (thread) => {
+		try {
+			await supabase.from('threads').delete().match({ id: thread.id });
+			threads.update((threads) => threads.filter((t) => t.id !== thread.id));
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
+	};
+
+
+	return {
+		threads,
+		thread,
+		loadThreads,
+		loadThread,
+		addThread,
+		updateThread,
+		deleteThread
+	};
 };
 
-export const loadThreads = async () => {
-	const { data, error } = await supabase.from('threads').select();
-	if (error) {
-		return handleError(error);
-	}
-	threads.set(data);
-};
-
-export const loadThread = async (/** @type {any} */ id) => {
-	const { data, error } = await supabase.from('threads').select().match({ thread_id: id });
-	if (error) {
-		return handleError(error);
-	}
-	thread.set(data[0]);
-};
-
-export const addThread = async (thread) => {
-	const { data, error } = await supabase.from('threads').insert([{ ...thread }]);
-	if (error) {
-		return handleError(error);
-	}
-	return data;
-};
-
-export const updateThread = async (thread) => {
-	const { error } = await supabase
-		.from('threads')
-		.update({ ...thread })
-		.match({ thread_id: thread.thread_id });
-	if (error) {
-		return handleError(error);
-	}
-	loadThreads();
-};
-
-export const deleteThread = async (thread) => {
-	const { error } = await supabase.from('threads').delete().match({ id: thread.id });
-	if (error) {
-		return handleError(error);
-	}
-	threads.update((threads) => threads.filter((t) => t.id !== thread.id));
-};
-
-loadThreads();
+export const threadStore = createThreadStore();

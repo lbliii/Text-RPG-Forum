@@ -6,23 +6,13 @@ const createCharacterStore = () => {
 
 	const loadCharacter = async (id) => {
 		try {
-			const { data } = await supabase
-				.from('characters')
-				.select()
-				.eq('id', id)
-				.then((res) => res.data[0])
-				.catch((error) => {
-					console.error(error);
-					return null;
-				});
-
-			return data;
+			const { data } = await supabase.from('characters').select().eq('id', id);
+			return data[0];
 
 		} catch (error) {
 			console.error(error);
 			return null;
 		}
-		
 	};
 
 	const loadCharacters = async (user_id) => {
@@ -30,6 +20,7 @@ const createCharacterStore = () => {
 			let { data: characters, error } = await supabase.from('characters').select().eq('user_id', user_id);
 			store.set(characters);
 			return characters;
+
 		} catch (error) {
 			console.error(error);
 			return null;
@@ -38,11 +29,7 @@ const createCharacterStore = () => {
 
 	const addCharacter = async (newCharacter) => {
 		try { 
-			const { data } = await supabase
-				.from('characters')
-				.insert([newCharacter])
-				.select()
-
+			const { data } = await supabase.from('characters').insert([newCharacter]).select()
 			const id = data[0].id;
 			window.location.href = `/character/${id}`;
 			return data;
@@ -55,13 +42,12 @@ const createCharacterStore = () => {
 
 	const updateCharacter = async (updatedCharacter) => {
 		try {
-			await supabase
-				.from('characters')
-				.update([updatedCharacter])
-				.eq('id', updatedCharacter.id)
-
-			loadCharacter(updatedCharacter.id)
+			await supabase.from('characters').update([updatedCharacter]).eq('id', updatedCharacter.id);
+			const newCharacters = store.get().map((character) => (character.id === updatedCharacter.id ? updatedCharacter : character));
+			store.set(newCharacters);
+			await loadCharacter(updatedCharacter.id);
 			return loadCharacters(updatedCharacter.user_id);
+
 		} catch (error) {
 			console.error(error);
 			return null;
@@ -70,11 +56,7 @@ const createCharacterStore = () => {
 
 	const deleteCharacter = async (deletedCharacter) => {
 		try {
-			await supabase
-				.from('characters')
-				.delete()
-				.eq('id', deletedCharacter.id)
-
+			await supabase.from('characters').delete().eq('id', deletedCharacter.id)
 			window.location.href = `/user/${deletedCharacter.user_id}`;
 			return loadCharacters(deletedCharacter.user_id);
 
@@ -82,7 +64,6 @@ const createCharacterStore = () => {
 			console.error(error);
 			return null;
 		}
-		
 	};
 
 	return {

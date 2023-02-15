@@ -23,7 +23,7 @@
     <NavLi id="account-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
 
     {#if account}
-    <Dropdown color="green"  triggeredBy="#account-menu" class="w-44 z-20">
+    <Dropdown color="green" triggeredBy="#account-menu" class="" >
       <DropdownItem class="hover:bg-white" href="/user/{account.id}">View Profile</DropdownItem>
       <DropdownDivider />
       <DropdownItem href="/" on:click={logout}>Sign Out</DropdownItem>

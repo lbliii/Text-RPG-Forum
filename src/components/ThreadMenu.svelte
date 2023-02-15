@@ -2,6 +2,7 @@
   import {Button, Modal} from 'flowbite-svelte'
   import ThreadForm from '../components/ThreadForm.svelte'
 
+  export let topic;
   let createModal = false
 </script>
 
@@ -13,5 +14,5 @@
 
 
 <Modal bind:open={createModal} size="xs" autoclose={false}>
-    <ThreadForm thread="" edit={false} />
+    <ThreadForm topic={topic} thread="" edit={false} />
 </Modal>
