@@ -1,5 +1,12 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
+import { accountStore } from './accountStore.js';
+
+let account;
+
+accountStore.subscribe((value) => {
+	account = value;
+});
 
 const createProfileStore = () => {
 	const users = writable([]);
@@ -19,36 +26,19 @@ const createProfileStore = () => {
 		}
 	};
 
-	const fetchProfile = async (id) => {
+	const fetchProfile = async () => {
 		try {
-			const { data } = await supabase.from('users').select().eq('user_id', id);
-			profile.set(data[0]);
-		} catch (error) {
-			handleError(error);
-		}
-	};
-
-	const completeProfileDetails = async (user) => {
-		try {
-			await supabase.from('users').insert([{ ...user, profile_setup: true}]);
-		} catch (error) {
-			handleError(error);
-		}
-	};
-
-	const updateProfileDetails = async (user) => {
-		try {
-			await supabase
-				.from('users')
-				.update([{ ...user }])
-				.eq('user_id', user.user_id);
-			fetchProfile(user.user_id);
+			if (account) {
+				const { data } = await supabase.from('users').select().eq('user_id', account.id);
+				profile.set(data[0]);
+			}
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
 	fetchUsers();
+	fetchProfile();
 
 	return {
 		users: {
@@ -57,8 +47,7 @@ const createProfileStore = () => {
 		profile: {
 			subscribe: profile.subscribe
 		},
-		completeProfileDetails,
-		updateProfileDetails,
+		fetchUsers,
 		fetchProfile
 	};
 };

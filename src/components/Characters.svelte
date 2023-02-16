@@ -3,7 +3,7 @@ import { Avatar, Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-sve
 import { characterStore } from '../stores/characterStore.js';
 import CharacterForm from '../components/CharacterForm.svelte';
 
-export let owner;
+
 export let user;
 
 let characters;
@@ -35,7 +35,7 @@ function callbackFunction(event) {
     <div>
         {#each characters as character}
             <Card  size="lg" padding="sm" class="my-2">
-                <Heading tag="h2" class="mb-2"> {character.first_name} {character.last_name}</Heading>
+                <Heading tag="h3" class="mb-2"> {character.first_name} {character.last_name}</Heading>
                 <div class="flex flex-row justify-between my-2"> 
                     {#if character.age}
                     <Badge color="pink">{character.age} </Badge>
@@ -55,14 +55,6 @@ function callbackFunction(event) {
                 </div>
 
                 <P class="my-2">{@html character.bio}</P>
-
-                {#if owner}
-                    <div class="flex justify-end my-2">
-                        <Button size="xs" color="light" class="mr-2" on:click={() => {editModal = true; selectedCharacter = character;}}>Edit</Button>
-                        <Button size="xs" color="red" class="mr-2" on:click={() => {deleteModal = true; selectedCharacter = character;}}>Delete</Button>
-
-                    </div>
-                {/if}
             </Card>
         {/each}
     </div>

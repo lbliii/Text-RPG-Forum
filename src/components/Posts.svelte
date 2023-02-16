@@ -67,14 +67,15 @@
   </div>
 
   {#each sortedPosts as post}
+  
     <section class="my-5">
-      <Card size="lg" padding="sm" class="my-2" href={`/thread/${thread.id}/post/${post.id}`}>
+      <Card size="lg" padding="sm" class="my-2 " color="{post.id % 2 === 0 ? 'white' : 'gray'}"  href={`/thread/${thread.id}/post/${post.id}`}>
         <P class="text-2xl font-bold dark:text-white text-center my-6">{post.body}</P>
       </Card>
       <div class="text-right">
         <ButtonGroup class="space-x-px">
-          <Button outline on:click={() => { activePost = post; editingPost = true; }}>Edit</Button>
-          <Button outline on:click={() => { activePost = post; deletingPost = true; }}>Delete</Button>
+          <Button size="xs" outline on:click={() => { activePost = post; editingPost = true; }}>Edit</Button>
+          <Button size="xs" outline on:click={() => { activePost = post; deletingPost = true; }}>Delete</Button>
         </ButtonGroup>
       </div>
     </section>
@@ -95,3 +96,8 @@
     <Button on:click={removePost}>Delete</Button>
   </Modal>
 </section>
+
+
+<!-- todo: figure out how to implement alternating backgrounds using this logic:
+  {post.id % 2 === 0 ? 'bg-gray-300' : 'bg-gray-600'}
+-->
