@@ -6,7 +6,7 @@ export async function load({ params }) {
 	const { data, error } = await supabase.from('threads').select().match({ id });
 
 	if (error) {
-		return console.error(error || 'Error loading topic');
+		return console.error(error || 'Error loading thread');
 	}
 	return data[0];
 }

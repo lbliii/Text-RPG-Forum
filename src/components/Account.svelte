@@ -5,15 +5,16 @@
     let email 
 
     const handleLogin = async () => {
+        loading = true;
+
         try {
-            loading = true
-            const { error } = await supabase.auth.signInWithOtp({ email })
-            if (error) throw error
-            alert('Check your email for the login link!')
+            const { error } = await supabase.auth.signInWithOtp({ email });
+            if (error) throw error;
+            alert('Check your email for the login link!');
         } catch (error) {
-            alert("error: " + error.message || error.error_description)
+            alert(`Error: ${error.message || error.error_description}`);
         } finally {
-            loading = false
+            loading = false;
         }
     }
 </script>

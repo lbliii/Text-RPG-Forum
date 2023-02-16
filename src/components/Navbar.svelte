@@ -1,14 +1,12 @@
- <script>
-   import { supabase } from '../supabase.js';
-   import { Chevron, Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger } from 'flowbite-svelte'
-   import {account} from '../stores/accountStore.js'
+<script>
+  import { supabase } from '../supabase.js';
+  import { Chevron, Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger } from 'flowbite-svelte'
 
-   let profile = $account.id
+  export let account 
 
-   const logout = () => {
-      supabase.auth.signOut();
-   }
-
+  const logout = () => {
+    supabase.auth.signOut();
+  };
  </script>
 
 
@@ -21,12 +19,16 @@
   <NavHamburger on:click={toggle} />
   <NavUl {hidden}>
     <NavLi href="/users">Users</NavLi>
-    <NavLi href="/topics">Topics</NavLi>
+    <NavLi href="/forums">Topics</NavLi>
     <NavLi id="account-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
-    <Dropdown color="green"  triggeredBy="#account-menu" class="w-44 z-20">
-      <DropdownItem class="hover:bg-white" href="/user/{profile}">View Profile</DropdownItem>
+
+    {#if account}
+    <Dropdown color="green" triggeredBy="#account-menu" class="" >
+      <DropdownItem class="hover:bg-white" href="/user/{account.id}">View Profile</DropdownItem>
       <DropdownDivider />
       <DropdownItem href="/" on:click={logout}>Sign Out</DropdownItem>
     </Dropdown>
+    {/if}
+
   </NavUl>
 </Navbar>

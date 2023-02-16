@@ -1,71 +1,66 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
-export const users = writable([]);
-export const profile = writable({});
+const createProfileStore = () => {
+	const users = writable([]);
+	const profile = writable({});
 
-export const completeProfileDetails = async (/** @type {any} */ user) => {
+	const handleError = (error) => {
+		console.error(error);
+		return error;
+	};
 
-	const { data, error } = await supabase.from('users').insert([{ ...user }]);
+	const fetchUsers = async () => {
+		try {
+			const { data } = await supabase.from('users').select();
+			users.set(data);
+		} catch (error) {
+			handleError(error);
+		}
+	};
 
-	if (error) {
-		return console.error(error);
-	}
-}
+	const fetchProfile = async (id) => {
+		try {
+			const { data } = await supabase.from('users').select().eq('user_id', id);
+			profile.set(data[0]);
+		} catch (error) {
+			handleError(error);
+		}
+	};
 
-export const updateProfileDetails = async (/** @type {any} */ user) => {
+	const completeProfileDetails = async (user) => {
+		try {
+			await supabase.from('users').insert([{ ...user, profile_setup: true}]);
+		} catch (error) {
+			handleError(error);
+		}
+	};
 
-	const { data, error } = await supabase.from('users').update([{ ...user }]).match({ user_id: user.user_id });
+	const updateProfileDetails = async (user) => {
+		try {
+			await supabase
+				.from('users')
+				.update([{ ...user }])
+				.eq('user_id', user.user_id);
+			fetchProfile(user.user_id);
+		} catch (error) {
+			handleError(error);
+		}
+	};
 
-	if (error) {
-		return console.error(error);
-	}
+	fetchUsers();
 
-	loadProfiles();
-}
-
-
-export const loadProfiles = async () => {
-	const { data, error } = await supabase.from('users').select();
-
-	if (error) {
-		return console.error(error);
-	}
-
-	users.set(data);
+	return {
+		users: {
+			subscribe: users.subscribe
+		},
+		profile: {
+			subscribe: profile.subscribe
+		},
+		completeProfileDetails,
+		updateProfileDetails,
+		fetchProfile
+	};
 };
 
-export const loadProfile = async (/** @type {any} */ id) => {
-
-	let user_id;
-	if (!id) {
-		return
-	}
-	 user_id = id;
-	const { data, error } = await supabase.from('users').select().match({ user_id }).then(res => {
-		profile.set(res.data[0]);
-	});
-
-	if (error) {
-		return console.error(error);
-	}
-	
-};
-
-export const getProfile = async (/** @type {any} */ id) => {
-
-	const res = await supabase.from('users').select().match({ user_id: id });
-
-	if (res.error) {
-		return console.error(res.error);
-	}
-
-	let profile = res.data[0];
-
-	return profile;
-
-}
-	
-
-loadProfile()
-loadProfiles()
+export const profileStore = createProfileStore();

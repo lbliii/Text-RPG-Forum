@@ -1,41 +1,22 @@
 <script>
-  import { account } from '../stores/accountStore.js';
-  import { supabase } from '../supabase.js';
-  import { loadProfile, profile } from '../stores/profileStore.js';
+  import { accountStore } from '../stores/accountStore.js';
   import Auth from '../components/Account.svelte';
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
-  supabase.auth.getSession()
-    .then(({ data, error }) => {
-      if (data.session !== null) {
-        account.set(data.session?.user);
-        loadProfile(data.session?.user.id);
-      }
-      if (error) {
-        console.log("error: " + error.message);
-      }
-    })
+  let account;
 
-  supabase.auth.onAuthStateChange(( _, session) => {
-      account.set(session?.user);
-      if (!session?.user){
-          account.set(false);
-      }
+  $: accountStore.subscribe(user => {
+    account = user;
   });
 
 </script>
 
 <body class="bg-transparent dark:bg-gray-800 container mx-auto my-6 max-w-xl px-1">
- 
-  {#if $account}
-      <Navbar/>
-      <slot>  </slot>
+  {#if account}
+      <Navbar account="{account}" />
+      <slot />
   {:else}
       <Auth />
-    {/if}
+  {/if}
 </body>
-
-
-
-
