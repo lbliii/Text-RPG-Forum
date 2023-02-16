@@ -1,11 +1,11 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
-import { accountStore } from './accountStore.js';
+import { authStore } from './authStore.js';
 
-let account;
+let auth;
 
-accountStore.subscribe((value) => {
-	account = value;
+authStore.subscribe((value) => {
+	auth = value;
 });
 
 const createProfileStore = () => {
@@ -28,8 +28,8 @@ const createProfileStore = () => {
 
 	const fetchProfile = async () => {
 		try {
-			if (account) {
-				const { data } = await supabase.from('users').select().eq('user_id', account.id);
+			if (auth) {
+				const { data } = await supabase.from('users').select().eq('user_id', auth.id);
 				profile.set(data[0]);
 			}
 		} catch (error) {

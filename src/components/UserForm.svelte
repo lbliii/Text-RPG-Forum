@@ -1,7 +1,7 @@
 <script>
 
     import {profileStore} from '../stores/profileStore.js';
-    import {accountStore} from '../stores/accountStore.js';
+    import {authStore} from '../stores/authStore.js';
     import { Label, Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
     export let edit;
@@ -9,7 +9,7 @@
 
     $: if (profile === null || profile === undefined) {
         profile = {
-            user_id: $accountStore.id,
+            user_id: $authStore.id,
             };
         }
 

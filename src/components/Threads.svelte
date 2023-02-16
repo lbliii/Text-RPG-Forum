@@ -1,10 +1,14 @@
 <script>
   import { threadStore } from '../stores/threadStore.js';
-  import { accountStore } from '../stores/accountStore.js';
-  import { Button, ButtonGroup, CloseButton, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
+  import { authStore } from '../stores/authStore.js';
+  import { userStore } from '../stores/userStore.js';
+  import { characterStore} from '../stores/characterStore.js';
+  import { Button, ButtonGroup, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
 
   export let topic;
-  let user = {};
+  let auth = {};
+  let user;
+  let characters = [];
   let newThread = { title: '', description: '' };
   let creatingThread = false;
   let editingThread = false;
@@ -13,9 +17,19 @@
   let topicThreads;
   let sortAscending = true; // added for sorting
 
-  $: user = $accountStore;
+  
+
+  $: auth = $authStore;
+  $: user = $userStore;
 
   $: threadStore.fetchThreads(topic.id)
+
+$: {
+    characterStore.loadCharacters(user.user_id).then(res => {
+        characters = res;
+    });
+}
+  
 
   // added for sorting
   $: topicThreads = $threadStore.slice().sort((a, b) => {
@@ -27,7 +41,7 @@
     threadStore.addThread(
      {
 topic_id: topic.id,
-      user_id: user.id,
+      user_id: auth.id,
       last_updated: new Date(),
       ...newThread
     });
@@ -48,7 +62,7 @@ topic_id: topic.id,
   }
 
   function isOwner(thread) {
-    return thread.user_id === user.id
+    return thread.user_id === auth.id
   }
 
   // added for sorting
@@ -61,7 +75,7 @@ topic_id: topic.id,
 <section> 
   <div class="flex flex-row justify-end my-2">
     <ButtonGroup class="space-x-px" >
-      <Button size="xs" outline on:click={toggleSort}>
+      <Button size="xs"  color="light" on:click={toggleSort}>
         {sortAscending ? 'Newest' : 'Oldest'}
       </Button>
       <Button size="xs" color="green" on:click={() => creatingThread = true}>Create Thread</Button>
@@ -77,8 +91,8 @@ topic_id: topic.id,
       {#if isOwner(thread)}
         <div class="text-right">
           <ButtonGroup class="space-x-px">
-            <Button outline on:click={() => { activeThread = thread; editingThread = true; }}>Edit</Button>
-            <Button outline on:click={() => { activeThread = thread; deletingThread = true; }}>Delete</Button>
+            <Button  size="xs" color="light" on:click={() => { activeThread = thread; editingThread = true; }}>Edit</Button>
+            <Button  size="xs" color="red" on:click={() => { activeThread = thread; deletingThread = true; }}>Delete</Button>
           </ButtonGroup>
         </div>
       {/if}
@@ -86,8 +100,21 @@ topic_id: topic.id,
   {/each}
 
   <Modal bind:open={creatingThread} title="Create Thread">
+    {#if characters.length === 0}
+      <P>You must create a character before you can create a thread.</P>
+    {/if}
     <Input bind:value={newThread.title} placeholder="Enter a new thread" class="my-2" />
     <Textarea bind:value={newThread.description} placeholder="Enter a description" class="my-2" />
+    {#if characters.length > 0}
+    <div> 
+      <P>Choose a character to associate with this thread.</P>
+        <select bind:value={newThread.character_id}>
+          {#each characters as character}
+            <option value={character.id}>{character.first_name} {character.last_name}</option>
+          {/each}
+        </select>
+    </div>
+    {/if}
     <ButtonGroup class="space-x-px">
       <Button color="green" on:click={addThread}>Create</Button>
       <Button outline on:click={() => creatingThread = false}>Cancel</Button>

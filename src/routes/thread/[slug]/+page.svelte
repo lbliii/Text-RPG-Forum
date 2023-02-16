@@ -15,7 +15,7 @@
 <section>
   
   <div class="text-center">
-    <Heading tag="h1" class="my-3">{thread.title}</Heading>
+    <Heading tag="h1" class="my-3 text-white">{thread.title}</Heading>
     <Badge href="/forum/{forum.id}">{forum.title}</Badge>
   </div>
   

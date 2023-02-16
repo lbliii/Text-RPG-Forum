@@ -2,18 +2,16 @@
   import User from '../../../components/User.svelte'
   import UserForm from '../../../components/UserForm.svelte'
   import ProfileMenu from '../../../components/ProfileMenu.svelte'
-  import {accountStore} from '../../../stores/accountStore.js';
+  import { authStore } from '../../../stores/authStore.js';
 
   export let data;
   let user = data;
-  let account;
+  let auth;
   
-    $: accountStore.subscribe(user => {
-    account = user;
+    $: authStore.subscribe(user => {
+    auth = user;
     });
 
-
-console.log(user)
 </script>
 
 <main >
@@ -21,7 +19,7 @@ console.log(user)
   <ProfileMenu />
 
   {#if user}
-    <User user={user} account={account} />
+    <User user={user} auth={auth} />
 
     {#if user.profile_setup == false}
       <UserForm profile={user} edit={false} />

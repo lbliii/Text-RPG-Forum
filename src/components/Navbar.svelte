@@ -2,7 +2,7 @@
   import { supabase } from '../supabase.js';
   import { Chevron, Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger } from 'flowbite-svelte'
 
-  export let account 
+  export let auth 
 
   const logout = () => {
     supabase.auth.signOut();
@@ -10,7 +10,7 @@
  </script>
 
 
-<Navbar color="green" class="rounded" let:hidden let:toggle>
+<Navbar color="gray" class="rounded" let:hidden let:toggle>
   <NavBrand href="/">
     <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
       Emdash
@@ -20,11 +20,11 @@
   <NavUl {hidden}>
     <NavLi href="/users">Users</NavLi>
     <NavLi href="/forums">Forums</NavLi>
-    <NavLi id="account-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
+    <NavLi id="auth-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
 
-    {#if account}
-    <Dropdown color="green" triggeredBy="#account-menu" class="" >
-      <DropdownItem class="hover:bg-white" href="/user/{account.id}">View Profile</DropdownItem>
+    {#if auth}
+    <Dropdown color="green" triggeredBy="#auth-menu" class="" >
+      <DropdownItem class="hover:bg-white" href="/user/{auth.id}">View Profile</DropdownItem>
       <DropdownDivider />
       <DropdownItem href="/" on:click={logout}>Sign Out</DropdownItem>
     </Dropdown>

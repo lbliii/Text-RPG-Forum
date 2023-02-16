@@ -1,6 +1,6 @@
 <script>
     import {characterStore} from '../stores/characterStore.js';
-    import {accountStore} from '../stores/accountStore.js';
+    import {authStore} from '../stores/authStore.js';
     import { Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
     import { createEventDispatcher } from 'svelte';
 
@@ -10,7 +10,7 @@
 
     $: if (character === null || character === undefined || character === "") {
         character = {
-            user_id: $accountStore.id,
+            user_id: $authStore.id,
             };
         }
 

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
-const createAccountStore = () => {
+const createAuthStore = () => {
 	const store = writable({});
 
 	const handleSession = ({ data, error }) => {
@@ -23,10 +23,10 @@ const createAccountStore = () => {
 
 	return {
 		subscribe: store.subscribe,
-		set: (account) => {
-			store.set(account);
+		set: (auth) => {
+			store.set(auth);
 		}
 	};
 };
 
-export const accountStore = createAccountStore();
+export const authStore = createAuthStore();

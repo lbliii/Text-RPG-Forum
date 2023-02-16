@@ -1,20 +1,24 @@
 <script>
   import { postStore } from '../stores/postStore.js';
-  import { accountStore } from '../stores/accountStore.js';
+  import { authStore } from '../stores/authStore.js';
   import { threadStore } from '../stores/threadStore.js';
   import { Button, ButtonGroup, CloseButton, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
 
   export let thread;
 
-  let user = {};
+  let auth = {};
   let newPost = { body: '' };
   let creatingPost = false;
   let editingPost = false;
   let deletingPost = false;
   let activePost = {};
   let sortAscending = true;
+  let profile;
 
-  $: user = $accountStore;
+
+  console.log(profile)
+
+  $: auth = $authStore;
 
   $: postStore.fetchPosts(thread.id)
 
@@ -25,7 +29,7 @@
 
   function addPost() {
     postStore.addPost({
-      user_id: user.id,
+      user_id: auth.id,
       thread_id: thread.id,
       ...newPost
     });
@@ -53,13 +57,19 @@
     sortAscending = !sortAscending;
   }
 
+  function isOwner(post) {
+    if (auth) {
+      return auth.id === post.user_id
+    }
+  }
+
 </script>
 
 <section>
 
   <div class="flex flex-row justify-end my-2">
     <ButtonGroup class="space-x-px" >
-      <Button size="xs" outline on:click={toggleSort}>
+      <Button size="xs" color="light" on:click={toggleSort}>
         {sortAscending ? 'Newest' : 'Oldest'}
       </Button>
       <Button size="xs" color="green" on:click={() => creatingPost = true}>Create Post</Button>
@@ -69,14 +79,16 @@
   {#each sortedPosts as post}
   
     <section class="my-5">
-      <Card size="lg" padding="sm" class="my-2 " color="{post.id % 2 === 0 ? 'white' : 'gray'}"  href={`/thread/${thread.id}/post/${post.id}`}>
+      <Card size="lg" padding="sm" class="my-2 " color="{post.id % 2 === 0 ? 'light' : 'gray'}"  href={`/thread/${thread.id}/post/${post.id}`}>
         <P class="text-2xl font-bold dark:text-white text-center my-6">{post.body}</P>
       </Card>
       <div class="text-right">
-        <ButtonGroup class="space-x-px">
-          <Button size="xs" outline on:click={() => { activePost = post; editingPost = true; }}>Edit</Button>
-          <Button size="xs" outline on:click={() => { activePost = post; deletingPost = true; }}>Delete</Button>
-        </ButtonGroup>
+        {#if isOwner(post)}
+          <ButtonGroup class="space-x-px">
+            <Button size="xs" color="light" on:click={() => { activePost = post; editingPost = true; }}>Edit</Button>
+            <Button size="xs" color="red" on:click={() => { activePost = post; deletingPost = true; }}>Delete</Button>
+          </ButtonGroup>
+        {/if}
       </div>
     </section>
   {/each}
@@ -96,8 +108,3 @@
     <Button on:click={removePost}>Delete</Button>
   </Modal>
 </section>
-
-
-<!-- todo: figure out how to implement alternating backgrounds using this logic:
-  {post.id % 2 === 0 ? 'bg-gray-300' : 'bg-gray-600'}
--->

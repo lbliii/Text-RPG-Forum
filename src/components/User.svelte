@@ -1,6 +1,6 @@
 <script>
   export let user;
-  export let account;
+  export let auth;
 
   import { Avatar, Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
   import Characters from '../components/Characters.svelte';
@@ -10,7 +10,7 @@
   let editProfile = false;
 
   function isOwner() {
-    return user.user_id === account.id;
+    return user.user_id === auth.id;
   }
 
 </script>
