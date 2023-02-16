@@ -19,7 +19,7 @@
   <NavHamburger on:click={toggle} />
   <NavUl {hidden}>
     <NavLi href="/users">Users</NavLi>
-    <NavLi href="/topics">Topics</NavLi>
+    <NavLi href="/forums">Topics</NavLi>
     <NavLi id="account-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
 
     {#if account}

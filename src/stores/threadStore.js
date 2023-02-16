@@ -2,40 +2,33 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
 export const createThreadStore = () => {
-	const threads = writable([]);
-	const thread = writable(null);
+	const store = writable([]);
 
-	const loadThreads = async (topic_id) => {
+	const handleError = (error) => {
+		console.error(error);
+		return error;
+	};
+
+	const fetchThreads = async (topic_id) => {
 		try {
-			const { data } = await supabase.from('threads').select().match({ topic_id: topic_id });
-			threads.set(data);
+			const { data } = await supabase.from('threads').select('*').match({ topic_id: topic_id });
+			store.set(data);
 			return data;
 		} catch (error) {
-			console.error(error);
-			return null;
+			handleError(error);
 		}
 	};
 
-	const loadThread = async (thread) => {
+	const addThread = async (thread) => {
 		try {
-			const { data } = await supabase.from('threads').select().match({ id: thread.id });
-			thread.set(data[0]);
-		} catch (error) {
-			console.error(error);
-			thread.set(null);
-		}
-	};
+			await supabase.from('threads').insert(thread);
 
-	const addThread = async (topic_id, thread) => {
-		try {
-			const { data } = await supabase.from('threads').insert([{ ...thread }]);
-
-			threads.update((threads) => [...threads, data[0]]);
-			console.log('addThread', data[0]);
+			console.log('addThread', thread);
 		} catch (error) {
-			console.error(error);
-			return null;
+			handleError(error);
 		}
+
+		fetchThreads(thread.topic_id);
 	};
 
 	const updateThread = async (thread) => {
@@ -44,14 +37,14 @@ export const createThreadStore = () => {
 				.from('threads')
 				.update({ ...thread })
 				.match({ id: thread.id })
-				.select()
+				.select();
 
 			if (error) {
 				throw error;
 			}
 
 			// Update the threads store
-			threads.update((threads) => {
+			store.update((threads) => {
 				const index = threads.findIndex((t) => t.id === thread.id);
 				if (index !== -1) {
 					threads[index] = data[0];
@@ -61,30 +54,25 @@ export const createThreadStore = () => {
 
 			return data[0];
 		} catch (error) {
-			console.error(error);
-			return null;
+			handleError(error);
 		}
 	};
 
 	const deleteThread = async (thread) => {
 		try {
 			await supabase.from('threads').delete().match({ id: thread.id });
-			threads.update((threads) => threads.filter((t) => t.id !== thread.id));
+			store.update((threads) => threads.filter((t) => t.id !== thread.id));
 		} catch (error) {
-			console.error(error);
-			return null;
+			handleError(error);
 		}
 	};
 
-
 	return {
-		threads,
-		thread,
-		loadThreads,
-		loadThread,
+		fetchThreads,
 		addThread,
 		updateThread,
-		deleteThread
+		deleteThread,
+		subscribe: store.subscribe
 	};
 };
 

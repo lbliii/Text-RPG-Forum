@@ -5,12 +5,17 @@ const createProfileStore = () => {
 	const users = writable([]);
 	const profile = writable({});
 
+	const handleError = (error) => {
+		console.error(error);
+		return error;
+	};
+
 	const fetchUsers = async () => {
 		try {
 			const { data } = await supabase.from('users').select();
 			users.set(data);
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 		}
 	};
 
@@ -19,7 +24,7 @@ const createProfileStore = () => {
 			const { data } = await supabase.from('users').select().eq('user_id', id);
 			profile.set(data[0]);
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 		}
 	};
 
@@ -27,7 +32,7 @@ const createProfileStore = () => {
 		try {
 			await supabase.from('users').insert([{ ...user, profile_setup: true}]);
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 		}
 	};
 
@@ -39,7 +44,7 @@ const createProfileStore = () => {
 				.eq('user_id', user.user_id);
 			fetchProfile(user.user_id);
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 		}
 	};
 
