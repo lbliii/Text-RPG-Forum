@@ -19,18 +19,26 @@ const createPostStore = () => {
 		}
 	};
 
-	const addPost = async (post) => {
+	const fetchPost = async (id) => {
 		try {
-			await supabase.from('posts').insert(post);
-			console.log('addPost', post)
-			store.update((posts) => [...posts, post]);
-			await fetchPosts(post.thread_id);
-			return post;
+			const { data } = await supabase.from('posts').select().match({ id: id });
+			return data;
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
+	const addPost = async (post) => {
+		try {
+			await supabase.from('posts').insert(post).select()
+			store.update((posts) => [...posts, post]);
+			await fetchPosts(post.thread_id)
+
+			return post;
+		} catch (error) {
+			handleError(error);
+		}
+	};
 
 	const deletePost = async (post) => {
 		try {
@@ -50,12 +58,19 @@ const createPostStore = () => {
 				.update({ ...post })
 				.match({ id });
 			store.update((posts) => posts.map((p) => (p.id === id ? post : p)));
+			await fetchPosts(post.thread_id);
+			const { data } = await supabase
+				.from('threads')
+				.update({ last_updated: post.created_at })
+				.match({ id: post.thread_id });
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
+
 	return {
+		fetchPost,
 		fetchPosts,
 		addPost,
 		deletePost,

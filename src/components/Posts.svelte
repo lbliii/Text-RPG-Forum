@@ -1,23 +1,25 @@
 <script>
   import { postStore } from '../stores/postStore.js';
   import { accountStore } from '../stores/accountStore.js';
+  import { threadStore } from '../stores/threadStore.js';
   import { Button, ButtonGroup, CloseButton, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
 
   export let thread;
 
   let user = {};
   let newPost = { body: '' };
+  let creatingPost = false;
   let editingPost = false;
   let deletingPost = false;
   let activePost = {};
-  let sortBy = 'latest';
+  let sortAscending = true;
 
   $: user = $accountStore;
 
   $: postStore.fetchPosts(thread.id)
 
   $: sortedPosts = $postStore.sort((a, b) => {
-    const sortFactor = sortBy === 'latest' ? -1 : 1;
+    const sortFactor = sortAscending ? -1 : 1;
     return sortFactor * (new Date(a.created_at) - new Date(b.created_at));
   });
 
@@ -28,6 +30,11 @@
       ...newPost
     });
     newPost = { body: '' };
+    threadStore.updateThread({
+      ...thread,
+      last_updated: new Date()
+    });
+    creatingPost = false;
   }
 
   function updatePost() {
@@ -42,20 +49,21 @@
     activePost = {};
   }
 
+  function toggleSort() {
+    sortAscending = !sortAscending;
+  }
+
 </script>
 
 <section>
-  <Card size="lg" padding="sm" class="my-2">
-    <Textarea bind:value={newPost.body} placeholder="Enter a new post" class="my-2" />
-    <Button on:click={addPost}>Add Post</Button>
-  </Card>
 
-  <div class="my-2 text-right">
-    <label for="sort-select">Sort by:</label>
-    <select id="sort-select" bind:value={sortBy}>
-      <option value="latest">Latest</option>
-      <option value="oldest">Oldest</option>
-    </select>
+  <div class="flex flex-row justify-end my-2">
+    <ButtonGroup class="space-x-px" >
+      <Button size="xs" outline on:click={toggleSort}>
+        {sortAscending ? 'Newest' : 'Oldest'}
+      </Button>
+      <Button size="xs" color="green" on:click={() => creatingPost = true}>Create Post</Button>
+    </ButtonGroup>
   </div>
 
   {#each sortedPosts as post}
@@ -71,6 +79,11 @@
       </div>
     </section>
   {/each}
+
+  <Modal bind:open={creatingPost} title="Create Post">
+    <Textarea bind:value={newPost.body} />
+    <Button on:click={addPost}>Create</Button>
+  </Modal>
 
   <Modal bind:open={editingPost} title="Edit Post">
     <Textarea bind:value={activePost.body} />

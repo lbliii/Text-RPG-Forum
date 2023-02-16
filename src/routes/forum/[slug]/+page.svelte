@@ -11,7 +11,7 @@
 
 <main>
 
-    <Heading tag="h1" class="mb-2">{topic.title}</Heading>
+    <Heading tag="h1" class="my-3 text-center">{topic.title} Threads</Heading>
 
 
     <Threads  topic={topic}/>
