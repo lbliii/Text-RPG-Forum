@@ -19,15 +19,16 @@
   let topicThreads = [];
   let sortAscending = true; // added for sorting
 
+  
+  const unsubscribe = threadStore.subscribe(updatedThreads => {
+    threads = updatedThreads;
+  });
 
   onMount(async () => {
     user = await userStore.get();
     auth = await authStore.get();
     characters = await characterStore.loadCharacters(user.user_id);
     threads = await threadStore.fetchThreads(topic.id);
-    threadStore.subscribe(updatedThreads => {
-      threads = updatedThreads;
-    });
   });
 
   $: topicThreads = threads.slice().sort((a, b) => {
@@ -68,7 +69,7 @@
   }
 
   onDestroy(() => {
-    threadStore.unsubscribe();
+    unsubscribe();
   });
 </script>
 
