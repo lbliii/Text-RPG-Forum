@@ -21,11 +21,22 @@ const createAuthStore = () => {
 		store.set(session?.user || {});
 	});
 
+	const get = async () => {
+		try {
+			const { data: { user } } = await supabase.auth.getUser();
+			store.set(user);
+			return user
+		} catch (error) {
+			console.error(`Error: ${error.message}`);
+		}
+	};
+
 	return {
 		subscribe: store.subscribe,
 		set: (auth) => {
 			store.set(auth);
-		}
+		},
+		get
 	};
 };
 

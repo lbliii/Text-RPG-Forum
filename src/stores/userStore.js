@@ -11,7 +11,7 @@ const createUserStore = () => {
 		authStore.subscribe((value) => {
 			user = value;
 		})();
-		
+
 		if (!user) return;
 
 		try {
@@ -32,6 +32,14 @@ const createUserStore = () => {
 		}
 	};
 
+	const get = async () => {
+		await getUser();
+		let x 
+		store.subscribe((value) => 
+			x = value); 
+		return x
+	};
+
 	authStore.subscribe(() => {
 		getUser();
 	});
@@ -39,7 +47,8 @@ const createUserStore = () => {
 	getUser();
 
 	return {
-		subscribe: store.subscribe
+		subscribe: store.subscribe,
+		get
 	};
 };
 

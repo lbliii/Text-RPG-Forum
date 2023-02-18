@@ -1,22 +1,26 @@
 <script>
   import { usersStore } from '../stores/usersStore.js';
   import { Button, Heading, Badge, ButtonGroup, Card, P, Hr } from 'flowbite-svelte';
-  import { onDestroy } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
 
   let users = [];
   let searchTerm = "";
   let filteredUsers = [];
 
+  onMount(async () => {
+    users = await usersStore.get();
+  });
 
   const unsubscribe = usersStore.subscribe((value) => {
     users = value;
+    filterUsers();
   });
 
   onDestroy(() => {
     unsubscribe();
   });
 
-  $: {
+  function filterUsers() {
     if (searchTerm) {
       filteredUsers = users.filter((user) => {
         return user.alias.toLowerCase().includes(searchTerm.toLowerCase());

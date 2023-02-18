@@ -2,8 +2,9 @@
   import { threadStore } from '../stores/threadStore.js';
   import { authStore } from '../stores/authStore.js';
   import { userStore } from '../stores/userStore.js';
-  import { characterStore} from '../stores/characterStore.js';
+  import { characterStore } from '../stores/characterStore.js';
   import { Button, ButtonGroup, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
+  import { onMount, onDestroy } from 'svelte';
 
   export let topic;
   let auth = {};
@@ -14,33 +15,29 @@
   let editingThread = false;
   let deletingThread = false;
   let activeThread = {};
-  let topicThreads;
+  let threads = [];
+  let topicThreads = [];
   let sortAscending = true; // added for sorting
 
-  
 
-  $: auth = $authStore;
-  $: user = $userStore;
-
-  $: threadStore.fetchThreads(topic.id)
-
-$: {
-    characterStore.loadCharacters(user.user_id).then(res => {
-        characters = res;
+  onMount(async () => {
+    user = await userStore.get();
+    auth = await authStore.get();
+    characters = await characterStore.loadCharacters(user.user_id);
+    threads = await threadStore.fetchThreads(topic.id);
+    threadStore.subscribe(updatedThreads => {
+      threads = updatedThreads;
     });
-}
-  
+  });
 
-  // added for sorting
-  $: topicThreads = $threadStore.slice().sort((a, b) => {
+  $: topicThreads = threads.slice().sort((a, b) => {
     const sortValue = sortAscending ? 1 : -1;
     return sortValue * (new Date(b.last_updated) - new Date(a.last_updated));
   });
 
   function addThread() {
-    threadStore.addThread(
-     {
-topic_id: topic.id,
+    threadStore.addThread({
+      topic_id: topic.id,
       user_id: auth.id,
       last_updated: new Date(),
       ...newThread
@@ -62,7 +59,7 @@ topic_id: topic.id,
   }
 
   function isOwner(thread) {
-    return thread.user_id === auth.id
+    return thread.user_id === auth.id;
   }
 
   // added for sorting
@@ -70,7 +67,11 @@ topic_id: topic.id,
     sortAscending = !sortAscending;
   }
 
+  onDestroy(() => {
+    threadStore.unsubscribe();
+  });
 </script>
+
 
 <section> 
   <div class="flex flex-row justify-end my-2">

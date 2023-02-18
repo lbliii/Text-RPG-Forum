@@ -7,13 +7,14 @@ const createUsersStore = () => {
 	const { subscribe, set, update } = store;
 
 	// fetch users from the database
-	const loadUsers = async () => {
+	const get = async () => {
 		const { data: users, error } = await supabase.from('users').select('*');
 
 		if (error) {
 			console.error(error);
 		} else {
 			set(users);
+			return users;
 		}
 	};
 
@@ -59,14 +60,14 @@ const createUsersStore = () => {
 		}
 	};
 
-	loadUsers()
+	
 
 	return {
 		subscribe,
-		loadUsers,
 		addUser,
 		updateUser,
-		deleteUser
+		deleteUser,
+		get
 	};
 };
 

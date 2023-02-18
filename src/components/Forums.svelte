@@ -1,22 +1,28 @@
 <script>
   import { forumStore } from '../stores/forumStore.js';
   import { userStore } from '../stores/userStore.js';
+  import { authStore } from '../stores/authStore.js';
   import { Button, ButtonGroup, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
-  
+  import { onMount } from 'svelte';
 
-  export let auth;
-  export let user;
+  let auth;
+  let user;
   let newTopic = { title: '', description: '', image: '' };
+  let creatingTopic = false;
   let editingTopic = false;
   let deletingTopic = false;
   let activeTopic = {};
+  let sortedForumStore = [];
 
-  $: user = $userStore;
-
-  $: sortedForumStore = $forumStore.slice().sort((a, b) => {
-    return a.title.localeCompare(b.title);
+  onMount(async () => {
+    user = await userStore.get();
+    auth = await authStore.get();
+    sortedForumStore = $forumStore.slice().sort((a, b) => {
+      return a.title.localeCompare(b.title);
+    });
   });
 
+  $: admin = user && user.admin;
 
   function addTopic() {
     forumStore.addTopic({
@@ -38,16 +44,17 @@
     activeTopic = {};
   }
 
-  function isAdmin() {
-    if (user) {
-      return user.admin
-    }
-}
-
 </script>
 
 <section> 
   <h1 class="text-5xl font-bold text-white text-center my-6">Forums</h1>
+  <div class="flex flex-row justify-end my-2">
+    <ButtonGroup class="space-x-px" >
+      {#if admin }
+        <Button size="xs" color="green" on:click={() => creatingTopic = true}>Create Forum</Button>
+      {/if}
+    </ButtonGroup>
+  </div>
 
   {#each sortedForumStore as topic}
     <section class="my-5">
@@ -56,7 +63,7 @@
         <P class="text-2xl font-bold dark:text-white text-center my-6">{topic.description}</P>
       </Card>
       <div class="text-right">
-        {#if isAdmin()}
+        {#if admin}
         <ButtonGroup class="space-x-px">
           <Button  color="light" size="xs" on:click={() => { activeTopic = topic; editingTopic = true; }}>Update</Button>
           <Button  color="red" size="xs" on:click={() => { activeTopic = topic; deletingTopic = true; }}>Remove</Button>
@@ -66,20 +73,15 @@
     </section>
   {/each}
 
-
-  {#if isAdmin()}
-
-  <Card size="lg" padding="sm" class="my-2">
-    <h1 class="text-5xl font-bold dark:text-white text-center my-6">Add a Forum</h1>
-    <Input bind:value={newTopic.title} placeholder="Enter a new topic." class="my-2" />
-    <Textarea bind:value={newTopic.description} id="description" name="description" placeholder="Enter a description here." class="my-2" />
-    <Input bind:value={newTopic.image} placeholder="Enter an image url." class="my-2" />
-    <Button color="green" on:click={addTopic}>Create</Button>
-  </Card>
-    
-  {/if}
-
 </section>
+
+<Modal bind:open={creatingTopic} title="Create Topic">
+      <Input bind:value={newTopic.title} placeholder="Enter a new topic." class="my-2" />
+      <Textarea bind:value={newTopic.description} id="description" name="description" placeholder="Enter a description here." class="my-2" />
+      <Input bind:value={newTopic.image} placeholder="Enter an image url." class="my-2" />
+      <Button color="green" on:click={addTopic}>Create</Button>
+</Modal>
+
 
  <Modal bind:open={editingTopic} title="Edit Topic">
     <Input bind:value={activeTopic.title} />
