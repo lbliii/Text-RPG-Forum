@@ -18,6 +18,16 @@ const createForumStore = () => {
 		}
 	};
 
+	const fetchTopic = async (id) => {
+		try {
+			const { data } = await supabase.from('topics').select('*').match({ id });
+			store.set(data[0]);
+			return data[0]
+		} catch (error) {
+			handleError(error);
+		}
+	};
+
 	const addTopic = async (topic) => {
 		try {
 			await supabase.from('topics').insert(topic);
@@ -55,6 +65,8 @@ const createForumStore = () => {
 
 	return {
 		subscribe: store.subscribe,
+		fetchTopics,
+		fetchTopic,
 		addTopic,
 		removeTopic,
 		updateTopic

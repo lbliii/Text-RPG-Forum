@@ -2,25 +2,43 @@
   import { postStore } from '../stores/postStore.js';
   import { authStore } from '../stores/authStore.js';
   import { threadStore } from '../stores/threadStore.js';
-  import { Button, ButtonGroup, CloseButton, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
+  import { characterStore } from '../stores/characterStore.js';
+  import {threadCharactersStore } from '../stores/threadCharactersStore.js';
+  import { Button, ButtonGroup, Modal, Card, P, Textarea } from 'flowbite-svelte';
+  import { onMount, onDestroy } from 'svelte';
+  import PostCharacterDetails  from './PostCharacterDetails.svelte';
 
   export let thread;
 
   let auth = {};
   let newPost = { body: '' };
   let creatingPost = false;
+  let characters = [];
   let editingPost = false;
   let deletingPost = false;
   let activePost = {};
   let sortAscending = true;
-  let profile;
+  let playingCharacters = [];
+  let playingCharacterId;
 
 
-  console.log(profile)
+  onMount(async () => {
+    auth = await authStore.get();
+    characters = await characterStore.loadCharacters(auth.id);
+    playingCharacters = await threadCharactersStore.loadCharacters(thread.id);
 
-  $: auth = $authStore;
+  });
+
+  onDestroy(() => {
+    unsubscribe();
+  });
+
+  const unsubscribe = threadCharactersStore.subscribe((characters) => {
+    playingCharacters = characters;
+  });
 
   $: postStore.fetchPosts(thread.id)
+
 
   $: sortedPosts = $postStore.sort((a, b) => {
     const sortFactor = sortAscending ? -1 : 1;
@@ -28,6 +46,7 @@
   });
 
   function addPost() {
+  
     postStore.addPost({
       user_id: auth.id,
       thread_id: thread.id,
@@ -63,7 +82,30 @@
     }
   }
 
+  function activeCharacterCheck(){
+
+    for (let i = 0; i < playingCharacters.length; i++) {
+      if (playingCharacters[i].user_id === auth.id) {
+        console.log('true')
+        playingCharacterId = playingCharacters[i].character_id;
+        newPost.character_id = playingCharacterId;
+        return true;
+      } else {
+        threadCharactersStore.addCharacter({
+          user_id: auth.id,
+          thread_id: thread.id,
+          character_id: newPost.character_id
+        });
+        console.log('false')
+        return false;
+      }
+    }
+  }
+
+
 </script>
+
+
 
 <section>
 
@@ -79,8 +121,11 @@
   {#each sortedPosts as post}
   
     <section class="my-5">
-      <Card size="lg" padding="sm" class="my-2 " color="{post.id % 2 === 0 ? 'light' : 'gray'}"  href={`/thread/${thread.id}/post/${post.id}`}>
-        <P class="text-2xl font-bold dark:text-white text-center my-6">{post.body}</P>
+      <Card size="lg" padding="sm" class="my-2 "  href={`/thread/${thread.id}/post/${post.id}`}>
+        {#key post.id}
+          <PostCharacterDetails character={post.character_id} post={post} />
+        {/key}
+        <P class="text-2xl font-bold dark:text-white text-justified my-6">{post.body}</P>
       </Card>
       <div class="text-right">
         {#if isOwner(post)}
@@ -94,6 +139,21 @@
   {/each}
 
   <Modal bind:open={creatingPost} title="Create Post">
+  {#if activeCharacterCheck() === false }
+    {#if characters.length === 0}
+      <P>You must create a character before you can create a thread.</P>
+    {/if}
+    {#if characters.length > 0}
+    <div> 
+      <P>Choose a character to associate with this thread.</P>
+        <select bind:value={newPost.character_id}>
+          {#each characters as character}
+            <option value={character.id}>{character.first_name} {character.last_name}</option>
+          {/each}
+        </select>
+    </div>
+    {/if}
+  {/if}
     <Textarea bind:value={newPost.body} />
     <Button on:click={addPost}>Create</Button>
   </Modal>
@@ -107,4 +167,5 @@
     <P>Are you sure you want to delete this post?</P>
     <Button on:click={removePost}>Delete</Button>
   </Modal>
+
 </section>

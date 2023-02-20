@@ -6,7 +6,11 @@ const createCharacterStore = () => {
 
 	const loadCharacter = async (id) => {
 		try {
+			if (!id) return null;
+
 			const { data } = await supabase.from('characters').select().eq('id', id);
+			
+			store.set(data[0]);
 			return data[0];
 
 		} catch (error) {
@@ -17,6 +21,7 @@ const createCharacterStore = () => {
 
 	const loadCharacters = async (user_id) => {
 		try {
+			if (!user_id) return null;
 			let { data: characters, error } = await supabase.from('characters').select().eq('user_id', user_id);
 			store.set(characters);
 			return characters;

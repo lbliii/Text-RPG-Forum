@@ -3,6 +3,7 @@
   import { authStore } from '../stores/authStore.js';
   import { userStore } from '../stores/userStore.js';
   import { characterStore } from '../stores/characterStore.js';
+  import {threadCharactersStore } from '../stores/threadCharactersStore.js';
   import { Button, ButtonGroup, Input, Modal, Card, P, Textarea } from 'flowbite-svelte';
   import { onMount, onDestroy } from 'svelte';
 
@@ -43,6 +44,12 @@
       last_updated: new Date(),
       ...newThread
     });
+
+    threadCharactersStore.addThreadCharacter({
+      thread_id: thread.id,
+      character_id: newThread.character_id,
+      user_id: auth.id
+    });
     creatingThread = false;
     newThread = { title: '', description: '' };
   }
@@ -71,6 +78,7 @@
   onDestroy(() => {
     unsubscribe();
   });
+
 </script>
 
 
