@@ -46,6 +46,7 @@
 
 </script>
 
+
 <section> 
   <h1 class="text-5xl font-bold text-white text-center my-6">Forums</h1>
   <div class="flex flex-row justify-end my-2">

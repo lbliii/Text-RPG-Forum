@@ -1,6 +1,7 @@
 <script>
   import { supabase } from '../supabase.js';
   import { Chevron, Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger } from 'flowbite-svelte'
+  import { userStore } from '../stores/userStore.js';
 
   export let auth 
 
@@ -20,7 +21,7 @@
   <NavUl {hidden}>
     <NavLi href="/users">Users</NavLi>
     <NavLi href="/forums">Forums</NavLi>
-    <NavLi id="auth-menu" class="cursor-pointer"><Chevron aligned>Profile</Chevron></NavLi>
+    <NavLi id="auth-menu" class="cursor-pointer"><Chevron aligned>{#if $userStore}{$userStore.alias}{/if}</Chevron></NavLi>
 
     {#if auth}
     <Dropdown color="green" triggeredBy="#auth-menu" class="" >

@@ -60,7 +60,7 @@ const createUsersStore = () => {
 		}
 	};
 
-	
+	get()
 	
 
 	return {

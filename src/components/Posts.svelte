@@ -84,24 +84,28 @@
 
   function activeCharacterCheck(){
 
-    for (let i = 0; i < playingCharacters.length; i++) {
-      if (playingCharacters[i].user_id === auth.id) {
-        console.log('true')
-        playingCharacterId = playingCharacters[i].character_id;
-        newPost.character_id = playingCharacterId;
-        return true;
-      } else {
-        threadCharactersStore.addCharacter({
-          user_id: auth.id,
-          thread_id: thread.id,
-          character_id: newPost.character_id
-        });
-        console.log('false')
-        return false;
+    if (playingCharacters.length === 0) {
+      threadCharactersStore.addCharacter({
+        user_id: auth.id,
+        thread_id: thread.id,
+        character_id: newPost.character_id
+      });
+      console.log('false')
+      return false;
+    } else if (playingCharacters.length > 0) {
+      for (let i = 0; i < playingCharacters.length; i++) {
+        if (playingCharacters[i].user_id === auth.id) {
+          console.log('true')
+          playingCharacterId = playingCharacters[i].character_id;
+          newPost.character_id = playingCharacterId;
+          return true;
+        }
       }
     }
+
   }
 
+  activeCharacterCheck()
 
 </script>
 
@@ -143,10 +147,10 @@
     {#if characters.length === 0}
       <P>You must create a character before you can create a thread.</P>
     {/if}
-    {#if characters.length > 0}
+    {#if characters.length > 0 }
     <div> 
       <P>Choose a character to associate with this thread.</P>
-        <select bind:value={newPost.character_id}>
+        <select bind:value={newPost.character_id} required>
           {#each characters as character}
             <option value={character.id}>{character.first_name} {character.last_name}</option>
           {/each}

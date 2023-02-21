@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
+import { postStore } from './postStore.js';
 
 export const createThreadStore = () => {
 	const store = writable([]);
@@ -19,11 +20,21 @@ export const createThreadStore = () => {
 		}
 	};
 
-	const addThread = async (thread) => {
+	const addThread = async (thread, firstPost) => {
 		try {
-			await supabase.from('threads').insert(thread);
+			const {data} = await supabase.from('threads').insert(thread).select()
+			let thread_id = data[0].id
+			const { data: post, error } = await supabase
+				.from('posts')
+				.insert({ ...firstPost, thread_id: thread_id })
+				.select();
 
-			console.log('addThread', thread);
+			if (error) {
+				throw error;
+			}
+
+			postStore.addPost(post[0]);
+
 		} catch (error) {
 			handleError(error);
 		}

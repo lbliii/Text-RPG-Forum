@@ -12,7 +12,7 @@ const createUserStore = () => {
 			user = value;
 		})();
 
-		if (!user) return;
+		if (!user.id) return;
 
 		try {
 			const { data, error } = await supabase

@@ -12,10 +12,12 @@
   let user;
   let characters = [];
   let newThread = { title: '', description: '' };
+  let newPost = { body: '' };
   let creatingThread = false;
   let editingThread = false;
   let deletingThread = false;
   let activeThread = {};
+  let thread; 
   let threads = [];
   let topicThreads = [];
   let sortAscending = true; // added for sorting
@@ -43,16 +45,19 @@
       user_id: auth.id,
       last_updated: new Date(),
       ...newThread
-    });
+    }, newPost);
+    
+    creatingThread = false;
 
     threadCharactersStore.addThreadCharacter({
-      thread_id: thread.id,
+      user_id: auth.id,
       character_id: newThread.character_id,
-      user_id: auth.id
+      thread_id: thread.id
     });
-    creatingThread = false;
+    
     newThread = { title: '', description: '' };
   }
+
 
   function updateThread() {
     threadStore.updateThread(activeThread);
@@ -118,13 +123,14 @@
     {#if characters.length > 0}
     <div> 
       <P>Choose a character to associate with this thread.</P>
-        <select bind:value={newThread.character_id}>
+        <select bind:value={newThread.character_id} required>
           {#each characters as character}
             <option value={character.id}>{character.first_name} {character.last_name}</option>
           {/each}
         </select>
     </div>
     {/if}
+    <Textarea bind:value={newPost.body} placeholder="Write the first post!" class="my-2" />
     <ButtonGroup class="space-x-px">
       <Button color="green" on:click={addThread}>Create</Button>
       <Button outline on:click={() => creatingThread = false}>Cancel</Button>
