@@ -49,16 +49,24 @@ function createForum() {
     <div class="flex justify-end items-center my-2">
         <input type="text" placeholder="Search forums" bind:value={searchTerm} class="border border-gray-400 rounded-md p-2 w-1/3" />
     </div>
-    {#each filteredForums as forum}
+    {#if filteredForums.length > 0}
+        {#each filteredForums as forum}
+            <div class="my-2">
+                <Card size="lg" padding="sm" img="{forum.image}" href={`/forum/${forum.id}`}>
+                <Heading size="md" class="text-center">{forum.title}</Heading>
+                {#if forum.description}
+                    <P class="text-center">{forum.description}</P>
+                {/if}
+                </Card>
+            </div>
+        {/each}
+    {:else}
         <div class="my-2">
-            <Card size="lg" padding="sm" img="{forum.image}" href={`/forum/${forum.id}`}>
-            <Heading size="md" class="text-center">{forum.title}</Heading>
-            {#if forum.description}
-                <P class="text-center">{forum.description}</P>
-            {/if}
+            <Card size="lg" padding="sm">
+                <Heading size="md" class="text-center">loading...</Heading>
             </Card>
         </div>
-    {/each}
+    {/if}
 </section>
 
 <Modal bind:open={addForum} title="Create Topic">

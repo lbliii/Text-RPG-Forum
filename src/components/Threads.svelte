@@ -1,19 +1,31 @@
 <script>
   import { threadStore } from '../stores/threadStore.js';
-  import { Button, ButtonGroup, Card, Heading, P, Modal, Input, Textarea } from 'flowbite-svelte';
+  import { Button, ButtonGroup, Card, Heading, P, Modal, Input, Textarea, Badge } from 'flowbite-svelte';
   import { writable } from 'svelte/store';
 
   export let forum;
   export let user;
   const newThread = writable({ title: '', description: '', image: '' });
+  let filteredThreads = [];
   let searchTerm = "";
   let addThread = false;
 
 
+
   $: threadStore.fetchThreads(forum.id)
+
+  $: {
+        if (searchTerm) {
+        
+        filteredThreads = $threadStore.filter((forum) => {
+            return forum.title.toLowerCase().includes(searchTerm.toLowerCase());
+        });
+        } else {
+        filteredThreads = $threadStore;
+        }
+    }
     
 
-  console.log($threadStore)
 </script>
 
 
@@ -29,16 +41,32 @@
     </div>
 
     {#if $threadStore && $threadStore.length > 0}
-      {#each $threadStore as thread}
+      {#each filteredThreads as thread}
         <div class="my-2">
             <Card size="lg" padding="sm" img="{thread.image}" href={`/thread/${thread.id}`}>
             <Heading size="md" class="text-center">{thread.title}</Heading>
             {#if thread.description}
               <P class="text-center">{thread.description}</P>
             {/if}
+            <div class="flex flex-row justify-end my-2">
+              <Badge class="mx-1">characters: todo </Badge>
+              <Badge>posts: todo </Badge>
+            </div>
             </Card>
         </div>
       {/each}
+    {:else if $threadStore && $threadStore.length === 0}
+      <div class="my-2">
+        <Card size="lg" padding="sm">
+          <Heading size="md" class="text-center">No threads in this forum yet!</Heading>
+        </Card>
+      </div>
+    {:else if !$threadStore}
+      <div class="my-2">
+        <Card size="lg" padding="sm">
+          <Heading size="md" class="text-center">loading...</Heading>
+        </Card>
+      </div>
     {/if}
 </section>
 
