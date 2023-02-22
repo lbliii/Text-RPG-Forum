@@ -1,11 +1,11 @@
 <script>
 
-    import {profileStore} from '../stores/profileStore.js';
+    import {userStore} from '../stores/userStore.js';
     import {authStore} from '../stores/authStore.js';
     import { Label, Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte' 
 
     export let edit;
-    export let profile; 
+    export let profile = $userStore
 
     $: if (profile === null || profile === undefined) {
         profile = {

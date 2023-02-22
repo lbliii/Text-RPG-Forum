@@ -2,9 +2,21 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
 const createCharacterStore = () => {
-	const store = writable([]);
+	const store = writable([{
+		age: 0,
+		bio: '',
+		created_at: '',
+		gender: '',
+		first_name: '',
+		last_name: '',
+		relationship_status: '',
+		species: '',
+		soul: '',
+		user_id: '',
+		id: 0,
+	}]);
 
-	const loadCharacter = async (id) => {
+	const fetchCharacter = async (id) => {
 		try {
 			if (!id) return null;
 
@@ -19,7 +31,7 @@ const createCharacterStore = () => {
 		}
 	};
 
-	const loadCharacters = async (user_id) => {
+	const fetchCharacters = async (user_id) => {
 		try {
 			if (!user_id) return null;
 			let { data: characters, error } = await supabase.from('characters').select().eq('user_id', user_id);
@@ -73,8 +85,8 @@ const createCharacterStore = () => {
 
 	return {
 		subscribe: store.subscribe,
-		loadCharacter,
-		loadCharacters,
+		fetchCharacter,
+		fetchCharacters,
 		addCharacter,
 		updateCharacter,
 		deleteCharacter

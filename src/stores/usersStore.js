@@ -2,7 +2,18 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
 const createUsersStore = () => {
-	const store = writable([]);
+	const store = writable([
+		{
+			admin: false,
+			age: 0,
+			alias: '',
+			dislikes: '',
+			likes: '',
+			profile_setup: false,
+			time_zone: '',
+			user_id: ''
+		}
+	]);
 
 	const { subscribe, set, update } = store;
 

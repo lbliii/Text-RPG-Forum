@@ -3,7 +3,16 @@ import { supabase } from '../supabase.js';
 import { authStore } from './authStore.js';
 
 const createUserStore = () => {
-	const store = writable(null);
+	const store = writable({
+		admin: false,
+		age: 0,
+		alias: '',
+		dislikes: '',
+		likes: '',
+		profile_setup: false,
+		time_zone: '',
+		user_id: ''
+	});
 
 	const getUser = async () => {
 		let user;

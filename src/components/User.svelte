@@ -1,16 +1,15 @@
 <script>
-  export let user;
-  export let auth;
-
+  import { userStore } from '../stores/userStore.js';
   import { Avatar, Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
   import Characters from '../components/Characters.svelte';
   import UserForm from '../components/UserForm.svelte';
-  
+
+  export let user = $userStore;
 
   let editProfile = false;
 
   function isOwner() {
-    return user.user_id === auth.id;
+    return user.user_id === $userStore.user_id;
   }
 
 </script>

@@ -2,7 +2,14 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
 const createAuthStore = () => {
-	const store = writable({});
+	const store = writable({
+		aud: '',
+		email: '',
+		id: '',
+		last_sign_in_at: '',
+		phone: '',
+		role: ''
+	});
 
 	const handleSession = ({ data, error }) => {
 		if (error) {

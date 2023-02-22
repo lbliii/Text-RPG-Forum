@@ -2,7 +2,16 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
 const createPostStore = () => {
-	const store = writable([]);
+	const store = writable([
+		{
+			body: '',
+			character_id: 0,
+			created_at: '',
+			id: 0,
+			thread_id: 0,
+			user_id: ''
+		}
+	]);
 
 	const handleError = (error) => {
 		console.error(error);

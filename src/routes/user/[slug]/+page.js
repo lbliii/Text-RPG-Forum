@@ -7,7 +7,7 @@ export async function load({ params }) {
 	const { data, error } = await supabase.from('users').select().match({ user_id });
 
 	if (error) {
-		return console.error(error || 'Error loading character');
+		return console.error(error || 'Error loading user');
 	}
 	return data[0];
 }

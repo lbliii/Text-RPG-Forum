@@ -11,14 +11,14 @@
   export let thread;
 
   let auth = {};
-  let newPost = { body: '' };
+  let newPost = $postStore
   let creatingPost = false;
-  let characters = [];
+  let characters = $characterStore
   let editingPost = false;
   let deletingPost = false;
   let activePost = {};
   let sortAscending = true;
-  let playingCharacters = [];
+  let playingCharacters = $characterStore
   let playingCharacterId;
 
 

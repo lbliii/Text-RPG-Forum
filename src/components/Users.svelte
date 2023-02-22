@@ -3,7 +3,7 @@
   import { Button, Badge,  Card, } from 'flowbite-svelte';
 
   let searchTerm = "";
-  let filteredUsers = [];
+  let filteredUsers = $usersStore;
 
   $: {
     if (searchTerm) {

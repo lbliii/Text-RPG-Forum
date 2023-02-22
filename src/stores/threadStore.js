@@ -3,7 +3,17 @@ import { supabase } from '../supabase.js';
 import { postStore } from './postStore.js';
 
 export const createThreadStore = () => {
-	const store = writable([]);
+	const store = writable([{
+		character_id: 0,
+		created_at: '',
+		description: '',
+		id: 0,
+		last_updated: '',
+		tags: [],
+		topic_id: 0,
+		user_id: '',
+
+	}]);
 
 	const handleError = (error) => {
 		console.error(error);

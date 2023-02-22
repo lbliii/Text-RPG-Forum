@@ -2,7 +2,19 @@ import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
 const createForumStore = () => {
-	const store = writable([]);
+	const store = writable([{
+		id: 0,
+		title: '',
+		child_topics: [0],
+		description: '',
+		has_children: false,
+		has_parent: false,
+		image: '',
+		parent_id: 0,
+		tags: [],
+		user_id: ''
+	}]);
+
 	const { subscribe, set, update } = store;
 
 	const handleError = (error) => {
