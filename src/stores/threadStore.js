@@ -10,9 +10,9 @@ export const createThreadStore = () => {
 		return error;
 	};
 
-	const fetchThreads = async (topic_id) => {
+	const fetchThreads = async (forum_id) => {
 		try {
-			const { data } = await supabase.from('threads').select('*').match({ topic_id: topic_id });
+			const { data } = await supabase.from('threads').select('*').match({ topic_id: forum_id });
 			store.set(data);
 			return data;
 		} catch (error) {

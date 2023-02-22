@@ -3,16 +3,18 @@ import { supabase } from '../supabase.js';
 
 const createForumStore = () => {
 	const store = writable([]);
+	const { subscribe, set, update } = store;
 
 	const handleError = (error) => {
 		console.error(error);
 		return error;
-	};
+	}; 
 
-	const fetchTopics = async () => {
+	const get = async () => {
 		try {
-			const { data } = await supabase.from('topics').select('*');
-			store.set(data);
+			const { data: forums } = await supabase.from('topics').select('*');
+			set(forums);
+			return forums
 		} catch (error) {
 			handleError(error);
 		}
@@ -21,7 +23,7 @@ const createForumStore = () => {
 	const fetchTopic = async (id) => {
 		try {
 			const { data } = await supabase.from('topics').select('*').match({ id });
-			store.set(data[0]);
+			set(data[0]);
 			return data[0]
 		} catch (error) {
 			handleError(error);
@@ -31,21 +33,17 @@ const createForumStore = () => {
 	const addTopic = async (topic) => {
 		try {
 			await supabase.from('topics').insert(topic);
-
-			store.update(topics => [...topics, topic]);
-			console.log('addTopic', topic);
+			update(topics => [...topics, topic]);
 		} catch (error) {
 			handleError(error);
 		}
-
-		fetchTopics()
+		get()
 	};
 
 	const removeTopic = async (topic) => {
 		try {
 			await supabase.from('topics').delete().eq('id', topic.id);
-			store.update(topics => topics.filter(t => t.id !== topic.id));
-			console.log('removeTopic', topic.id);
+			update(topics => topics.filter(t => t.id !== topic.id));
 		} catch (error) {
 			handleError(error);
 		}
@@ -54,18 +52,17 @@ const createForumStore = () => {
 	const updateTopic = async (topic) => {
 		try {
 			await supabase.from('topics').update(topic).eq('id', topic.id)
-			store.update(topics => topics.map(t => t.id === topic.id ? topic : t));
-			console.log('updateTopic', topic);
+			update(topics => topics.map(t => t.id === topic.id ? topic : t));
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
-	fetchTopics();
+	get();
 
 	return {
-		subscribe: store.subscribe,
-		fetchTopics,
+		subscribe,
+		get,
 		fetchTopic,
 		addTopic,
 		removeTopic,

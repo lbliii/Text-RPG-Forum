@@ -1,18 +1,19 @@
 <script>
-    import { Avatar, Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
+    import {  Heading } from 'flowbite-svelte';
     import Threads from '../../../components/Threads.svelte';
+    import { userStore } from '../../../stores/userStore.js';
 
     export let data;
 
-    let topic = data;
+    let forum = data;
  
 </script>
 
 
 <main>
 
-    <Heading tag="h1" class="my-3 text-center text-white">{topic.title} Threads</Heading>
+    <Heading tag="h1" class="my-3 text-center text-white">{#if forum && forum.title !== undefined}{forum.title} Threads {:else} Loading... {/if}</Heading>
 
-    <Threads  topic={topic}/>
+    <Threads  forum={forum} user={$userStore}/>
 
 </main>
