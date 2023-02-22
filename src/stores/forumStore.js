@@ -32,7 +32,7 @@ const createForumStore = () => {
 		}
 	};
 
-	const fetchTopic = async (id) => {
+	const fetchForum = async (id) => {
 		try {
 			const { data } = await supabase.from('topics').select('*').match({ id });
 			set(data[0]);
@@ -42,29 +42,32 @@ const createForumStore = () => {
 		}
 	};
 
-	const addTopic = async (topic) => {
+	const addForum = async (forum) => {
 		try {
-			await supabase.from('topics').insert(topic);
-			update(topics => [...topics, topic]);
+			await supabase.from('topics').insert(forum);
+			update(topics => [...topics, forum]);
+			return forum
 		} catch (error) {
 			handleError(error);
 		}
 		get()
 	};
 
-	const removeTopic = async (topic) => {
+	const deleteForum = async (forum) => {
 		try {
-			await supabase.from('topics').delete().eq('id', topic.id);
-			update(topics => topics.filter(t => t.id !== topic.id));
+			await supabase.from('topics').delete().eq('id', forum.id);
+			update(forums => forum.filter(t => t.id !== forum.id));
+			
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
-	const updateTopic = async (topic) => {
+	const updateForum = async (forum) => {
 		try {
-			await supabase.from('topics').update(topic).eq('id', topic.id)
-			update(topics => topics.map(t => t.id === topic.id ? topic : t));
+			await supabase.from('topics').update(forum).eq('id', forum.id)
+			update(forums => forum.map(t => t.id === forum.id ? forum : t));
+			return forum
 		} catch (error) {
 			handleError(error);
 		}
@@ -75,10 +78,10 @@ const createForumStore = () => {
 	return {
 		subscribe,
 		get,
-		fetchTopic,
-		addTopic,
-		removeTopic,
-		updateTopic
+		fetchForum,
+		addForum,
+		deleteForum,
+		updateForum
 	};
 };
 
