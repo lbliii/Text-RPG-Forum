@@ -15,11 +15,9 @@ let deleteModal = false;
 
 $: {
 	
-	if (user.id) {
+	if (user.user_id) {
 		charactersStore.fetchCharacters(user.user_id);
-	} else {
-		console.log('no user id')
-	}
+	} 
 }
 
 function toggleSort() {
