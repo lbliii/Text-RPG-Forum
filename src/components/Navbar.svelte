@@ -17,6 +17,7 @@
 	const logout = () => {
 		supabase.auth.signOut();
 	};
+
 </script>
 
 <Navbar color="gray" class="rounded" let:hidden let:toggle>

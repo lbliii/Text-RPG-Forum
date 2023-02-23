@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { handleError } from '../shared/helpers.js';
 import { getForum, createForum, deleteForum, updateForum } from '../shared/actions.js';
 
-// Fetch, Add, Edit, Remove
+// Verbs: Fetch, Add, Edit, Remove
 
 const createForumStore = () => {
 	const store = writable([{}]);

@@ -1,15 +1,13 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
+import { handleError } from '../shared/helpers.js';
+import { getAuth } from '../shared/actions.js';
+
+// Verbs: Fetch, Add, Edit, Remove
+
 
 const createAuthStore = () => {
-	const store = writable({
-		aud: '',
-		email: '',
-		id: '',
-		last_sign_in_at: '',
-		phone: '',
-		role: ''
-	});
+	const store = writable({});
 
 	const handleSession = ({ data, error }) => {
 		if (error) {

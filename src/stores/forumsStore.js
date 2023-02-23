@@ -2,12 +2,12 @@ import { writable } from 'svelte/store';
 import { handleError } from '../shared/helpers.js';
 import { getForums } from '../shared/actions.js';
 
-// Fetch, Add, Edit, Remove
+// Verbs: Fetch, Add, Edit, Remove
 
 const createForumStore = () => {
 	const store = writable([{}]);
 
-	const { subscribe, set } = store;
+	const { subscribe, set, update } = store;
 
 	const fetchForums = async () => {
 		try {
@@ -25,6 +25,7 @@ const createForumStore = () => {
 	return {
 		subscribe,
 		fetchForums,
+		update,
 
 	};
 };

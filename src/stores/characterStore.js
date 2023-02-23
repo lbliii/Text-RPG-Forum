@@ -1,38 +1,30 @@
 import { writable } from 'svelte/store';
 import { handleError } from '../shared/helpers.js';
-import {
-	getCharacters,
-	getCharacter,
-	createCharacter,
-	deleteCharacter,
-	updateCharacter
-} from '../shared/actions.js';
+import { getCharacter, createCharacter, deleteCharacter, updateCharacter } from '../shared/actions.js';
+
+// Verbs: Fetch, Add, Edit, Remove
 
 
 const createCharacterStore = () => {
-	const store = writable([{}]);
+	const store = writable({});
+
+	const { subscribe, set, update } = store;
 
 	const fetchCharacter = async (id) => {
 		try {
-			if (!id) return null;
 
-			const { data } = await getCharacter(id);
+			if (!id) {
+				throw new Error('No id provided for the character');
+			}
 
-			store.set(data);
-			return data[0];
-		} catch (error) {
-			handleError(error);
-			return null;
-		}
-	};
+			const { data: character } = await getCharacter(id);
 
-	const fetchCharacters = async (user_id) => {
-		try {
-			if (!user_id) return null;
+			if (!character) {
+				throw new Error(`No character found matching id: ${id}`);
+			}
 
-			const { data } = await getCharacters(user_id);
-			store.set(data);
-			return data;
+			set(character);
+			return character;
 		} catch (error) {
 			handleError(error);
 			return null;
@@ -41,28 +33,37 @@ const createCharacterStore = () => {
 
 	const addCharacter = async (newCharacter) => {
 		try {
-			const { data } = await createCharacter(newCharacter);
-			const id = data[0].id;
-			window.location.href = `/character/${id}`;
-			return data;
+
+			if (!newCharacter) {
+				throw new Error('No character details provided');
+			}
+
+			const { data: character } = await createCharacter(newCharacter);
+
+			if (!character) {
+				throw new Error(`Character ${newCharacter.first_name} was not created.`);
+			}
+
+			window.location.href = `/character/${character[0].id}`;
+			return character[0];
 		} catch (error) {
 			handleError(error);
 			return null;
 		}
 	};
 
-	const updateCharacter = async (updatedCharacter) => {
+	const editCharacter = async (character) => {
 		try {
-			await updateCharacter(updatedCharacter);
-			const newCharacters = store
-				.get()
-				.map((character) => (character.id === updatedCharacter.id ? updatedCharacter : character));
-			store.set(newCharacters);
-			await fetchCharacter(updatedCharacter.id);
-			return fetchCharacters(updatedCharacter.user_id);
+			const {data: editedCharacter} = await updateCharacter(character);
+
+			if (!editedCharacter) {
+				throw new Error(`Character ${character.first_name} was not updated.`);
+			}
+
+			update(editedCharacter);
+			return editedCharacter;
 		} catch (error) {
 			handleError(error);
-			return null;
 		}
 	};
 
@@ -70,7 +71,6 @@ const createCharacterStore = () => {
 		try {
 			await deleteCharacter(deletedCharacter);
 			window.location.href = `/user/${deletedCharacter.user_id}`;
-			return fetchCharacters(deletedCharacter.user_id);
 		} catch (error) {
 			handleError(error);
 			return null;
@@ -78,11 +78,10 @@ const createCharacterStore = () => {
 	};
 
 	return {
-		subscribe: store.subscribe,
+		subscribe,
 		fetchCharacter,
-		fetchCharacters,
 		addCharacter,
-		updateCharacter,
+		editCharacter,
 		deleteCharacter
 	};
 };

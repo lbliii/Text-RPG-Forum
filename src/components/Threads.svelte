@@ -1,8 +1,9 @@
 <script>
-	import { characterStore } from '../stores/characterStore.js';
+	import { charactersStore } from '../stores/charactersStore.js';
 	import { forumStore } from '../stores/forumStore.js';
 	import { postStore } from '../stores/postStore.js';
 	import { threadStore } from '../stores/threadStore.js';
+	import { threadsStore } from '../stores/threadsStore.js';
 	import { userStore } from '../stores/userStore.js';
 	import {
 		Button,
@@ -18,29 +19,37 @@
 
 	export let forum = $forumStore;
 	const newThread = $threadStore;
-	let user = $userStore;
 	const newPost = $postStore;
-	let filteredThreads = $threadStore;
+
+	let user = $userStore;
+	let sortAscending = true;
+	let sortedThreads = $threadsStore;
+	let filteredThreads = $threadsStore;
 	let searchTerm = '';
 	let openCreateModal = false;
 
+	$: threadsStore.fetchThreads(forum.id)
 
 	$: {
-		threadStore.fetchThreads(forum.id);
-		if (user) {
-			characterStore.fetchCharacters(user.user_id);
+		if (user){
+		charactersStore.fetchCharacters(user.user_id);
+
 		}
-	}
-
-	$: {
+		
 		if (searchTerm) {
-			filteredThreads = $threadStore.filter((forum) => {
+			filteredThreads = $threadsStore.filter((forum) => {
 				return forum.title.toLowerCase().includes(searchTerm.toLowerCase());
 			});
 		} else {
-			filteredThreads = $threadStore;
+			filteredThreads = $threadsStore;
 		}
 	}
+
+
+	$: sortedThreads = filteredThreads.sort((a, b) => {
+		const sortFactor = sortAscending ? -1 : 1;
+		return sortFactor * (new Date(a.created_at) - new Date(b.created_at));
+	});
 
 	function createThread() {
 		newPost.set({
@@ -57,14 +66,21 @@
 		newPost.set({ body: '' });
 		openCreateModal = false;
 	}
+
+	function toggleSort() {
+		sortAscending = !sortAscending;
+	}
 </script>
 
 <section>
 	<div class="flex flex-row justify-end my-2">
 		<ButtonGroup class="space-x-px">
+			<Button size="xs" color="light" on:click={toggleSort}>
+				{sortAscending ? 'Newest' : 'Oldest'}
+			</Button>
 			<Button size="xs" color="green" on:click={() => (openCreateModal = true)}>
-				Create Thread</Button
-			>
+				Create Thread
+			</Button>
 		</ButtonGroup>
 	</div>
 	<div class="flex justify-end items-center my-2">
@@ -76,8 +92,8 @@
 		/>
 	</div>
 
-	{#if $threadStore && $threadStore.length > 0}
-		{#each filteredThreads as thread}
+	{#if sortedThreads  }
+		{#each sortedThreads as thread}
 			<div class="my-2">
 				<Card size="lg" padding="sm" img={thread.image} href={`/thread/${thread.id}`}>
 					<Heading size="md" class="text-center">{thread.title}</Heading>
@@ -87,17 +103,18 @@
 					<div class="flex flex-row justify-end my-2">
 						<Badge class="mx-1">characters: todo</Badge>
 						<Badge>posts: todo</Badge>
+						<Badge> {new Date(thread.last_updated).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
 					</div>
 				</Card>
 			</div>
 		{/each}
-	{:else if $threadStore && $threadStore.length === 0}
+	{:else if $threadsStore && $threadStore.length === 0}
 		<div class="my-2">
 			<Card size="lg" padding="sm">
 				<Heading size="md" class="text-center">No threads in this forum yet!</Heading>
 			</Card>
 		</div>
-	{:else if !$threadStore}
+	{:else if !$threadsStore}
 		<div class="my-2">
 			<Card size="lg" padding="sm">
 				<Heading size="md" class="text-center">loading...</Heading>
@@ -107,7 +124,7 @@
 </section>
 
 <Modal bind:open={openCreateModal} title="Create Thread">
-	{#if $characterStore.length === 0}
+	{#if $charactersStore.length === 0}
 		<P>You must create a character before you can create a thread.</P>
 	{/if}
 	<Input bind:value={newThread.title} placeholder="Enter a new thread title." class="my-2" />
@@ -125,11 +142,11 @@
 		placeholder="Enter a post body here."
 		class="my-2"
 	/>
-	{#if $characterStore.length > 0}
+	{#if $charactersStore.length > 0}
 		<div>
 			<P>Choose a character to associate with this thread.</P>
 			<select bind:value={newThread.character_id} required>
-				{#each $characterStore as character}
+				{#each $charactersStore as character}
 					<option value={character.id}>{character.first_name} {character.last_name}</option>
 				{/each}
 			</select>
