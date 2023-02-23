@@ -15,7 +15,7 @@ const createCharacterStore = () => {
 			if (!user_id) {
 				throw new Error('No user_id provided');
 			}
-
+			console.log('fetching characters for user: ', user_id)
 			const { data: characters } = await getCharacters(user_id);
 
 			if (!characters) {

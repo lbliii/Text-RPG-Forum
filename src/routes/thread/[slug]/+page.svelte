@@ -1,6 +1,7 @@
 <script>
   import {Heading, Badge} from 'flowbite-svelte'
   import { forumStore } from '../../../stores/forumStore.js';
+  import { userStore } from '../../../stores/userStore.js';
   import Posts from '../../../components/Posts.svelte';
 
 
@@ -26,5 +27,5 @@
     {/await}
 
   </div>
-  <Posts thread={thread}></Posts>
+  <Posts thread={thread} user={$userStore} />
 </section>

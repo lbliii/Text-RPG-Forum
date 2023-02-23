@@ -1,39 +1,29 @@
 import { writable } from 'svelte/store';
-import { supabase } from '../supabase.js';
+import { getPost, createPost, updatePost, deletePost } from '../shared/actions.js';
+import { handleError } from '../shared/helpers.js';
+
 
 // Verbs: Fetch, Add, Edit, Remove
 
 const createPostStore = () => {
-	const store = writable([
-		{
-			body: '',
-			character_id: 0,
-			created_at: '',
-			id: 0,
-			thread_id: 0,
-			user_id: ''
-		}
-	]);
+	const store = writable({});
 
-	const handleError = (error) => {
-		console.error(error);
-		return error;
-	};
+	const { subscribe, set, update } = store;
 
-	const fetchPosts = async (thread_id) => {
+	const fetchPost = async (post_id) => {
 		try {
-			const { data } = await supabase.from('posts').select().match({ thread_id: thread_id });
-			store.set(data);
-			return data;
-		} catch (error) {
-			handleError(error);
-		}
-	};
 
-	const fetchPost = async (id) => {
-		try {
-			const { data } = await supabase.from('posts').select().match({ id: id });
-			return data;
+			if(!post_id) {
+				throw new Error('No post_id provided');
+			}
+
+			const { data: post} = await getPost(post_id);
+
+			if (!post) {
+				throw new Error(`No post found for post_id: ${post_id}`);
+			}
+			set(post);
+			return post;
 		} catch (error) {
 			handleError(error);
 		}
@@ -41,52 +31,70 @@ const createPostStore = () => {
 
 	const addPost = async (post) => {
 		try {
-			await supabase.from('posts').insert(post).select()
-			store.update((posts) => [...posts, post]);
-			await fetchPosts(post.thread_id)
+			if(!post) {
+				throw new Error('No post provided');
+			}
 
-			return post;
+			const { data: newPost } = await createPost(post);
+
+			if (!newPost) {
+				throw new Error(`No post created for post: Thread ID: ${post.thread_id}, Character ID: ${post.character_id}, User ID: ${post.user_id}, Body: ${post.body}`);
+			}
+
+			set(newPost);
+			return newPost;
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
-	const deletePost = async (post) => {
+	const editPost = async (post) => {
 		try {
-			const id = post.id;
-			await supabase.from('posts').delete().match({ id });
-			store.update((posts) => posts.filter((p) => p.id !== id));
+			if(!post) {
+				throw new Error('No post provided');
+			}
+
+			const { data: updatedPost } = await updatePost(post);
+
+			if (!updatedPost) {
+				throw new Error(`No post updated for post: ${post}`);
+			}
+
+			update(updatedPost);
+			return updatedPost;
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
-	const updatePost = async (post) => {
+	const removePost = async (post) => {
 		try {
-			const id = post.id;
-			await supabase
-				.from('posts')
-				.update({ ...post })
-				.match({ id });
-			store.update((posts) => posts.map((p) => (p.id === id ? post : p)));
-			await fetchPosts(post.thread_id);
-			const { data } = await supabase
-				.from('threads')
-				.update({ last_updated: post.created_at })
-				.match({ id: post.thread_id });
+			if(!post) {
+				throw new Error('No post provided');
+			}
+
+			const { data: deletedPost } = await deletePost(post);
+
+			if (!deletedPost) {
+				throw new Error(`No post deleted for post: ${post}`);
+			}
+
+			update(deletedPost);
+			return deletedPost;
 		} catch (error) {
 			handleError(error);
 		}
 	};
+
+
 
 
 	return {
 		fetchPost,
-		fetchPosts,
 		addPost,
-		deletePost,
-		updatePost,
-		subscribe: store.subscribe
+		removePost,
+		editPost,
+		subscribe,
 	};
 };
 

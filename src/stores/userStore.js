@@ -94,7 +94,8 @@ const createUserStore = () => {
 		subscribe,
 		addUser,
 		editUser,
-		removeUser
+		removeUser,
+		fetchUser,
 	};
 };
 
