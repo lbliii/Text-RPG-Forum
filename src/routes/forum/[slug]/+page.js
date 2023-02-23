@@ -1,18 +1,13 @@
-import { supabase } from '../../../supabase.js';
+import { forumStore } from '../../../stores/forumStore.js';
+import { handleError } from '../../../shared/helpers.js';
 
 export async function load({ params }) {
 	const id = params.slug;
 
 	try {
-		const { data } = await supabase.from('topics').select().match({ id });
-
-		if (!data[0]) {
-			throw new Error(`Topic with id '${id}' not found`);
-		}
-
-		return data[0];
+		return forumStore.fetchForum(id);
+	
 	} catch (error) {
-		console.error(`Error loading topic: ${error.message}`);
-		return null;
+		handleError(error);
 	}
 }

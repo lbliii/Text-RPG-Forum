@@ -1,42 +1,19 @@
 import { writable } from 'svelte/store';
-import { supabase } from '../supabase.js';
+import { handleError } from '../shared/helpers.js';
+import { getForum, createForum, deleteForum, updateForum } from '../shared/actions.js';
+
+// Fetch, Add, Edit, Remove
 
 const createForumStore = () => {
-	const store = writable([{
-		id: 0,
-		title: '',
-		child_topics: [0],
-		description: '',
-		has_children: false,
-		has_parent: false,
-		image: '',
-		parent_id: 0,
-		tags: [],
-		user_id: ''
-	}]);
+	const store = writable([{}]);
 
 	const { subscribe, set, update } = store;
 
-	const handleError = (error) => {
-		console.error(error);
-		return error;
-	}; 
-
-	const get = async () => {
-		try {
-			const { data: forums } = await supabase.from('topics').select('*');
-			set(forums);
-			return forums
-		} catch (error) {
-			handleError(error);
-		}
-	};
-
 	const fetchForum = async (id) => {
 		try {
-			const { data } = await supabase.from('topics').select('*').match({ id });
-			set(data[0]);
-			return data[0]
+			const { data: forum } = await getForum(id);
+			set(forum[0]);
+			return forum[0];
 		} catch (error) {
 			handleError(error);
 		}
@@ -44,49 +21,40 @@ const createForumStore = () => {
 
 	const addForum = async (forum) => {
 		try {
-			await supabase.from('topics').insert(forum);
-			update(topics => [...topics, forum]);
-			return forum
+			await createForum(forum);
+			update((topics) => [...topics, forum]);
+			return forum;
 		} catch (error) {
 			handleError(error);
 		}
-		get()
 	};
 
-	const deleteForum = async (forum) => {
+	const removeForum = async (forum) => {
 		try {
-			await supabase.from('topics').delete().eq('id', forum.id);
-			update(forums => forum.filter(t => t.id !== forum.id));
-			
+			await deleteForum(forum.id);
+			update((forums) => forums.filter((f) => f.id !== forum.id));
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
-	const updateForum = async (forum) => {
+	const editForum = async (forum) => {
 		try {
-			await supabase.from('topics').update(forum).eq('id', forum.id)
-			update(forums => forum.map(t => t.id === forum.id ? forum : t));
-			return forum
+			await updateForum(forum);
+			update((forums) => forums.map((f) => (f.id === forum.id ? forum : f)));
+			return forum;
 		} catch (error) {
 			handleError(error);
 		}
 	};
-
-	get();
 
 	return {
 		subscribe,
-		get,
 		fetchForum,
 		addForum,
-		deleteForum,
-		updateForum
+		removeForum,
+		editForum
 	};
 };
 
 export const forumStore = createForumStore();
-
-
-
-

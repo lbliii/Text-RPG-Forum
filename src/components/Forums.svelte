@@ -1,4 +1,5 @@
 <script>
+	import { forumsStore } from '../stores/forumsStore.js';
 	import { forumStore } from '../stores/forumStore.js';
 	import { Button, ButtonGroup, Card, Heading, P, Modal, Input, Textarea } from 'flowbite-svelte';
 
@@ -10,7 +11,7 @@
 	let addForum = false;
 
 	$: {
-		sortedForums = $forumStore.slice().sort((a, b) => {
+		sortedForums = $forumsStore.slice().sort((a, b) => {
 			return a.title.localeCompare(b.title);
 		});
 

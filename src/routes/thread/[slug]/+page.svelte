@@ -14,7 +14,7 @@
   });
 
   onMount (async () => {
-    forum = await forumStore.fetchTopic(thread.topic_id);
+    forum = await forumStore.fetchTopic(thread.forum_id);
   });
 
   onDestroy(() => {

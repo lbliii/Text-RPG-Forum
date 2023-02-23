@@ -1,32 +1,27 @@
 import { writable } from 'svelte/store';
-import { supabase } from '../supabase.js';
+import { handleError } from '../shared/helpers.js';
+import {
+	getCharacters,
+	getCharacter,
+	createCharacter,
+	deleteCharacter,
+	updateCharacter
+} from '../shared/actions.js';
+
 
 const createCharacterStore = () => {
-	const store = writable([{
-		age: 0,
-		bio: '',
-		created_at: '',
-		gender: '',
-		first_name: '',
-		last_name: '',
-		relationship_status: '',
-		species: '',
-		soul: '',
-		user_id: '',
-		id: 0,
-	}]);
+	const store = writable([{}]);
 
 	const fetchCharacter = async (id) => {
 		try {
 			if (!id) return null;
 
-			const { data } = await supabase.from('characters').select().eq('id', id);
-			
-			store.set(data[0]);
-			return data[0];
+			const { data } = await getCharacter(id);
 
+			store.set(data);
+			return data[0];
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 			return null;
 		}
 	};
@@ -34,51 +29,50 @@ const createCharacterStore = () => {
 	const fetchCharacters = async (user_id) => {
 		try {
 			if (!user_id) return null;
-			let { data: characters, error } = await supabase.from('characters').select().eq('user_id', user_id);
-			store.set(characters);
-			return characters;
 
+			const { data } = await getCharacters(user_id);
+			store.set(data);
+			return data;
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 			return null;
 		}
 	};
 
 	const addCharacter = async (newCharacter) => {
-		try { 
-			const { data } = await supabase.from('characters').insert([newCharacter]).select()
+		try {
+			const { data } = await createCharacter(newCharacter);
 			const id = data[0].id;
 			window.location.href = `/character/${id}`;
 			return data;
-
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 			return null;
 		}
 	};
 
 	const updateCharacter = async (updatedCharacter) => {
 		try {
-			await supabase.from('characters').update([updatedCharacter]).eq('id', updatedCharacter.id);
-			const newCharacters = store.get().map((character) => (character.id === updatedCharacter.id ? updatedCharacter : character));
+			await updateCharacter(updatedCharacter);
+			const newCharacters = store
+				.get()
+				.map((character) => (character.id === updatedCharacter.id ? updatedCharacter : character));
 			store.set(newCharacters);
-			await loadCharacter(updatedCharacter.id);
-			return loadCharacters(updatedCharacter.user_id);
-
+			await fetchCharacter(updatedCharacter.id);
+			return fetchCharacters(updatedCharacter.user_id);
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 			return null;
 		}
 	};
 
 	const deleteCharacter = async (deletedCharacter) => {
 		try {
-			await supabase.from('characters').delete().eq('id', deletedCharacter.id)
+			await deleteCharacter(deletedCharacter);
 			window.location.href = `/user/${deletedCharacter.user_id}`;
-			return loadCharacters(deletedCharacter.user_id);
-
+			return fetchCharacters(deletedCharacter.user_id);
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 			return null;
 		}
 	};

@@ -24,6 +24,7 @@
 	let searchTerm = '';
 	let openCreateModal = false;
 
+
 	$: {
 		threadStore.fetchThreads(forum.id);
 		if (user) {

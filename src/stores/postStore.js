@@ -1,6 +1,8 @@
 import { writable } from 'svelte/store';
 import { supabase } from '../supabase.js';
 
+// Fetch, Add, Edit, Remove
+
 const createPostStore = () => {
 	const store = writable([
 		{
