@@ -1,15 +1,15 @@
 <script>
 	import { Avatar, Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
-	import { characterStore } from '../stores/characterStore.js';
+	import { charactersStore } from '../stores/charactersStore.js';
 	import { userStore } from '../stores/userStore.js';
 
 	export let user = $userStore;
-	$: characterStore.fetchCharacters(user.user_id);
+	$: charactersStore.fetchCharacters(user.user_id);
 </script>
 
-{#if $characterStore}
+{#if $charactersStore}
 	<div>
-		{#each $characterStore as character}
+		{#each $charactersStore as character}
 			<Card size="lg" padding="sm" class="my-2">
 				<Heading tag="h3" class="mb-2">{character.first_name} {character.last_name}</Heading>
 				<div class="flex flex-row justify-between my-2">

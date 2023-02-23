@@ -1,94 +1,87 @@
 import { writable } from 'svelte/store';
-import { supabase } from '../supabase.js';
+import { handleError } from '../shared/helpers.js';
+import { getCharacter, createCharacter, deleteCharacter, updateCharacter } from '../shared/actions.js';
+
+// Verbs: Fetch, Add, Edit, Remove
+
 
 const createCharacterStore = () => {
-	const store = writable([{
-		age: 0,
-		bio: '',
-		created_at: '',
-		gender: '',
-		first_name: '',
-		last_name: '',
-		relationship_status: '',
-		species: '',
-		soul: '',
-		user_id: '',
-		id: 0,
-	}]);
+	const store = writable({});
+
+	const { subscribe, set, update } = store;
 
 	const fetchCharacter = async (id) => {
 		try {
-			if (!id) return null;
 
-			const { data } = await supabase.from('characters').select().eq('id', id);
-			
-			store.set(data[0]);
-			return data[0];
+			if (!id) {
+				throw new Error('No id provided for the character');
+			}
 
+			const { data: character } = await getCharacter(id);
+
+			if (!character) {
+				throw new Error(`No character found matching id: ${id}`);
+			}
+
+			set(character);
+			return character;
 		} catch (error) {
-			console.error(error);
-			return null;
-		}
-	};
-
-	const fetchCharacters = async (user_id) => {
-		try {
-			if (!user_id) return null;
-			let { data: characters, error } = await supabase.from('characters').select().eq('user_id', user_id);
-			store.set(characters);
-			return characters;
-
-		} catch (error) {
-			console.error(error);
+			handleError(error);
 			return null;
 		}
 	};
 
 	const addCharacter = async (newCharacter) => {
-		try { 
-			const { data } = await supabase.from('characters').insert([newCharacter]).select()
-			const id = data[0].id;
-			window.location.href = `/character/${id}`;
-			return data;
+		try {
 
+			if (!newCharacter) {
+				throw new Error('No character details provided');
+			}
+
+			const { data: character } = await createCharacter(newCharacter);
+
+			if (!character) {
+				throw new Error(`Character ${newCharacter.first_name} was not created.`);
+			}
+
+			window.location.href = `/character/${character[0].id}`;
+			return character[0];
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 			return null;
 		}
 	};
 
-	const updateCharacter = async (updatedCharacter) => {
+	const editCharacter = async (character) => {
 		try {
-			await supabase.from('characters').update([updatedCharacter]).eq('id', updatedCharacter.id);
-			const newCharacters = store.get().map((character) => (character.id === updatedCharacter.id ? updatedCharacter : character));
-			store.set(newCharacters);
-			await loadCharacter(updatedCharacter.id);
-			return loadCharacters(updatedCharacter.user_id);
+			const {data: editedCharacter} = await updateCharacter(character);
 
+			if (!editedCharacter) {
+				throw new Error(`Character ${character.first_name} was not updated.`);
+			}
+
+			update(editedCharacter);
+			return editedCharacter;
 		} catch (error) {
-			console.error(error);
-			return null;
+			handleError(error);
 		}
 	};
 
 	const deleteCharacter = async (deletedCharacter) => {
 		try {
-			await supabase.from('characters').delete().eq('id', deletedCharacter.id)
+			await deleteCharacter(deletedCharacter);
 			window.location.href = `/user/${deletedCharacter.user_id}`;
-			return loadCharacters(deletedCharacter.user_id);
-
 		} catch (error) {
-			console.error(error);
+			handleError(error);
 			return null;
 		}
 	};
 
 	return {
-		subscribe: store.subscribe,
+		subscribe,
 		fetchCharacter,
-		fetchCharacters,
 		addCharacter,
-		updateCharacter,
+		editCharacter,
 		deleteCharacter
 	};
 };

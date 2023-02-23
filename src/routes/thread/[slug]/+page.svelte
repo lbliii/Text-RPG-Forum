@@ -1,42 +1,31 @@
 <script>
-  import {Avatar, Card, Heading, Hr, Modal, P, Badge} from 'flowbite-svelte'
+  import {Heading, Badge} from 'flowbite-svelte'
   import { forumStore } from '../../../stores/forumStore.js';
+  import { userStore } from '../../../stores/userStore.js';
   import Posts from '../../../components/Posts.svelte';
-  import { onMount, onDestroy } from 'svelte';
+
 
   export let data;
-  let thread = data;
-  let forum = {};
+  let thread = data
 
+  async function loadForumDetails() {
+    return await forumStore.fetchForum(thread.forum_id);
+  }
 
-  const unsubscribe = forumStore.subscribe((forum) => {
-    forum = forum;
-  });
-
-  onMount (async () => {
-    forum = await forumStore.fetchTopic(thread.topic_id);
-  });
-
-  onDestroy(() => {
-    unsubscribe();
-  });
+  loadForumDetails()
 
 
 </script>
 
-
-
 <section>
-  
   <div class="text-center">
-    <Heading tag="h1" class="my-3 text-white">{thread.title}</Heading>
-
-    <Badge href="/forum/{forum.id}">{forum.title}</Badge>
+    <Heading tag="h1" class="my-3 text-white">{#if thread.title}{thread.title}{/if}</Heading>
+    {#await loadForumDetails()}
+      <Badge class="my-3">Loading...</Badge>
+    {:then forum}
+      <Badge class="my-3">{#if forum.title}{forum.title}{/if}</Badge>
+    {/await}
 
   </div>
-  
-
-  <Posts thread={thread}></Posts>
-  
-    
+  <Posts thread={thread} user={$userStore} />
 </section>

@@ -1,12 +1,9 @@
-import { supabase } from '../../../supabase.js';
+import { threadStore } from '../../../stores/threadStore.js';
 
 export async function load({ params }) {
 	let id = params.slug;
 
-	const { data, error } = await supabase.from('threads').select().match({ id });
+	let thread = await threadStore.fetchThread(id);
 
-	if (error) {
-		return console.error(error || 'Error loading thread');
-	}
-	return data[0];
+	return thread;
 }
