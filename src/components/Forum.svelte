@@ -10,13 +10,13 @@
 	let deleteForum = false;
 
 	function handleEdit() {
-		forumStore.updateForum(forum);
+		forumStore.editForum(forum);
 		editForum = false;
 		forum = $forumStore;
 	}
 
 	function handleDelete() {
-		forumStore.deleteForum(forum);
+		forumStore.removeForum(forum);
 		deleteForum = false;
 		goto('/forums');
 	}

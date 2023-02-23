@@ -1,11 +1,32 @@
 import { writable } from 'svelte/store';
-import { createThread, updateThread, deleteThread } from '../shared/actions.js';
+import { createThread, updateThread, deleteThread, getThread } from '../shared/actions.js';
 import { handleError } from '../shared/helpers.js';
 
 // Fetch, Add, Edit, Remove
 
 export const createThreadStore = () => {
 	const store = writable([{}]);
+
+	const { subscribe, set, update } = store;
+
+	const fetchThread = async (id) => {
+		try {
+			if (!id) {
+				throw new Error('No id provided');
+			}
+			const {data: thread} = await getThread(id);
+			
+			if (!thread) {
+				throw new Error(`No thread found matching id: ${id}`);
+			}
+			
+			set(thread);
+			return thread;
+		} catch (error) {
+			handleError(error);
+		}
+	};
+			
 
 	const addThread = async (thread, firstPost) => {
 		try {
@@ -17,7 +38,13 @@ export const createThreadStore = () => {
 				throw new Error('No firstPost provided');
 			}
 
-			await createThread(thread, firstPost);
+			const {data: addedThread} = await createThread(thread, firstPost);
+
+			if (!addedThread) {
+				throw new Error('Thread was not saved.');
+			}
+
+			return addedThread;
 		} catch (error) {
 			handleError(error);
 		}
@@ -34,7 +61,7 @@ export const createThreadStore = () => {
 				throw new Error(`No thread found matching id: ${thread.id}`);
 			}
 
-			store.update((threads) => {
+			update((threads) => {
 				const index = threads.findIndex((t) => t.id === thread.id);
 				if (index !== -1) {
 					threads[index] = editedThread;
@@ -54,17 +81,18 @@ export const createThreadStore = () => {
 			}
 			
 			await deleteThread(thread);
-			store.update((threads) => threads.filter((t) => t.id !== thread.id));
+			update((threads) => threads.filter((t) => t.id !== thread.id));
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
 	return {
+		fetchThread,
 		addThread,
 		editThread,
 		removeThread,
-		subscribe: store.subscribe
+		subscribe,
 	};
 };
 

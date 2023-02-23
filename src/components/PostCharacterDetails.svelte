@@ -1,14 +1,12 @@
 <script>
 	import { characterStore } from '../stores/characterStore.js';
 	import { Avatar, Badge } from 'flowbite-svelte';
-	import { onMount, onDestroy } from 'svelte';
 
-	export let character;
+	export let character = $characterStore
 	export let post;
 
-	onMount(async () => {
-		character = await characterStore.loadCharacter(character);
-	});
+	$: characterStore.fetchCharacter(character);
+
 </script>
 
 {#if character}

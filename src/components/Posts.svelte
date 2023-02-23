@@ -2,7 +2,7 @@
 	import { postStore } from '../stores/postStore.js';
 	import { authStore } from '../stores/authStore.js';
 	import { threadStore } from '../stores/threadStore.js';
-	import { characterStore } from '../stores/characterStore.js';
+	import { charactersStore } from '../stores/charactersStore.js';
 	import { threadCharactersStore } from '../stores/threadCharactersStore.js';
 	import { Button, ButtonGroup, Modal, Card, P, Textarea } from 'flowbite-svelte';
 	import { onMount, onDestroy } from 'svelte';
@@ -13,17 +13,17 @@
 	let auth = {};
 	let newPost = $postStore;
 	let creatingPost = false;
-	let characters = $characterStore;
+	let characters = $charactersStore;
 	let editingPost = false;
 	let deletingPost = false;
 	let activePost = {};
 	let sortAscending = true;
-	let playingCharacters = $characterStore;
+	let playingCharacters = $charactersStore;
 	let playingCharacterId;
 
 	onMount(async () => {
 		auth = await authStore.get();
-		characters = await characterStore.loadCharacters(auth.id);
+		characters = await charactersStore.fetchCharacters(auth.id);
 		playingCharacters = await threadCharactersStore.loadCharacters(thread.id);
 	});
 
@@ -49,7 +49,7 @@
 			...newPost
 		});
 		newPost = { body: '' };
-		threadStore.updateThread({
+		threadStore.editThread({
 			...thread,
 			last_updated: new Date()
 		});

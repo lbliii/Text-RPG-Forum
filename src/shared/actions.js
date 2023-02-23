@@ -10,10 +10,14 @@ import { handleError } from '../shared/helpers.js';
 
 export const getAuth = async () => {
 	try {
-		return await supabase.auth.getUser();
+		return await supabase.auth.getUser()
 	} catch (error) {
 		handleError(error);
 	}
+};
+
+export const updateAuth = (callback) => {
+	supabase.auth.onAuthStateChange(callback);
 };
 
 // Forum Actions
@@ -28,7 +32,7 @@ export const getForums = async () => {
 
 export const getForum = async (id) => {
 	try {
-		return await supabase.from('forums').select('*').match({ id })
+		return await supabase.from('forums').select('*').match({ id }).single()
 	} catch (error) {
 		handleError(error);
 	}
@@ -36,7 +40,15 @@ export const getForum = async (id) => {
 
 export const createForum = async (forum) => {
 	try {
-		return await supabase.from('forums').insert(forum).select();
+		return await supabase.from('forums').insert(forum).select().single()
+	} catch (error) {
+		handleError(error);
+	}
+};
+
+export const updateForum = async (forum) => {
+	try {
+		return await supabase.from('forums').update(forum).eq('id', forum.id).select().single()
 	} catch (error) {
 		handleError(error);
 	}
@@ -46,14 +58,6 @@ export const deleteForum = async (id) => {
 	try {
 		await supabase.from('forums').delete().eq('id', id);
 		return true;
-	} catch (error) {
-		handleError(error);
-	}
-};
-
-export const updateForum = async (forum) => {
-	try {
-		return await supabase.from('forums').update(forum).eq('id', forum.id).select();
 	} catch (error) {
 		handleError(error);
 	}
@@ -71,7 +75,7 @@ export const getThreads = async (forum_id) => {
 
 export const getThread = async (id) => {
 	try {
-		return await supabase.from('threads').select('*').match({ id });
+		return await supabase.from('threads').select().match({ id }).single()
 	} catch (error) {
 		handleError(error);
 	}

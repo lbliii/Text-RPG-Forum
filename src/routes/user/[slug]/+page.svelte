@@ -11,7 +11,9 @@
 
 <main >
 
-  <ProfileMenu />
+  {#if $userStore.user_id == data.user_id}
+    <ProfileMenu />
+  {/if}
 
   {#if $userStore}
     <User user={data} />

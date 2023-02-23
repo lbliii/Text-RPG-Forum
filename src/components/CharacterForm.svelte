@@ -70,7 +70,7 @@
 		character.bio = character.bio.replace(/\r?\n/g, '<br />');
 		if (edit === true) {
 			console.log('edit character');
-			characterStore.updateCharacter(character);
+			characterStore.editCharacter(character);
 			// dispatches an event to the parent component
 			dispatch('notify', false);
 		} else {

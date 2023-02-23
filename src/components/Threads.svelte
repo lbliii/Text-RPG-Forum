@@ -31,7 +31,7 @@
 	$: threadsStore.fetchThreads(forum.id)
 
 	$: {
-		if (user){
+		if (user.user_id){
 		charactersStore.fetchCharacters(user.user_id);
 
 		}

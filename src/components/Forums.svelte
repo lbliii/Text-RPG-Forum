@@ -25,7 +25,7 @@
 	}
 
 	function createForum() {
-		forumStore.addTopic({
+		forumStore.addForum({
 			user_id: user.user_id,
 			...newForum
 		});

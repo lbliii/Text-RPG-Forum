@@ -12,8 +12,8 @@ const createForumStore = () => {
 	const fetchForum = async (id) => {
 		try {
 			const { data: forum } = await getForum(id);
-			set(forum[0]);
-			return forum[0];
+			set(forum);
+			return forum;
 		} catch (error) {
 			handleError(error);
 		}
@@ -22,7 +22,7 @@ const createForumStore = () => {
 	const addForum = async (forum) => {
 		try {
 			await createForum(forum);
-			update((topics) => [...topics, forum]);
+			update((forums) => [...forums, forum]);
 			return forum;
 		} catch (error) {
 			handleError(error);

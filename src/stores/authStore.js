@@ -1,7 +1,6 @@
 import { writable } from 'svelte/store';
-import { supabase } from '../supabase.js';
 import { handleError } from '../shared/helpers.js';
-import { getAuth } from '../shared/actions.js';
+import { getAuth, updateAuth } from '../shared/actions.js';
 
 // Verbs: Fetch, Add, Edit, Remove
 
@@ -9,39 +8,35 @@ import { getAuth } from '../shared/actions.js';
 const createAuthStore = () => {
 	const store = writable({});
 
-	const handleSession = ({ data, error }) => {
-		if (error) {
-			console.error(`Error: ${error.message}`);
-			return;
-		}
+	const { subscribe, set, update } = store
 
-		if (data.session) {
-			store.set(data.session.user);
-		}
-	};
-
-	supabase.auth.getSession().then(handleSession).catch(console.error);
-
-	supabase.auth.onAuthStateChange((_, session) => {
-		store.set(session?.user || {});
-	});
-
-	const get = async () => {
+	const fetchUser = async () => {
 		try {
-			const { data: { user } } = await supabase.auth.getUser();
-			store.set(user);
+			const { data: {user} } = await getAuth();
+
+			if (!user) {
+				throw new Error('No user found. Are you logged in?');
+			}
+			set(user);
 			return user
 		} catch (error) {
-			console.error(`Error: ${error.message}`);
+			handleError(error);
 		}
 	};
 
+	updateAuth((_, session) => {
+		set(session?.user || {});
+	});
+
+
+	fetchUser()
+
 	return {
-		subscribe: store.subscribe,
-		set: (auth) => {
-			store.set(auth);
-		},
-		get
+		subscribe,
+		set,
+		update,
+		fetchUser,
+
 	};
 };
 
