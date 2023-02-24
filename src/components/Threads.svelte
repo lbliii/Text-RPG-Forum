@@ -91,17 +91,16 @@
 			{#each filteredThreads as thread}
 			{#if thread.id !== undefined}
 				<Card size="lg" padding="sm" img={thread.image} href={`/thread/${thread.id}`} class="my-4">
+					<div class="flex flex-row justify-start my-2">
+						<Badge color="green"> {new Date(thread.last_updated).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
+					</div>
+					
 					<Heading size="md" class="text-center">{thread.title}</Heading>
 					{#if thread.description}
 						<P class="text-center">{thread.description}</P>
 					{/if}
-					<div class="flex flex-row justify-end my-2">
-						<Badge class="mx-1">characters: todo</Badge>
-						<Badge class="mx-1">posts: todo</Badge>
-						<Badge> {new Date(thread.last_updated).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
-					</div>
-
 					<ThreadCharacterDetails thread={thread} />
+					
 				</Card>
 			{/if}
 			{/each}

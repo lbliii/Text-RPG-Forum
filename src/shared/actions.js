@@ -126,7 +126,7 @@ export const getPost = async (id) => {
 
 export const createPost = async (post) => {
 	try {
-		return await supabase.from('posts').insert(post).select();
+		return await supabase.from('posts').insert(post).select().single()
 	} catch (error) {
 		handleError(error);
 	}

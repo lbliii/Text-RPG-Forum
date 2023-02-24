@@ -18,10 +18,10 @@
 </script>
 
 {#await loadThreadCharacters() then characters }
-	<div class="flex flex-row justify-start my-2"> 
+	<div class="flex flex-row justify-end my-2"> 
 	{#each characters as character}
 		{#if character !== undefined}
-			<Badge class="w-fit my-2">{character.first_name} </Badge>
+			<Avatar size="xs" border="true" stacked="true" alt="{character.first_name}"/>
 		{/if}
 	{/each}
 	</div>
