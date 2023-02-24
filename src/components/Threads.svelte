@@ -23,7 +23,6 @@
 
 	let user = $userStore;
 	let sortAscending = true;
-	let sortedThreads = $threadsStore;
 	let filteredThreads = $threadsStore;
 	let searchTerm = '';
 	let openCreateModal = false;
@@ -44,12 +43,6 @@
 		}
 	}
 
-
-	$: sortedThreads = filteredThreads.sort((a, b) => {
-		const sortFactor = sortAscending ? -1 : 1;
-		return sortFactor * (new Date(a.created_at) - new Date(b.created_at));
-	});
-
 	function createThread() {
 		newPost.set({
 			user_id: user.user_id,
@@ -69,6 +62,7 @@
 	function toggleSort() {
 		sortAscending = !sortAscending;
 	}
+	console.log(filteredThreads)
 </script>
 
 <section>
@@ -91,35 +85,30 @@
 		/>
 	</div>
 
-	{#if sortedThreads  }
-		{#each sortedThreads as thread}
-			<div class="my-2">
-				<Card size="lg" padding="sm" img={thread.image} href={`/thread/${thread.id}`}>
+	<div class="flex {sortAscending ? 'flex-col-reverse' : 'flex-col'}">
+		{#if filteredThreads.length > 0 }
+			{#each filteredThreads as thread}
+			{#if thread.id !== undefined}
+				<Card size="lg" padding="sm" img={thread.image} href={`/thread/${thread.id}`} class="my-4">
 					<Heading size="md" class="text-center">{thread.title}</Heading>
 					{#if thread.description}
 						<P class="text-center">{thread.description}</P>
 					{/if}
 					<div class="flex flex-row justify-end my-2">
 						<Badge class="mx-1">characters: todo</Badge>
-						<Badge>posts: todo</Badge>
+						<Badge class="mx-1">posts: todo</Badge>
 						<Badge> {new Date(thread.last_updated).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
 					</div>
 				</Card>
-			</div>
-		{/each}
-	{:else if $threadsStore && $threadStore.length === 0}
-		<div class="my-2">
-			<Card size="lg" padding="sm">
+			{/if}
+			{/each}
+		{:else if filteredThreads = [] }
+			<Card size="lg" padding="sm"  class="my-4">
 				<Heading size="md" class="text-center">No threads in this forum yet!</Heading>
 			</Card>
-		</div>
-	{:else if !$threadsStore}
-		<div class="my-2">
-			<Card size="lg" padding="sm">
-				<Heading size="md" class="text-center">loading...</Heading>
-			</Card>
-		</div>
-	{/if}
+		{/if}
+	</div>
+
 </section>
 
 <Modal bind:open={openCreateModal} title="Create Thread">

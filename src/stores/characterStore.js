@@ -24,12 +24,19 @@ const createCharacterStore = () => {
 			}
 
 			set(character);
+			console.log(character)
 			return character;
 		} catch (error) {
 			handleError(error);
 			return null;
 		}
 	};
+
+
+
+
+
+
 
 	const addCharacter = async (newCharacter) => {
 		try {
@@ -82,7 +89,7 @@ const createCharacterStore = () => {
 		fetchCharacter,
 		addCharacter,
 		editCharacter,
-		deleteCharacter
+		deleteCharacter,
 	};
 };
 

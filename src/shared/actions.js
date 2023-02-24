@@ -134,7 +134,11 @@ export const createPost = async (post) => {
 
 export const updatePost = async (post) => {
 	try {
-		return await supabase.from('posts').update({ ...post }).match({ id: post.id }).select();
+		return await supabase.from('posts').update({ 
+			body: post.body,
+			updated_at: new Date(),
+			character_id: post.character_id
+		 }).match({ id: post.id }).select();
 	} catch (error) {
 		handleError(error);
 	}

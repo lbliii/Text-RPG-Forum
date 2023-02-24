@@ -19,8 +19,11 @@ export const createThreadStore = () => {
 			if (!threads) {
 				throw new Error(`No threads found matching forum: ${forum_id}`);
 			}
-			
+			threads.sort((a, b) => {
+				return new Date(a.created_at) - new Date(b.created_at);
+			});
 			store.set(threads);
+			return threads;
 		} catch (error) {
 			handleError(error);
 		}

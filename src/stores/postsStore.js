@@ -23,6 +23,13 @@ const createPostStore = () => {
 				throw new Error(`No posts found for thread_id: ${thread_id}`);
 			}
 
+			// sort post from oldest to newest by created_at 
+
+			posts.sort((a, b) => {
+				return new Date(a.created_at) - new Date(b.created_at);
+			});
+
+
 			set(posts);
 			return posts;
 		} catch (error) {
@@ -31,10 +38,11 @@ const createPostStore = () => {
 	};
 
 
+
 	return {
 		fetchPosts,
-		subscribe,
+		subscribe
 	};
 };
 
-export const postStore = createPostStore();
+export const postsStore = createPostStore();
