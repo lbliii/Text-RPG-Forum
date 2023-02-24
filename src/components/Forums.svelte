@@ -6,21 +6,16 @@
 	export let user;
 	const newForum = $forumStore;
 	let searchTerm = '';
-	let sortedForums = [];
 	let filteredForums = [];
 	let addForum = false;
 
 	$: {
-		sortedForums = $forumsStore.slice().sort((a, b) => {
-			return a.title.localeCompare(b.title);
-		});
-
 		if (searchTerm) {
-			filteredForums = sortedForums.filter((forum) => {
+			filteredForums = $forumsStore.filter((forum) => {
 				return forum.title.toLowerCase().includes(searchTerm.toLowerCase());
 			});
 		} else {
-			filteredForums = sortedForums;
+			filteredForums = $forumsStore;
 		}
 	}
 
@@ -50,24 +45,18 @@
 	/>
 </div>
 
-<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4 grid-flow-row-dense">
 	{#if filteredForums.length > 0}
 		{#each filteredForums as forum}
-			<div class="my-2">
-				<Card size="lg" padding="sm" img={forum.image} href={`/forum/${forum.id}`}>
+			{#if forum.id !== undefined}
+				<Card size="lg" padding="sm" img={forum.image} href={`/forum/${forum.id}`} class="my-4">
 					<Heading tag="h2" class="text-center">{forum.title}</Heading>
 					{#if forum.description}
 						<P class="text-center">{forum.description}</P>
 					{/if}
 				</Card>
-			</div>
+			{/if}
 		{/each}
-	{:else}
-		<div class="my-2">
-			<Card size="lg" padding="sm">
-				<Heading tag="h2" class="text-center">loading...</Heading>
-			</Card>
-		</div>
 	{/if}
 </section>
 

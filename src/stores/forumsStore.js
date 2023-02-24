@@ -12,6 +12,11 @@ const createForumStore = () => {
 	const fetchForums = async () => {
 		try {
 			const { data: forums } = await getForums();
+
+			forums.sort((a, b) => {
+				return a.title[0].localeCompare(b.title[0]);
+			});
+			
 			set(forums);
 			return forums;
 		} catch (error) {

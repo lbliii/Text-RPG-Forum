@@ -5,6 +5,7 @@
 	import { threadStore } from '../stores/threadStore.js';
 	import { threadsStore } from '../stores/threadsStore.js';
 	import { userStore } from '../stores/userStore.js';
+	import ThreadCharacterDetails  from './ThreadCharacterDetails.svelte';
 	import {
 		Button,
 		ButtonGroup,
@@ -18,8 +19,8 @@
 	} from 'flowbite-svelte';
 
 	export let forum = $forumStore;
-	const newThread = $threadStore;
-	const newPost = $postStore;
+	let newThread = $threadStore;
+	let newPost = $postStore;
 
 	let user = $userStore;
 	let sortAscending = true;
@@ -44,25 +45,25 @@
 	}
 
 	function createThread() {
-		newPost.set({
+		let firstPost = {
 			user_id: user.user_id,
 			...newPost
-		});
+		}
 
 		threadStore.addThread({
 			user_id: user.user_id,
 			forum_id: forum.id,
 			...newThread
-		});
-		newThread.set({ title: '', description: '', character_id: '' });
-		newPost.set({ body: '' });
+		}, firstPost);
+
+		newThread = {}
+		newPost = {}
 		openCreateModal = false;
 	}
 
 	function toggleSort() {
 		sortAscending = !sortAscending;
 	}
-	console.log(filteredThreads)
 </script>
 
 <section>
@@ -99,6 +100,8 @@
 						<Badge class="mx-1">posts: todo</Badge>
 						<Badge> {new Date(thread.last_updated).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
 					</div>
+
+					<ThreadCharacterDetails thread={thread} />
 				</Card>
 			{/if}
 			{/each}
@@ -133,9 +136,11 @@
 	{#if $charactersStore.length > 0}
 		<div>
 			<P>Choose a character to associate with this thread.</P>
-			<select bind:value={newThread.character_id} required>
+			<select bind:value={newPost.character_id} required>
 				{#each $charactersStore as character}
+					{#if character.id !== undefined || character.id !== null}
 					<option value={character.id}>{character.first_name} {character.last_name}</option>
+					{/if}
 				{/each}
 			</select>
 		</div>

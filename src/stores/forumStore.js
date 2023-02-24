@@ -5,7 +5,7 @@ import { getForum, createForum, deleteForum, updateForum } from '../shared/actio
 // Verbs: Fetch, Add, Edit, Remove
 
 const createForumStore = () => {
-	const store = writable([{}]);
+	const store = writable({});
 
 	const { subscribe, set, update } = store;
 

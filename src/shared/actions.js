@@ -173,7 +173,7 @@ export const getThread = async (id) => {
 
 export const createThread = async (thread) => {
 	try {
-		return await supabase.from('threads').insert(thread).select();
+		return await supabase.from('threads').insert(thread).select().single()
 	} catch (error) {
 		handleError(error);
 	}
@@ -239,3 +239,69 @@ export const deleteUser = async (user) => {
 		handleError(error);
 	}
 }
+
+
+// Thread <-> Character Junction Table Actions
+
+export const getThreadCharacterLinks = async (thread_id) => {
+	try {
+		return await supabase.from('thread_characters').select('*').match({ thread_id: thread_id });
+	} catch (error) {
+		handleError(error);
+	}
+}
+
+export const getThreadCharacterLink = async (thread_id, user_id, character_id) => {
+	try {
+		return await supabase.from('thread_characters').select().match({ thread_id, user_id, character_id }).single();
+	} catch (error) {
+		handleError(error);
+	}
+};
+
+export const createThreadCharacterLink = async (thread_id, user_id, character_id) => {
+	try {
+
+		
+
+		const { data: link_check } = await getThreadCharacterLink(thread_id, user_id, character_id);
+
+		console.log("link check: ",link_check)
+
+		if (link_check !== null )  {
+			console.log("Link already exists for this thread + user + character combination.")
+			return 
+		}
+
+		return await supabase
+			.from('thread_characters')
+			.insert({ thread_id: thread_id, user_id: user_id, character_id: character_id })
+			.select();
+	} catch (error) {
+		handleError(error);
+	}
+};
+
+export const updateThreadCharacterLink = async (thread_id, user_id, character_id) => {
+	try {
+		return await supabase
+			.from('thread_characters')
+			.update(character_id)
+			.match({ thread_id: thread_id, user_id: user_id })
+			.select();
+	} catch (error) {
+		handleError(error);
+	}
+};
+
+export const deleteThreadCharacterLink = async (thread_id, user_id) => {
+	try {
+		await supabase
+			.from('thread_characters')
+			.delete()
+			.match({ thread_id: thread_id, user_id: user_id });
+		return true;
+	} catch (error) {
+		handleError(error);
+	}
+};

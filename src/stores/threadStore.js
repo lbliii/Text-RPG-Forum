@@ -1,11 +1,18 @@
 import { writable } from 'svelte/store';
-import { createThread, updateThread, deleteThread, getThread } from '../shared/actions.js';
+import {
+	createThread,
+	updateThread,
+	deleteThread,
+	getThread,
+	createPost,
+	createThreadCharacterLink
+} from '../shared/actions.js';
 import { handleError } from '../shared/helpers.js';
 
 // Fetch, Add, Edit, Remove
 
 export const createThreadStore = () => {
-	const store = writable([{}]);
+	const store = writable({});
 
 	const { subscribe, set, update } = store;
 
@@ -34,14 +41,30 @@ export const createThreadStore = () => {
 			if (!thread) {
 				throw new Error('No thread provided');
 			}
+
 			if (!firstPost) {
 				throw new Error('No firstPost provided');
 			}
 
-			const {data: addedThread} = await createThread(thread, firstPost);
+			const {data: addedThread} = await createThread(thread);
 
 			if (!addedThread) {
 				throw new Error('Thread was not saved.');
+			}
+
+			firstPost.thread_id = addedThread.id; 
+
+
+			const {data: addedPost} = await createPost(firstPost);
+
+			if (!addedPost) {
+				throw new Error('Post was not saved.');
+			}
+
+			const {data: link} = await createThreadCharacterLink(addedThread.id, firstPost.user_id, firstPost.character_id);
+
+			if (!link) {
+				throw new Error(`Link was not saved for thread: ${addedThread.id}, user ${firstPost.user_id}, character: ${firstPost.character_id}`);
 			}
 
 			return addedThread;

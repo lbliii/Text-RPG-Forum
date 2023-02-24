@@ -1,5 +1,11 @@
 import { writable } from 'svelte/store';
-import { getPost, createPost, updatePost, deletePost } from '../shared/actions.js';
+import {
+	getPost,
+	createPost,
+	updatePost,
+	deletePost,
+	createThreadCharacterLink
+} from '../shared/actions.js';
 import { handleError } from '../shared/helpers.js';
 
 
@@ -41,6 +47,8 @@ const createPostStore = () => {
 				throw new Error(`No post created for post: Thread ID: ${post.thread_id}, Character ID: ${post.character_id}, User ID: ${post.user_id}, Body: ${post.body}`);
 			}
 
+			createThreadCharacterLink(newPost.thread_id, newPost.user_id, newPost.character_id);
+
 			set(newPost);
 			return newPost;
 		} catch (error) {
@@ -74,10 +82,6 @@ const createPostStore = () => {
 			}
 
 			const { data: deletedPost } = await deletePost(post);
-
-			if (!deletedPost) {
-				throw new Error(`No post deleted for post: ${post}`);
-			}
 
 			update(deletedPost);
 			return deletedPost;
