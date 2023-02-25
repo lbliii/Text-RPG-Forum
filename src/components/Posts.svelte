@@ -23,6 +23,9 @@ $: {
 
 	postsStore.fetchPosts(thread.id);
 
+	$postsStore 
+	
+
 }
 
 
