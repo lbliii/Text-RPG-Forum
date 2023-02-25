@@ -7,6 +7,7 @@ import {
 	createThreadCharacterLink
 } from '../shared/actions.js';
 import { handleError } from '../shared/helpers.js';
+import { postsStore } from './postsStore.js';
 
 
 // Verbs: Fetch, Add, Edit, Remove
@@ -50,6 +51,7 @@ const createPostStore = () => {
 			createThreadCharacterLink(newPost.thread_id, newPost.user_id, newPost.character_id);
 
 			set(newPost);
+			postsStore.update(posts => [...posts, newPost]);
 			return newPost;
 		} catch (error) {
 			handleError(error);

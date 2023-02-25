@@ -28,13 +28,12 @@
 	let searchTerm = '';
 	let openCreateModal = false;
 
-	$: threadsStore.fetchThreads(forum.id)
+    threadsStore.fetchThreads(forum.id)
+	charactersStore.fetchCharacters(user.user_id);
 
 	$: {
-		if (user.user_id){
-		charactersStore.fetchCharacters(user.user_id);
-		}
-		
+		$threadsStore
+
 		if (searchTerm) {
 			filteredThreads = $threadsStore.filter((forum) => {
 				return forum.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -42,6 +41,7 @@
 		} else {
 			filteredThreads = $threadsStore;
 		}
+
 	}
 
 	function createThread() {

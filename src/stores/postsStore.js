@@ -41,7 +41,9 @@ const createPostStore = () => {
 
 	return {
 		fetchPosts,
-		subscribe
+		subscribe,
+		set,
+		update
 	};
 };
 

@@ -7,6 +7,8 @@ import { handleError } from '../shared/helpers.js';
 export const createThreadStore = () => {
 	const store = writable([{}]);
 
+	const { subscribe, set, update } = store;
+
 	const fetchThreads = async (forum_id) => {
 		try {
 
@@ -31,7 +33,9 @@ export const createThreadStore = () => {
 
 	return {
 		fetchThreads,
-		subscribe: store.subscribe
+		subscribe,
+		set,
+		update,
 	};
 };
 

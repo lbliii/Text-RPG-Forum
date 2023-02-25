@@ -8,6 +8,7 @@ import {
 	createThreadCharacterLink
 } from '../shared/actions.js';
 import { handleError } from '../shared/helpers.js';
+import {threadsStore} from './threadsStore.js';
 
 // Fetch, Add, Edit, Remove
 
@@ -66,6 +67,11 @@ export const createThreadStore = () => {
 			if (!link) {
 				throw new Error(`Link was not saved for thread: ${addedThread.id}, user ${firstPost.user_id}, character: ${firstPost.character_id}`);
 			}
+
+			threadsStore.update((threads) => {
+				threads.push(addedThread);
+				return threads;
+			});
 
 			return addedThread;
 		} catch (error) {

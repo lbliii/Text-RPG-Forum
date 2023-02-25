@@ -23,7 +23,7 @@ $: {
 
 	postsStore.fetchPosts(thread.id);
 
-	$postsStore 
+	$postsStore  // todo: use this as a model example for how to subscribe/refresh the store iterating the data (posts). 
 	
 
 }
