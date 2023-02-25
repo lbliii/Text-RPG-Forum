@@ -1,10 +1,17 @@
 <script>
 	import { characterStore } from '../stores/characterStore.js';
-	import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Input } from 'flowbite-svelte';
+	import { authStore } from '../stores/authStore.js';
+	import { Button, Select, Textarea, FloatingLabelInput } from 'flowbite-svelte';
 	import { createEventDispatcher } from 'svelte';
 
-	let openCreateModal = false;
-	let character = $characterStore;
+	export let edit;
+	export let character;
+
+	$: if (character === null || character === undefined || character === '') {
+		character = {
+			user_id: $authStore.id
+		};
+	}
 
 	let gender = [
 		{ value: 'Androgyne', name: 'Androgyne' },
@@ -73,40 +80,6 @@
 
 	const dispatch = createEventDispatcher();
 </script>
-
-<div class="flex flex-row justify-end my-2">
-	<ButtonGroup> 
-		<Button color="green" on:click={() => (openCreateModal = true)}>Create Character</Button>
-	</ButtonGroup>
-
-</div>
-
-<Modal bind:open={openCreateModal} size="xs" autoclose={false} title="Create Character">
-
-	<Input
-		id="first_name"
-		name="first_name"
-		type="text"
-		label="First Name"
-		class="mb-4"
-		placeholder="First Name"
-		bind:value={character.first_name}
-	/>
-
-	<Input
-		id="last_name"
-		name="last_name"
-		type="text"
-		label="Last Name"
-		class="mb-4"
-		placeholder="Last Name"
-		bind:value={character.last_name}
-	/>
-</Modal>
-
-
-
-<!-- 
 
 <form class="my-6 justify-center" on:submit|preventDefault={handleSubmit}>
 	<div class="flex flex-col text-sm mb-2">
@@ -194,5 +167,5 @@
 		<Button size="lg" type="submit">Save</Button>
 	</div>
 
-
-</form> -->
+	<!-- TODO: Confetti event -->
+</form>

@@ -1,10 +1,11 @@
 <script>
+  import { userStore } from '../../../stores/userStore.js';
   import User from '../../../components/User.svelte'
   import UserForm from '../../../components/UserForm.svelte'
-  import ProfileMenu from '../../../components/ProfileMenu.svelte'
-  import { userStore } from '../../../stores/userStore.js';
+  import CharacterForm from '../../../components/CharacterForm.svelte'
 
-  export let data = $userStore;
+
+  export let data;
 
 
 </script>
@@ -12,7 +13,7 @@
 <main >
 
   {#if $userStore.user_id == data.user_id}
-    <ProfileMenu />
+    <CharacterForm />
   {/if}
 
   {#if $userStore}

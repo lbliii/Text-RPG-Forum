@@ -64,7 +64,9 @@ const createForumStore = () => {
 		fetchForum,
 		addForum,
 		removeForum,
-		editForum
+		editForum,
+		set,
+		update,
 	};
 };
 

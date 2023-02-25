@@ -29,6 +29,8 @@ const createThreadCharactersStore = () => {
 	return {
 		fetchThreadCharacters,
 		subscribe,
+		set,
+		update,
 
 	};
 };

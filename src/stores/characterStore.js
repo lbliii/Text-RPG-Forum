@@ -84,6 +84,8 @@ const createCharacterStore = () => {
 		addCharacter,
 		editCharacter,
 		deleteCharacter,
+		set,
+		update,
 	};
 };
 
