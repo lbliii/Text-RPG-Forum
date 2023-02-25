@@ -1,5 +1,5 @@
 <script>
-import { Button, ButtonGroup, Modal, Card, P, Textarea, Badge } from 'flowbite-svelte';
+import { Button, ButtonGroup, Modal, Card, P, Textarea, Badge, Dropdown, DropdownItem, Chevron } from 'flowbite-svelte';
 import { charactersStore } from '../stores/charactersStore.js';
 import { postStore } from '../stores/postStore.js';
 import { postsStore } from '../stores/postsStore.js';
@@ -92,12 +92,14 @@ function handlePostDelete() {
 					<P class="my-10">{post.body}</P>
 
 					{#if post.user_id === user.user_id}
-						<div class="flex flex-row justify-end">
-						<ButtonGroup class="space-x-px">
-							<Button size="xs" color="light" on:click={() => (editModal = true, activePost = post)}>Edit</Button>
-							<Button size="xs" color="red" on:click={() => (deleteModal = true, activePost = post)}>Delete</Button>
-						</ButtonGroup>
-						</div>
+					<div class="flex flex-row justify-end">
+						<Button size="xs" color="dark"><Chevron>...</Chevron></Button>
+						<Dropdown >
+						<DropdownItem on:click={() => (editModal = true, activePost = post)}>Edit</DropdownItem>
+						<DropdownItem on:click={() => (deleteModal = true, activePost = post)} >Delete</DropdownItem>
+					</Dropdown>
+					</div>
+					
 					{/if}
 	
 				</Card>

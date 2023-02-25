@@ -1,7 +1,7 @@
 <script>
 	import { threadCharactersStore } from '../stores/threadCharactersStore.js';
 	import { characterStore } from '../stores/characterStore.js';
-	import { Avatar, Badge } from 'flowbite-svelte';
+	import { Avatar, Popover } from 'flowbite-svelte';
 
 	export let thread;
 
@@ -20,12 +20,11 @@
 	<div class="flex flex-row justify-end my-2"> 
 	{#each characters as character}
 		{#if character !== undefined}
-			<Avatar size="xs" border="true" stacked="true" alt="{character.first_name}"/>
+			<Avatar size="md" stacked="true" alt="{character.first_name}" src="{character.avatar}"/>
 		{/if}
 	{/each}
 	</div>
 {/await}
-
 
 
 <!-- todo: check the thread_characters table to list the characters -->

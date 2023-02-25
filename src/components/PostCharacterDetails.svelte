@@ -1,11 +1,14 @@
 <script>
 	import { characterStore } from '../stores/characterStore.js';
 	import { Avatar, Badge } from 'flowbite-svelte';
+	import {userStore} from '../stores/userStore.js';
 
 	export let characterId 
 	export let post;
 
 	let character = {}
+
+	
 
 	if (characterId) {
 
@@ -19,17 +22,14 @@
 
 {#if character }
 	<a href="/user/{character.user_id}">
-		<div class="flex flex-row my-2 {post.id % 2 === 0 ? 'justify-start' : 'justify-end'}">
-			<Avatar size="lg" border="true" />
-		</div>
-		<div class="flex flex-row my-2 {post.id % 2 === 0 ? 'justify-start' : 'justify-end'}">
-			{#if character.first_name && character.last_name !== null}
-				<Badge color={post.id % 2 === 0 ? 'purple' : 'blue'}>
-					{character.first_name} {character.last_name}</Badge>
-			{/if}
-		</div>
+			<div class="flex flex-row {post.id % 2 === 0 ? 'justify-start' : 'justify-end'} space-x-4">
+				<div class="text-center">
+					<Avatar size="xl" src="{character.avatar}"/>
+					<div class="text-xs text-gray-500 dark:text-gray-400">@{$userStore.alias}</div>
+					<Badge>{character.first_name} {character.last_name}</Badge>
+				</div>
+			</div>
 	</a>
-
 {/if }
 
 

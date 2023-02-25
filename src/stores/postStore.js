@@ -72,6 +72,8 @@ const createPostStore = () => {
 			}
 
 			update(updatedPost);
+			postsStore.update(posts => posts.map(p => p.id === updatedPost.id ? updatedPost : p));
+
 			return updatedPost;
 		} catch (error) {
 			handleError(error);
@@ -87,6 +89,7 @@ const createPostStore = () => {
 			const { data: deletedPost } = await deletePost(post);
 
 			update(deletedPost);
+			postsStore.update(posts => posts.filter(p => p.id !== deletedPost.id));
 			return deletedPost;
 		} catch (error) {
 			handleError(error);
