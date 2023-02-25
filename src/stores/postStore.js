@@ -64,7 +64,7 @@ const createPostStore = () => {
 			if(!post) {
 				throw new Error('No post provided');
 			}
-
+			console.log("postStore.js: ", post)
 			const { data: updatedPost } = await updatePost(post);
 
 			if (!updatedPost) {
@@ -72,7 +72,8 @@ const createPostStore = () => {
 			}
 
 			update(updatedPost);
-			postsStore.update(posts => posts.map(p => p.id === updatedPost.id ? updatedPost : p));
+			
+			// Todo: successfully send the edited  post to the postsStore so that changes are reflected in the thread view without having to refresh the page.
 
 			return updatedPost;
 		} catch (error) {

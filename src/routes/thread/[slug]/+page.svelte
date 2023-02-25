@@ -1,10 +1,10 @@
 <script>
-  import {Heading, Badge} from 'flowbite-svelte'
+  import {Heading, Badge, Card} from 'flowbite-svelte'
   import { forumStore } from '../../../stores/forumStore.js';
   import { threadStore } from '../../../stores/threadStore.js';
   import { userStore } from '../../../stores/userStore.js';
   import Posts from '../../../components/Posts.svelte';
-  import Thread from '../../../components/Thread.svelte';
+  import ThreadControls from '../../../components/ThreadControls.svelte';
 
   export let data;
   let thread = data
@@ -19,18 +19,27 @@
 
 </script>
 
-<section>
-  <div class="text-center">
-    <Heading tag="h1" class="my-3 text-white">{#if $threadStore.title}{$threadStore.title}{/if}</Heading>
-    <Heading tag="h2" class="my-3 text-white">{#if $threadStore.description}{$threadStore.description}{/if}</Heading>
-    {#await loadComponentData()}
-      <Badge class="my-3">Loading...</Badge>
-    {:then}
-      <Badge class="my-3">{#if $forumStore.title}{$forumStore.title}{/if}</Badge>
-    {/await}
-  </div>
+<section> 
 
-  <Thread thread={thread} />
+  <Card size="lg" padding="lg" class="my-6" color="green">
+    {#await loadComponentData()}
+      <Badge color="purple" class="my-3 w-fit">Loading...</Badge>
+    {:then}
+      <Badge color="purple" class="my-3 w-fit">{#if $forumStore.title}{$forumStore.title}{/if}</Badge>
+    {/await} 
+
+    <Heading tag="h2" class="my-3 ">{#if $threadStore.title}{$threadStore.title}{/if}</Heading>
+    <Heading tag="h4" class="my-3">{#if $threadStore.description}{$threadStore.description}{/if}</Heading>
+
+    <ThreadControls thread={thread} />
+    
+  </Card>
+  
+
+  
+     
+ 
+ 
 
   <Posts thread={thread} user={$userStore} />
 </section>

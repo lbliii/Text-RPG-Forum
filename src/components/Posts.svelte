@@ -1,5 +1,6 @@
 <script>
-import { Button, ButtonGroup, Modal, Card, P, Textarea, Badge, Dropdown, DropdownItem, Chevron } from 'flowbite-svelte';
+import { Button, ButtonGroup, Modal, Card, P, Textarea, Badge, Dropdown, DropdownItem, Label } from 'flowbite-svelte';
+import { EllipsisHorizontalCircle, FingerPrint  } from 'svelte-heros-v2'
 import { charactersStore } from '../stores/charactersStore.js';
 import { postStore } from '../stores/postStore.js';
 import { postsStore } from '../stores/postsStore.js';
@@ -80,10 +81,11 @@ function handlePostDelete() {
 				{#if !sortAscending}
 					{#key post.id}
 						<PostCharacterDetails characterId={post.character_id} {post} />
+						
 					{/key}
 				{/if}
 			
-				<Card size="lg" padding="sm" class="mt-4 mb-7" >
+				<Card size="lg" padding="md" class="mt-4 mb-7" >
 					<div class="flex flex-row {post.id % 2 === 0 ? 'justify-end' : 'justify-start'}">
 						<Badge color="green"> {new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
 						
@@ -92,12 +94,12 @@ function handlePostDelete() {
 					<P class="my-10">{post.body}</P>
 
 					{#if post.user_id === user.user_id}
-					<div class="flex flex-row justify-end">
-						<Button size="xs" color="dark"><Chevron>...</Chevron></Button>
+					<div class="flex  justify-end">
+						<EllipsisHorizontalCircle size="30" class="cursor-pointer"  />
 						<Dropdown >
-						<DropdownItem on:click={() => (editModal = true, activePost = post)}>Edit</DropdownItem>
-						<DropdownItem on:click={() => (deleteModal = true, activePost = post)} >Delete</DropdownItem>
-					</Dropdown>
+							<DropdownItem on:click={() => (editModal = true, activePost = post)}>Edit</DropdownItem>
+							<DropdownItem on:click={() => (deleteModal = true, activePost = post)} >Delete</DropdownItem>
+						</Dropdown>
 					</div>
 					
 					{/if}
@@ -125,7 +127,8 @@ function handlePostDelete() {
 		</select>
 	{/if}
 
-	<Textarea bind:value={newPost.body} />
+	<Label for="body" class="mb-2">Write a Post Body</Label>
+	<Textarea id="body" rows="10" bind:value={newPost.body} />
 	<Button color="green" on:click={handlePostCreate}>Create</Button>
 </Modal>
 

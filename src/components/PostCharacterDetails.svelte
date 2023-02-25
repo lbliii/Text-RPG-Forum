@@ -1,7 +1,6 @@
 <script>
 	import { characterStore } from '../stores/characterStore.js';
 	import { Avatar, Badge } from 'flowbite-svelte';
-	import {userStore} from '../stores/userStore.js';
 
 	export let characterId 
 	export let post;
@@ -25,7 +24,6 @@
 			<div class="flex flex-row {post.id % 2 === 0 ? 'justify-start' : 'justify-end'} space-x-4">
 				<div class="text-center">
 					<Avatar size="xl" src="{character.avatar}"/>
-					<div class="text-xs text-gray-500 dark:text-gray-400">@{$userStore.alias}</div>
 					<Badge>{character.first_name} {character.last_name}</Badge>
 				</div>
 			</div>

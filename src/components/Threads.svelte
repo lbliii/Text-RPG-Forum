@@ -73,7 +73,7 @@
 	}
 </script>
 
-<section>
+<section >
 	<div class="flex flex-row justify-end my-2">
 		<ButtonGroup class="space-x-px">
 			<Button size="xs" color="light" on:click={toggleSort}>
