@@ -75,26 +75,37 @@ function handlePostDelete() {
 				<P>Loading...</P>
 			</Card>
 		{:then $postsStore} 
+		
 			{#each $postsStore as post }
-				<Card size="lg" padding="sm" class="my-4" >
+				{#if !sortAscending}
+					{#key post.id}
+						<PostCharacterDetails characterId={post.character_id} {post} />
+					{/key}
+				{/if}
+			
+				<Card size="lg" padding="sm" class="mt-4 mb-7" >
 					<div class="flex flex-row {post.id % 2 === 0 ? 'justify-end' : 'justify-start'}">
 						<Badge color="green"> {new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
 						
 					</div>
-		
+					
+					<P class="my-10">{post.body}</P>
+
+					{#if post.user_id === user.user_id}
+						<div class="flex flex-row justify-end">
+						<ButtonGroup class="space-x-px">
+							<Button size="xs" color="light" on:click={() => (editModal = true, activePost = post)}>Edit</Button>
+							<Button size="xs" color="red" on:click={() => (deleteModal = true, activePost = post)}>Delete</Button>
+						</ButtonGroup>
+						</div>
+					{/if}
+	
+				</Card>
+				{#if sortAscending}
 					{#key post.id}
 						<PostCharacterDetails characterId={post.character_id} {post} />
 					{/key}
-					
-					<P>{post.body}</P>
-
-					<div class="flex flex-row justify-end">
-					<ButtonGroup class="space-x-px">
-						<Button size="xs" color="light" on:click={() => (editModal = true, activePost = post)}>Edit</Button>
-						<Button size="xs" color="red" on:click={() => (deleteModal = true, activePost = post)}>Delete</Button>
-					</ButtonGroup>
-					</div>
-				</Card>
+				{/if}
 			{/each}
 		{/await}
 
@@ -113,7 +124,7 @@ function handlePostDelete() {
 	{/if}
 
 	<Textarea bind:value={newPost.body} />
-	<Button on:click={handlePostCreate}>Create</Button>
+	<Button color="green" on:click={handlePostCreate}>Create</Button>
 </Modal>
 
 	<Modal bind:open={editModal} title="Edit Post">

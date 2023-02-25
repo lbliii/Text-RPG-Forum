@@ -20,6 +20,7 @@
 		deleteForum = false;
 		goto('/forums');
 	}
+	
 </script>
 
 {#if $userStore && $userStore.admin}

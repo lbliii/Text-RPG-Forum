@@ -15,8 +15,6 @@
 
 	}
 
-
-
 </script>
 
 {#if character }

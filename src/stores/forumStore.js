@@ -13,8 +13,8 @@ const createForumStore = () => {
 	const fetchForum = async (id) => {
 		try {
 			const { data: forum } = await getForum(id);
-			set(forum);
-			return forum;
+			set(forum)
+			return forum
 		} catch (error) {
 			handleError(error);
 		}
@@ -35,7 +35,7 @@ const createForumStore = () => {
 	const removeForum = async (forum) => {
 		try {
 			await deleteForum(forum.id);
-			update((forums) => forums.filter((f) => f.id !== forum.id));
+			
 		} catch (error) {
 			handleError(error);
 		}
@@ -43,9 +43,17 @@ const createForumStore = () => {
 
 	const editForum = async (forum) => {
 		try {
-			await updateForum(forum);
-			update((forums) => forums.map((f) => (f.id === forum.id ? forum : f)));
-			set({})
+			if (!forum) {
+				throw new Error('No forum to edit');
+			}
+
+			const { data: editedForum} = await updateForum(forum);
+		
+			if (!editedForum) {
+				throw new Error(`Forum ${forum.id} was not edited.`);
+			}
+			
+			set(editedForum)
 		} catch (error) {
 			handleError(error);
 		}
