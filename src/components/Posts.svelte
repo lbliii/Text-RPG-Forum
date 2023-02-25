@@ -15,19 +15,18 @@ let editModal = false;
 let activePost = {};
 let deleteModal = false;
 
+
+postsStore.fetchPosts(thread.id);
+
 $: {
 	
 	if (user.user_id) {
 		charactersStore.fetchCharacters(user.user_id);
 	} 
 
-	postsStore.fetchPosts(thread.id);
-
-	$postsStore  // todo: use this as a model example for how to subscribe/refresh the store iterating the data (posts). 
-	
+	$postsStore 
 
 }
-
 
 
 function toggleSort() {

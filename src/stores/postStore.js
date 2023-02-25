@@ -50,9 +50,10 @@ const createPostStore = () => {
 
 			createThreadCharacterLink(newPost.thread_id, newPost.user_id, newPost.character_id);
 
-			set(newPost);
 			postsStore.update(posts => [...posts, newPost]);
-			return newPost;
+
+			// Todo: see if this is a better way without return and set 
+		
 		} catch (error) {
 			handleError(error);
 		}

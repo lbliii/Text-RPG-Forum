@@ -73,7 +73,6 @@ export const createThreadStore = () => {
 				return threads;
 			});
 
-			return addedThread;
 		} catch (error) {
 			handleError(error);
 		}
