@@ -23,19 +23,13 @@ const createCharacterStore = () => {
 				throw new Error(`No character found matching id: ${id}`);
 			}
 
-			set(character);
-			console.log(character)
+			set({});
 			return character;
 		} catch (error) {
 			handleError(error);
 			return null;
 		}
 	};
-
-
-
-
-
 
 
 	const addCharacter = async (newCharacter) => {

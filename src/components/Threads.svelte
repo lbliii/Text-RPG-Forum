@@ -19,30 +19,37 @@
 	} from 'flowbite-svelte';
 
 	export let forum = $forumStore;
+	let user = $userStore;
 	let newThread = $threadStore;
 	let newPost = $postStore;
-
-	let user = $userStore;
 	let sortAscending = true;
 	let filteredThreads = $threadsStore;
 	let searchTerm = '';
 	let openCreateModal = false;
-
-    threadsStore.fetchThreads(forum.id)
-	charactersStore.fetchCharacters(user.user_id);
+	
+	async function loadComponentData(){
+		threadsStore.fetchThreads(forum.id)
+		await userStore.fetchUser(); 
+		await charactersStore.fetchCharacters($userStore.user_id);
+	}
+	
+	loadComponentData();
 
 	$: {
+		
 		$threadsStore
+		$charactersStore
 
 		if (searchTerm) {
-			filteredThreads = $threadsStore.filter((forum) => {
-				return forum.title.toLowerCase().includes(searchTerm.toLowerCase());
+			filteredThreads = $threadsStore.filter((thread) => {
+				return thread.title.toLowerCase().includes(searchTerm.toLowerCase());
 			});
 		} else {
 			filteredThreads = $threadsStore;
 		}
 
 	}
+
 
 	function createThread() {
 		let firstPost = {

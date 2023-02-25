@@ -10,7 +10,6 @@
 	async function loadThreadCharacters() {
   	let characterIds = await threadCharactersStore.fetchThreadCharacters(thread.id).then(data => data.map(link => link.character_id));
   	let characters = await Promise.all(characterIds.map(characterId => characterStore.fetchCharacter(characterId)));
-	console.log("characters", characters)
   	return characters;
 }
 

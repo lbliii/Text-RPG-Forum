@@ -25,12 +25,13 @@ const createForumStore = () => {
 	};
 
 
-	fetchForums();
+	
 
 	return {
 		subscribe,
 		fetchForums,
 		update,
+		set 
 
 	};
 };

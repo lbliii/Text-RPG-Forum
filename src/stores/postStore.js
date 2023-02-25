@@ -52,7 +52,7 @@ const createPostStore = () => {
 
 			postsStore.update(posts => [...posts, newPost]);
 
-			// Todo: see if this is a better way without return and set 
+			set({})
 		
 		} catch (error) {
 			handleError(error);

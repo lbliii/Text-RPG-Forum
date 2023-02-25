@@ -77,8 +77,8 @@ function handlePostDelete() {
 		{:then $postsStore} 
 			{#each $postsStore as post }
 				<Card size="lg" padding="sm" class="my-4" >
-					<div class="flex flex-row justify-end">
-						<Badge> {new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
+					<div class="flex flex-row {post.id % 2 === 0 ? 'justify-end' : 'justify-start'}">
+						<Badge color="green"> {new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
 						
 					</div>
 		

@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { handleError } from '../shared/helpers.js';
 import { getForum, createForum, deleteForum, updateForum } from '../shared/actions.js';
+import { forumsStore } from './forumsStore.js';
 
 // Verbs: Fetch, Add, Edit, Remove
 
@@ -22,8 +23,10 @@ const createForumStore = () => {
 	const addForum = async (forum) => {
 		try {
 			await createForum(forum);
-			update((forums) => [...forums, forum]);
-			return forum;
+			
+			forumsStore.update((forums) => [...forums, forum]);
+
+			set({})
 		} catch (error) {
 			handleError(error);
 		}
@@ -42,7 +45,7 @@ const createForumStore = () => {
 		try {
 			await updateForum(forum);
 			update((forums) => forums.map((f) => (f.id === forum.id ? forum : f)));
-			return forum;
+			set({})
 		} catch (error) {
 			handleError(error);
 		}

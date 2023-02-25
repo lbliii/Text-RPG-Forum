@@ -262,15 +262,10 @@ export const getThreadCharacterLink = async (thread_id, user_id, character_id) =
 export const createThreadCharacterLink = async (thread_id, user_id, character_id) => {
 	try {
 
-		
-
 		const { data: link_check } = await getThreadCharacterLink(thread_id, user_id, character_id);
 
-		console.log("link check: ",link_check)
-
 		if (link_check !== null )  {
-			console.log("Link already exists for this thread + user + character combination.")
-			return 
+			throw new Error("Link already exists for this thread + user + character combination.")
 		}
 
 		return await supabase

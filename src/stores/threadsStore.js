@@ -11,7 +11,6 @@ export const createThreadStore = () => {
 
 	const fetchThreads = async (forum_id) => {
 		try {
-
 			if (!forum_id) {
 				throw new Error('No forum_id provided');
 			}
@@ -24,7 +23,8 @@ export const createThreadStore = () => {
 			threads.sort((a, b) => {
 				return new Date(a.created_at) - new Date(b.created_at);
 			});
-			store.set(threads);
+			
+			set(threads);
 			return threads;
 		} catch (error) {
 			handleError(error);

@@ -68,10 +68,9 @@ export const createThreadStore = () => {
 				throw new Error(`Link was not saved for thread: ${addedThread.id}, user ${firstPost.user_id}, character: ${firstPost.character_id}`);
 			}
 
-			threadsStore.update((threads) => {
-				threads.push(addedThread);
-				return threads;
-			});
+			threadsStore.update((threads) => [...threads, addedThread]);
+			
+			set({})
 
 		} catch (error) {
 			handleError(error);
@@ -89,13 +88,7 @@ export const createThreadStore = () => {
 				throw new Error(`No thread found matching id: ${thread.id}`);
 			}
 
-			update((threads) => {
-				const index = threads.findIndex((t) => t.id === thread.id);
-				if (index !== -1) {
-					threads[index] = editedThread;
-				}
-				return threads;
-			});
+			set(thread);
 		} catch (error) {
 			handleError(error);
 		}
@@ -109,7 +102,6 @@ export const createThreadStore = () => {
 			}
 			
 			await deleteThread(thread);
-			update((threads) => threads.filter((t) => t.id !== thread.id));
 		} catch (error) {
 			handleError(error);
 		}

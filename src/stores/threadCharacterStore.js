@@ -14,7 +14,7 @@ const createThreadCharacterStore = () => {
 				throw new Error('No thread_id provided');
 			}
 			if (!user_id) {
-				throw new Error('No user_id provided');
+				throw new Error('No user_id provided to fetch thread character link.');
 			}
 			const { data: link } = await getThreadCharacterLink(thread_id, user_id);
 

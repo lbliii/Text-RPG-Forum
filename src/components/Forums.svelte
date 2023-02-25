@@ -4,12 +4,18 @@
 	import { Button, ButtonGroup, Card, Heading, P, Modal, Input, Textarea } from 'flowbite-svelte';
 
 	export let user;
-	const newForum = $forumStore;
+
+	let openCreateModal = false;
 	let searchTerm = '';
-	let filteredForums = [];
-	let addForum = false;
+	let newForum =  $forumStore
+	let filteredForums = $forumsStore
+	
+
+	forumsStore.fetchForums()
 
 	$: {
+		$forumsStore
+		
 		if (searchTerm) {
 			filteredForums = $forumsStore.filter((forum) => {
 				return forum.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -24,15 +30,19 @@
 			user_id: user.user_id,
 			...newForum
 		});
-		newForum.set({ title: '', description: '', image: '' });
-		addForum = false;
+		newForum = {
+			title: '',
+			description: '',
+			image: ''
+		};
+		openCreateModal = false;
 	}
 </script>
 
 {#if user && user.admin && user.admin !== undefined}
 	<div class="flex flex-row justify-end my-2">
 		<ButtonGroup class="space-x-px">
-			<Button size="xs" color="green" on:click={() => (addForum = true)}>Create Forum</Button>
+			<Button size="xs" color="green" on:click={() => (openCreateModal = true)}>Create Forum</Button>
 		</ButtonGroup>
 	</div>
 {/if}
@@ -60,7 +70,7 @@
 	{/if}
 </section>
 
-<Modal bind:open={addForum} title="Create Topic">
+<Modal bind:open={openCreateModal} title="Create Topic">
 	<Input bind:value={newForum.title} placeholder="Enter a new topic." class="my-2" />
 	<Textarea
 		bind:value={newForum.description}
