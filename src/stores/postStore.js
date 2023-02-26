@@ -71,7 +71,8 @@ const createPostStore = () => {
 				throw new Error(`No post updated for post: ${post}`);
 			}
 
-			update(updatedPost);
+			
+			postsStore.update((posts) => posts.map((p) => (p.id === post.id ? post : p)));
 			return updatedPost;
 		} catch (error) {
 			handleError(error);
@@ -86,7 +87,8 @@ const createPostStore = () => {
 
 			const { data: deletedPost } = await deletePost(post);
 
-			update(deletedPost);
+			postsStore.update(posts => posts.filter(p => p.id !== post.id));
+
 			return deletedPost;
 		} catch (error) {
 			handleError(error);
