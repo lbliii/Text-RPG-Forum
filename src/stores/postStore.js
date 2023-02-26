@@ -71,11 +71,7 @@ const createPostStore = () => {
 				throw new Error(`No post updated for post: ${post}`);
 			}
 
-			update(updatedPost);
-			
-			// Todo: successfully send the edited  post to the postsStore so that changes are reflected in the thread view without having to refresh the page.
-
-			return updatedPost;
+			postsStore.update((posts) => posts.map((p) => (p.id === post.id ? post : p)));
 		} catch (error) {
 			handleError(error);
 		}
@@ -89,9 +85,9 @@ const createPostStore = () => {
 
 			const { data: deletedPost } = await deletePost(post);
 
-			update(deletedPost);
-			postsStore.update(posts => posts.filter(p => p.id !== deletedPost.id));
-			return deletedPost;
+		
+			postsStore.update((posts) => posts.filter((p) => p.id !== post.id));
+		
 		} catch (error) {
 			handleError(error);
 		}
