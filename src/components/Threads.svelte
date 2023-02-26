@@ -63,8 +63,8 @@
 			...newThread
 		}, firstPost);
 
-		newThread = {}
-		newPost = {}
+		newThread = {title: '', description: '', character_id: ''}
+		newPost = {body: '', }
 		openCreateModal = false;
 	}
 
