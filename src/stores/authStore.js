@@ -14,6 +14,8 @@ const createAuthStore = () => {
 		try {
 			const { data: {user} } = await getAuth();
 
+			console.log('user', user)
+
 			if (!user) {
 				throw new Error('No user found. Are you logged in?');
 			}

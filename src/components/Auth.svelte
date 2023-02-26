@@ -1,5 +1,6 @@
 <script>
 	import { supabase } from '../supabase.js';
+	import { Card, Heading, Modal, P, Button, ButtonGroup, Input }  from 'flowbite-svelte';
 
 	let loading = false;
 	let email;
@@ -19,13 +20,16 @@
 	};
 </script>
 
-<h1 class="text-2xl font-bold text-center text-gray-800 md:text-3xl">Log In</h1>
+<h1 class="text-2xl font-bold text-center text-white md:text-3xl">Log In</h1>
 
-<p class="text-center mt-2">Sign in via magic link with your email below</p>
+<P class="text-white text-center my-4">Sign in via magic link with your email below</P>
 
-<form on:submit|preventDefault={handleLogin}>
+
+<Card size="lg">
+
+	<form on:submit|preventDefault={handleLogin}>
 	<div class="flex flex-col text-sm mb-2">
-		<label class="font-bold mb-2 text-gray-800" for="email">Email</label>
+		<label class="font-bold mb-2 " for="email">Email</label>
 		<input
 			class="appearance-none shadow-sm border border-gray-200 p-2 focus:outline-none focus:border-gray-500 rounded-lg"
 			name="email"
@@ -34,8 +38,11 @@
 			bind:value={email}
 		/>
 	</div>
-	<button
-		class="w-full shadow-sm rounded bg-blue-500 hover:bg-blue-600 text-white py-2 px-4"
-		type="submit">Log In</button
+	<Button
+		color="green" class="w-full shadow-sm rounded bg-blue-500 hover:bg-blue-600 text-white py-2 px-4"
+		type="submit">Log In</Button
 	>
 </form>
+
+</Card>
+

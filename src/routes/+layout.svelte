@@ -5,14 +5,12 @@
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
-  const auth = $authStore
-
-
+  authStore.fetchUser()
 
 </script>
 
   <body class="bg-transparent dark:bg-gray-800 container mx-auto my-6 max-w-xl px-1">
-    {#if auth}
+    {#if $authStore.id}
         <Navbar user={$userStore} />
         <slot />
     {:else}
