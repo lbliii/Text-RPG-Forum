@@ -72,6 +72,7 @@ const createPostStore = () => {
 			}
 
 			postsStore.update((posts) => posts.map((p) => (p.id === post.id ? post : p)));
+
 		} catch (error) {
 			handleError(error);
 		}
@@ -84,10 +85,10 @@ const createPostStore = () => {
 			}
 
 			const { data: deletedPost } = await deletePost(post);
-
 		
 			postsStore.update((posts) => posts.filter((p) => p.id !== post.id));
 		
+
 		} catch (error) {
 			handleError(error);
 		}
