@@ -36,11 +36,15 @@
 </script>
 
 {#if $userStore.user_id == player.user_id}
-	<div class="flex flex-row justify-end my-2">
+	{#if create}
+		<Button color="green" on:click={() => (openModal = true)}> Create Character</Button>
+	{:else}
+		<div class="flex flex-row justify-end my-2">
 		<ButtonGroup> 
 			<Button color="green" on:click={() => (openModal = true)}> {create ? 'Create ' : 'Edit'} Character</Button>
 		</ButtonGroup>
 	</div>
+	{/if}
 {/if}
 
 <Modal bind:open={openModal} size="xs" autoclose={false} title="{create ? 'Create ' : 'Edit'}  Character">

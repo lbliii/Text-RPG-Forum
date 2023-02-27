@@ -1,12 +1,9 @@
 <script>
 	import { userStore } from '../stores/userStore.js';
-	import { Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
+	import { Badge, Card, Heading, P } from 'flowbite-svelte';
 	import CharacterList from './CharacterList.svelte';
-	import UserForm from './UserCRUD.svelte';
 
 	export let user = $userStore;
-
-	let editProfile = false;
 
 </script>
 
@@ -44,7 +41,3 @@
 	<CharacterList user={user}/>
 
 </div>
-
-<Modal bind:open={editProfile} size="xs" autoclose={false}>
-	<UserForm profile={user} edit={true} />
-</Modal>
