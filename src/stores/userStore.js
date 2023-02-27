@@ -17,17 +17,13 @@ const createUserStore = () => {
 			user = value;
 		})();
 
-		if (!user.id) return;
-
 		try {
-			const { data: loggedInUser} = await getUser(user.id);
-
-			if (!loggedInUser) {
-				throw new Error('User not found');
+			if (user.aud === "authenticated"){
+				const { data: loggedInUser } = await getUser(user.id);
+				set(loggedInUser);
+				return loggedInUser;
 			}
-
-			set(loggedInUser);
-			return loggedInUser;
+			
 		} catch (error) {
 			handleError(error);
 		}

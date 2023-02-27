@@ -2,7 +2,7 @@
     import { userStore } from '../stores/userStore.js';
     import { playerStore } from '../stores/playerStore.js';
     import { time_zone } from '../shared/user-details.js';
-    import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Label } from 'flowbite-svelte';
+    import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Label, Input } from 'flowbite-svelte';
     import  CharacterCRUD  from './CharacterCRUD.svelte';
 
     export let edit;
@@ -10,9 +10,17 @@
     let openModal = false;
 
     const handleSubmit = () => {
-        player.likes = player.likes.replace(/\r?\n/g, '<br />');
-        player.dislikes = player.dislikes.replace(/\r?\n/g, '<br />');
+        if(player.likes !== null) {
+            player.likes = player.likes.replace(/\r?\n/g, '<br />');
+        }
+        if(player.dislikes !== null) {
+            player.dislikes = player.dislikes.replace(/\r?\n/g, '<br />');
+        }
+        player.user_id = $userStore.user_id;
+        player.profile_setup = true;
+
         playerStore.editPlayer(player);
+    
         openModal = false;
     }
 	
@@ -20,9 +28,9 @@
 
 
 {#if $userStore.user_id == player.user_id}
-    <div class="flex flex-row justify-end my-2">
+    <div class="flex flex-row justify-end my-6">
         <ButtonGroup>
-            <Button color="light" on:click={() => (openModal = true)}> {edit ? 'Edit ' : 'Create'} Profile</Button>
+            <Button size="xs" color="light" on:click={() => (openModal = true)}> {edit ? 'Edit ' : 'Create'} Profile</Button>
             <CharacterCRUD create={true} player={player} />
         </ButtonGroup>
     </div>
@@ -38,6 +46,7 @@
             label="Alias"
             class="mb-4"
             bind:value={player.alias}
+            placeholder="Alias (is not unique)"
         />
 
         <Select
@@ -51,10 +60,12 @@
         />
     </div>
 
+    <Input id="age" name="age" type="number" label="Age" class="mb-4" bind:value={player.age} placeholder="Age" />
+
     <Label>Likes</Label>
-    <Textarea id="likes" name="likes" label="Likes" bind:value={player.likes} />
+    <Textarea id="likes" name="likes" label="Likes" rows="5" placeholder="Tell other writers what kind of plots and genres you like to write." bind:value={player.likes} />
     <Label>Dislikes</Label>
-    <Textarea id="dislikes" name="dislikes" label="Dislikes" bind:value={player.dislikes} />
+    <Textarea id="dislikes" name="dislikes" label="Dislikes" rows="5" placeholder="Tell other writers what kind of plots and genres you do not like." bind:value={player.dislikes} />
     
     <div class="flex flex-row justify-center my-2">
         <ButtonGroup>

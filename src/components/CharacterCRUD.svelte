@@ -37,9 +37,9 @@
 
 {#if $userStore.user_id == player.user_id}
 	{#if create}
-		<Button color="green" on:click={() => (openModal = true)}> Create Character</Button>
+		<Button size="xs" color="green" on:click={() => (openModal = true)}> Create Character</Button>
 	{:else}
-		<div class="flex flex-row justify-end my-2">
+		<div class="flex flex-row justify-end my-6">
 		<ButtonGroup> 
 			<Button color="green" on:click={() => (openModal = true)}> {create ? 'Create ' : 'Edit'} Character</Button>
 		</ButtonGroup>

@@ -42,7 +42,7 @@ const createPlayerStore = () => {
 
 	const addPlayer = async (player) => {
 		try {
-			const { data } = await createUser(player);
+			const { data, error } = await createUser(player);
 
 			if (!data) {
 				throw new Error('Player not found');
