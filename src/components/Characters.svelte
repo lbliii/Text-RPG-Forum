@@ -10,7 +10,7 @@
 {#if $charactersStore}
 	<div>
 		{#each $charactersStore as character}
-			<Card size="lg" padding="sm" class="my-2">
+			<Card size="lg" padding="sm" class="my-2" href="/character/{character.id}">
 				<Heading tag="h3" class="mb-2">{character.first_name} {character.last_name}</Heading>
 				<div class="flex flex-row justify-between my-2">
 					{#if character.age}

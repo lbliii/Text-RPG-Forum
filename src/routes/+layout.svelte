@@ -5,7 +5,6 @@
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
-  authStore.fetchUser()
 
 </script>
 

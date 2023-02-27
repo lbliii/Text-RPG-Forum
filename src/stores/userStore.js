@@ -21,10 +21,13 @@ const createUserStore = () => {
 
 		try {
 			const { data: loggedInUser} = await getUser(user.id);
+
 			if (!loggedInUser) {
 				throw new Error('User not found');
 			}
+
 			set(loggedInUser);
+			return loggedInUser;
 		} catch (error) {
 			handleError(error);
 		}

@@ -1,19 +1,18 @@
 <script>
   import { userStore } from '../../../stores/userStore.js';
   import User from '../../../components/User.svelte'
-  import UserForm from '../../../components/UserForm.svelte'
-  import CharacterForm from '../../../components/CharacterForm.svelte'
+  import UserForm from '../../../components/UserCRUD.svelte'
+  import CharacterCRUD from '../../../components/CharacterCRUD.svelte'
 
 
   export let data;
-
 
 </script>
 
 <main >
 
   {#if $userStore.user_id == data.user_id}
-    <CharacterForm />
+    <CharacterCRUD create={true} />
   {/if}
 
   {#if $userStore}
