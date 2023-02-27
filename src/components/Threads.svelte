@@ -28,7 +28,7 @@
 	let openCreateModal = false;
 	
 	async function loadComponentData(){
-		threadsStore.fetchThreads(forum.id)
+		threadsStore.fetchForumThreads(forum.id)
 		await userStore.fetchUser(); 
 		await charactersStore.fetchCharacters($userStore.user_id);
 	}

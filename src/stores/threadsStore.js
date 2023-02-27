@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { getThreads,} from '../shared/actions.js';
+import { getForumThreads, getCharacterThreadLinks} from '../shared/actions.js';
 import { handleError } from '../shared/helpers.js';
 
 // Fetch, Add, Edit, Remove
@@ -9,13 +9,13 @@ export const createThreadStore = () => {
 
 	const { subscribe, set, update } = store;
 
-	const fetchThreads = async (forum_id) => {
+	const fetchForumThreads = async (forum_id) => {
 		try {
 			if (!forum_id) {
 				throw new Error('No forum_id provided');
 			}
 
-			const {data: threads} = await getThreads(forum_id);
+			const {data: threads} = await getForumThreads(forum_id);
 
 			if (!threads) {
 				throw new Error(`No threads found matching forum: ${forum_id}`);
@@ -31,8 +31,27 @@ export const createThreadStore = () => {
 		}
 	};
 
+	const fetchCharacterThreads = async (character_id) => {
+		try {
+			if (!character_id) {
+				throw new Error('No character_id provided');
+			}
+			const { data: links } = await getCharacterThreadLinks(character_id);
+
+			if (!links) {
+				throw new Error(`No links found matching character: ${character_id}`);
+			}
+
+			set(links);
+			return links;
+		} catch (error) {
+			handleError(error);
+		}
+	};
+
 	return {
-		fetchThreads,
+		fetchForumThreads,
+		fetchCharacterThreads,
 		subscribe,
 		set,
 		update,

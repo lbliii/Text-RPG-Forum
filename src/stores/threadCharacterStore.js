@@ -35,14 +35,14 @@ const createThreadCharacterStore = () => {
 			if (!character_id) {
 				throw new Error('No character_id provided');
 			}
-			const { data: links } = await getCharacterThreads(character_id);
+			const { data: threads } = await getCharacterThreads(character_id);
 
-			if (!links) {
+			if (!threads) {
 				throw new Error(`No links found matching character: ${character_id}`);
 			}
 
-			set(links);
-			return links;
+			set(threads);
+			return threads;
 		} catch (error) {
 			handleError(error);
 		}

@@ -2,6 +2,7 @@
 
 ## Todos:
  
+- add archive col to threads db so users can archive finished threads + admin can auto archive stale threads
 - Move shared js into a lib folder and update to use $/lib imports  https://kit.svelte.dev/docs/modules#$lib
 - Standardize language conventions for toggling crud modals. (`openEditModal`, `openDeleteModal`, `openEditModal`).
 - Standardize component naming for clarity 

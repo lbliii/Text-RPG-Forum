@@ -202,7 +202,7 @@ export const deletePost = async (post) => {
 
 // Thread Actions
 
-export const getThreads = async (forum_id) => {
+export const getForumThreads = async (forum_id) => {
 	try {
 		const { data, error } = await supabase
 			.from('threads')
@@ -214,6 +214,7 @@ export const getThreads = async (forum_id) => {
 		handleError(error);
 	}
 };
+
 
 export const getThread = async (id) => {
 	try {
@@ -346,7 +347,7 @@ export const getThreadCharacterLink = async (thread_id, user_id, character_id) =
 	}
 };
 
-export const getCharacterThreads = async (character_id) => {
+export const getCharacterThreadLinks = async (character_id) => {
 	try {
 		const { data, error } = await supabase
 			.from('thread_characters')
@@ -354,6 +355,22 @@ export const getCharacterThreads = async (character_id) => {
 			.match({ character_id })
 
 		console.log("character threads: ", {data});
+		if (error) throw error;
+		return {data};
+	} catch (error) {
+		handleError(error);
+	}
+}
+
+export const getCharacterThreads = async (character_id) => {
+	try {
+		const { data: characterThreadLinks} = await getCharacterThreadLinks(character_id);
+		
+		const thread_ids = characterThreadLinks.map((link) => link.thread_id);
+		const { data, error } = await supabase
+			.from('threads')
+			.select('*')
+			.in('id', thread_ids);
 		if (error) throw error;
 		return {data};
 	} catch (error) {
