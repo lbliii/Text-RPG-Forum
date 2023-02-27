@@ -1,5 +1,5 @@
 <script>
-	import { Avatar, Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
+	import { Avatar, Badge,  Card, Heading, P } from 'flowbite-svelte';
 	import { charactersStore } from '../stores/charactersStore.js';
 	import { userStore } from '../stores/userStore.js';
 
@@ -11,16 +11,14 @@
 	<div>
 		{#each $charactersStore as character}
 			<Card size="lg" padding="sm" class="my-2" href="/character/{character.id}">
-				<Heading tag="h3" class="mb-2">{character.first_name} {character.last_name}</Heading>
-				<div class="flex flex-row justify-between my-2">
+				<div class="flex flex-row justify-between items-center"> 
+					<Avatar size="lg" src="{character.avatar}" />
+					<Heading tag="h3" class="ml-2 text-center">{character.first_name} {character.last_name}</Heading>
+				</div>
+				
+				<div class="flex flex-row justify-between my-4">
 					{#if character.age}
-						<Badge color="pink">{character.age}</Badge>
-					{/if}
-					{#if character.gender}
-						<Badge color="yellow">{character.gender}</Badge>
-					{/if}
-					{#if character.relationship_status}
-						<Badge color="blue">{character.relationship_status}</Badge>
+						<Badge color="pink">lvl. {character.age}</Badge>
 					{/if}
 					{#if character.soul}
 						<Badge color="purple">{character.soul}</Badge>
@@ -28,9 +26,14 @@
 					{#if character.species}
 						<Badge color="green">{character.species}</Badge>
 					{/if}
+					{#if character.gender}
+						<Badge color="yellow">{character.gender}</Badge>
+					{/if}
+					{#if character.relationship_status}
+						<Badge color="blue">{character.relationship_status}</Badge>
+					{/if}
 				</div>
 
-				<P class="my-2">{@html character.bio}</P>
 			</Card>
 		{/each}
 	</div>

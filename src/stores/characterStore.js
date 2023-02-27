@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { handleError } from '../shared/helpers.js';
 import { getCharacter, createCharacter, deleteCharacter, updateCharacter } from '../shared/actions.js';
+import { goto } from '$app/navigation'
 
 // Verbs: Fetch, Add, Edit, Remove
 
@@ -70,8 +71,10 @@ const createCharacterStore = () => {
 
 	const removeCharacter = async (character) => {
 		try {
+			let user_id = character.user_id;
 			await deleteCharacter(character);
-			window.location.href = `/user/${character.user_id}`;
+
+			goto(`/user/${user_id}`);
 		} catch (error) {
 			handleError(error);
 			return null;

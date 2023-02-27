@@ -1,6 +1,5 @@
 <script>
 	import { Badge, Card, Heading, P } from 'flowbite-svelte';
-    import CharacterControls from './CharacterControls.svelte';
 
     export let character; 
 
@@ -40,6 +39,6 @@
     <Card size="lg" padding="sm" class="">
         <Heading tag="h4" class="mb-2">Biography</Heading>
         <P class="my-2">{@html character.bio}</P>
-
-        <CharacterControls character={character} />
     </Card>
+
+    

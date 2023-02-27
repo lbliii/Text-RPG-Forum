@@ -3,13 +3,16 @@
 	import { userStore } from '../stores/userStore.js';
 	import { gender, soul, species, relationship_status} from '../shared/character-details.js';
 	import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Input } from 'flowbite-svelte';
+	import { goto } from '$app/navigation'
 
 	export let create = false
 	export let character = {
 		user_id: $userStore.user_id
 	};
 
+
 	let openModal = false;
+	let deleteConfirmed = false;
 
 	const handleSubmit = () => {
 
@@ -25,6 +28,14 @@
 		openModal = false;
 
 		}
+
+
+	const handleDelete = () => {
+		characterStore.removeCharacter(character);
+		deleteConfirmed = false;
+		
+	}
+	
 
 </script>
 
@@ -120,6 +131,13 @@
 	</div>
 	<div class="flex justify-center">
 		<Button color="green" size="lg" type="submit" on:click={handleSubmit}> {create ? 'Create ' : 'Save Changes'} </Button>
+
+		{#if deleteConfirmed }
+			<Button color="red" size="lg" type="submit" on:click={handleDelete}> Confirm Delete </Button>
+		{:else}
+			<Button color="red" size="lg" type="submit" on:click={() => (deleteConfirmed = true)}> Delete </Button>
+		{/if}
+		
 	</div>
 </Modal>
 
