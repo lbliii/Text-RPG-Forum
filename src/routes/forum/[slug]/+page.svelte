@@ -10,9 +10,7 @@
 
 
 <main >
-    
     <ForumDetails forum={$forumStore} />
     <ForumCRUD forum={$forumStore} />
     <ForumThreadList forum={$forumStore} />
-
 </main>
