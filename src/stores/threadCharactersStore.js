@@ -3,6 +3,7 @@ import { handleError } from '../shared/helpers.js';
 import { getThreadCharacterLinks} from '../shared/actions.js';
 
 const createThreadCharactersStore = () => {
+	
 	const store = writable([{}]);
 
 	const { subscribe, set, update } = store;

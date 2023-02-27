@@ -1,7 +1,7 @@
 <script>
     import {  Heading, Card } from 'flowbite-svelte';
     import { forumStore } from '../../../stores/forumStore.js';
-    import Threads from '../../../components/Threads.svelte';
+    import ThreadList from '../../../components/ThreadList.svelte';
     import Forum from '../../../components/Forum.svelte';
     // import { onMount } from 'svelte';
 
@@ -37,6 +37,6 @@
     
     <Forum forum={forum} />
 
-    <Threads  forum={forum} />
+    <ThreadList forum={forum} />
 
 </main>

@@ -4,7 +4,7 @@
   import { threadStore } from '../../../stores/threadStore.js';
   import { userStore } from '../../../stores/userStore.js';
   import Posts from '../../../components/Posts.svelte';
-  import ThreadControls from '../../../components/ThreadControls.svelte';
+  import ThreadCRUD from '../../../components/ThreadCRUD.svelte';
 
   export let data;
   let thread = data
@@ -31,15 +31,9 @@
     <Heading tag="h2" class="my-3 ">{#if $threadStore.title}{$threadStore.title}{/if}</Heading>
     <Heading tag="h4" class="my-3">{#if $threadStore.description}{$threadStore.description}{/if}</Heading>
 
-    <ThreadControls thread={thread} />
+    <ThreadCRUD thread={thread} />
     
   </Card>
   
-
-  
-     
- 
- 
-
   <Posts thread={thread} user={$userStore} />
 </section>

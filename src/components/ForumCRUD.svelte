@@ -1,0 +1,1 @@
+<!-- todo: move forum CRUD actions into this component -->

@@ -26,7 +26,6 @@ $: {
 	} 
 
 	$postsStore 
-
 }
 
 
@@ -118,7 +117,6 @@ function handlePostDelete() {
 </section>
 
 <Modal bind:open={createModal} title="Add a Post to: {thread.title}.">
-
 	{#if $charactersStore }
 		<select bind:value={newPost.character_id} required>
 			{#each $charactersStore as character}
@@ -126,28 +124,24 @@ function handlePostDelete() {
 			{/each}
 		</select>
 	{/if}
-
 	<Label for="body" class="mb-2">Write a Post Body</Label>
 	<Textarea id="body" rows="10" bind:value={newPost.body} />
 	<Button color="green" on:click={handlePostCreate}>Create</Button>
 </Modal>
 
-	<Modal bind:open={editModal} title="Edit Post">
-		{#if $charactersStore }
-			<select bind:value={activePost.character_id} required>
-				{#each $charactersStore as character}
-					<option value={character.id}>{character.first_name} {character.last_name}</option>
-				{/each}
-			</select>
-		{/if}
-		<Textarea bind:value={activePost.body} />
-		<Button on:click={handlePostUpdate}>Update</Button>
-	</Modal>
+<Modal bind:open={editModal} title="Edit Post">
+	{#if $charactersStore }
+		<select bind:value={activePost.character_id} required>
+			{#each $charactersStore as character}
+				<option value={character.id}>{character.first_name} {character.last_name}</option>
+			{/each}
+		</select>
+	{/if}
+	<Textarea bind:value={activePost.body} />
+	<Button on:click={handlePostUpdate}>Update</Button>
+</Modal>
 
-	<Modal bind:open={deleteModal} title="Delete Post">
-		<P>Are you sure you want to delete this post?</P>
-		<Button color="red" on:click={handlePostDelete}>Delete</Button>
-	</Modal>
-
-
-	<!-- href={`/thread/${thread.id}/post/${post.id}`} -->
+<Modal bind:open={deleteModal} title="Delete Post">
+	<P>Are you sure you want to delete this post?</P>
+	<Button color="red" on:click={handlePostDelete}>Delete</Button>
+</Modal>

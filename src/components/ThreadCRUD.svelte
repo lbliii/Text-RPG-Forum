@@ -33,7 +33,7 @@
 	</div>
 {/if}
 
-<Modal bind:open={openEditModal} title="Edit Forum">
+<Modal bind:open={openEditModal} title="Edit Thread">
 	<form>
 		<div class="mb-3">
 			<label for="title" class="form-label">Title</label>

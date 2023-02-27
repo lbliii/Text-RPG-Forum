@@ -3,13 +3,12 @@
 	import { userStore } from '../stores/userStore.js';
 	import { gender, soul, species, relationship_status} from '../shared/character-details.js';
 	import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Input } from 'flowbite-svelte';
-	import {ArchiveBoxXMark as DeleteIcon} from 'svelte-heros-v2'
+	import {Trash} from 'svelte-heros-v2'
 
 	export let create = false
 	export let character = {
 		user_id: $userStore.user_id
 	};
-
 
 	let openModal = false;
 	let deleteConfirmed = false;
@@ -18,7 +17,6 @@
 
 		character.bio = character.bio.replace(/\r?\n/g, '<br />');
 
-
 		if (create) {
 			characterStore.addCharacter(character);
 		} else {
@@ -26,24 +24,19 @@
 		}
 
 		openModal = false;
-
 		}
-
 
 	const handleDelete = async () => {
 		await characterStore.removeCharacter(character);
 		deleteConfirmed = false;
-		
 	}
 	
-
 </script>
 
 <div class="flex flex-row justify-end my-2">
 	<ButtonGroup> 
 		<Button color="green" on:click={() => (openModal = true)}> {create ? 'Create ' : 'Edit'} Character</Button>
 	</ButtonGroup>
-
 </div>
 
 <Modal bind:open={openModal} size="xs" autoclose={false} title="{create ? 'Create ' : 'Edit'}  Character">
@@ -135,9 +128,9 @@
 	<div class="flex justify-center">
 		<Button color="green" size="lg" type="submit" on:click={handleSubmit}> {create ? 'Create ' : 'Save Changes'} </Button>
 		{#if character.id !== undefined && deleteConfirmed }
-			<Button  color="red" size="xs" type="submit" class="mx-2" on:click={handleDelete}> <DeleteIcon/>  </Button>
+			<Button  color="red" size="xs" type="submit" class="mx-2" on:click={handleDelete}> <Trash/>  </Button>
 		{:else if character.id !== undefined && !deleteConfirmed}
-			<Button outline color="dark" size="xs" type="submit" class="mx-2" on:click={() => (deleteConfirmed = true)}> <DeleteIcon/> </Button>
+			<Button outline color="dark" size="xs" type="submit" class="mx-2" on:click={() => (deleteConfirmed = true)}> <Trash/> </Button>
 		{/if}
 		
 	</div>

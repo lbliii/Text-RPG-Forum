@@ -1,7 +1,7 @@
 <script>
 	import { userStore } from '../stores/userStore.js';
 	import { Badge, Button, Card, Heading, Hr, Modal, P } from 'flowbite-svelte';
-	import Characters from '../components/Characters.svelte';
+	import CharacterList from './CharacterList.svelte';
 	import UserForm from './UserCRUD.svelte';
 
 	export let user = $userStore;
@@ -56,7 +56,7 @@
 				/></svg
 			>
 		</Hr>
-		<Characters {user}  />
+		<CharacterList />
 	</Card>
 </div>
 
