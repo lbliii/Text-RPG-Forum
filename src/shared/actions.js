@@ -276,6 +276,13 @@ export const getUsers = async () => {
 export const getUser = async (user_id) => {
 	try {
 		const { data, error } = await supabase.from('users').select().eq('user_id', user_id).single();
+
+		if (!data) {
+			// creates a new user if one doesn't exist for the authenticated user.
+			const { data, error } = await supabase.from('users').insert({ user_id }).select().single();
+			if (error) throw error;
+			return {data};
+		}
 		if (error) throw error;
 		return {data};
 	} catch (error) {
@@ -299,7 +306,8 @@ export const updateUser = async (user) => {
 			.from('users')
 			.update([user])
 			.eq('user_id', user.user_id)
-			.select();
+			.select()
+			.single();
 		if (error) throw error;
 		return {data};
 	} catch (error) {
@@ -354,7 +362,6 @@ export const getCharacterThreadLinks = async (character_id) => {
 			.select('*')
 			.match({ character_id })
 
-		console.log("character threads: ", {data});
 		if (error) throw error;
 		return {data};
 	} catch (error) {

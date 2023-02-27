@@ -1,11 +1,13 @@
 <script>
 	import { characterStore } from '../stores/characterStore.js';
 	import { userStore } from '../stores/userStore.js';
+	import {playerStore} from '../stores/playerStore.js'
 	import { gender, soul, species, relationship_status} from '../shared/character-details.js';
-	import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Input } from 'flowbite-svelte';
+	import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup } from 'flowbite-svelte';
 	import {Trash} from 'svelte-heros-v2'
 
 	export let create = false
+	export let player = $playerStore
 	export let character = {
 		user_id: $userStore.user_id
 	};
@@ -33,12 +35,16 @@
 	
 </script>
 
-{#if $userStore.user_id == character.user_id}
-	<div class="flex flex-row justify-end my-2">
+{#if $userStore.user_id == player.user_id}
+	{#if create}
+		<Button size="xs" color="green" on:click={() => (openModal = true)}> Create Character</Button>
+	{:else}
+		<div class="flex flex-row justify-end my-6">
 		<ButtonGroup> 
 			<Button color="green" on:click={() => (openModal = true)}> {create ? 'Create ' : 'Edit'} Character</Button>
 		</ButtonGroup>
 	</div>
+	{/if}
 {/if}
 
 <Modal bind:open={openModal} size="xs" autoclose={false} title="{create ? 'Create ' : 'Edit'}  Character">

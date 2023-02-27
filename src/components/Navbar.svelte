@@ -1,7 +1,6 @@
 <script>
 	import { supabase } from '../supabase.js';
 	import {
-		Chevron,
 		Dropdown,
 		DropdownItem,
 		DropdownDivider,
@@ -11,10 +10,9 @@
 		NavUl,
 		NavHamburger
 	} from 'flowbite-svelte';
-	import { UserCircle, RectangleStack } from 'svelte-heros-v2';
+	import { UserCircle } from 'svelte-heros-v2';
 	import { authStore } from '../stores/authStore.js';
-	import { userStore } from '../stores/userStore.js';
-
+	import { goto } from '$app/navigation'
 
 	export let user;
 
@@ -22,6 +20,7 @@
 		supabase.auth.signOut();
 		// clear the auth and user store 
 		authStore.set(null);
+		goto('/');
 	};
 
 </script>
@@ -40,7 +39,7 @@
 
 		{#if user}
 			<Dropdown color="green" triggeredBy="#auth-menu" class="">
-				<DropdownItem class="hover:bg-white" href="/user/{user.user_id}">View Profile</DropdownItem>
+				<DropdownItem class="hover:bg-white" href="/user/{$authStore.id}">View Profile</DropdownItem>
 				<DropdownDivider />
 				<DropdownItem href="/" on:click={logout}>Sign Out</DropdownItem>
 			</Dropdown>

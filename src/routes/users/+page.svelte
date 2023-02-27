@@ -1,10 +1,11 @@
 <script>
     import Users from '../../components/Users.svelte';
+    import { Heading } from 'flowbite-svelte';
 
 </script>
 
 <main>
-    <h1 class="text-4xl font-bold text-white text-center my-6">Users</h1>
+    <Heading tag="h1" class="my-6 text-center text-white">Users</Heading>
 
     <Users  />
 

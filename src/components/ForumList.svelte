@@ -39,6 +39,7 @@
 	}
 </script>
 
+
 {#if user && user.admin && user.admin !== undefined}
 	<div class="flex flex-row justify-end my-2">
 		<ButtonGroup class="space-x-px">
@@ -46,6 +47,7 @@
 		</ButtonGroup>
 	</div>
 {/if}
+
 <div class="flex justify-end items-center my-2">
 	<input
 		type="text"
@@ -55,7 +57,7 @@
 	/>
 </div>
 
-<section class="grid grid-cols-1 md:grid-cols-2 gap-4 grid-flow-row-dense">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 grid-flow-row-dense">
 	{#if filteredForums.length > 0}
 		{#each filteredForums as forum}
 			{#if forum.id !== undefined}
@@ -68,7 +70,7 @@
 			{/if}
 		{/each}
 	{/if}
-</section>
+</div>
 
 <Modal bind:open={openCreateModal} title="Create Topic">
 	<Input bind:value={newForum.title} placeholder="Enter a new topic." class="my-2" />

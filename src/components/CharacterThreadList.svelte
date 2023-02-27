@@ -32,5 +32,9 @@
 		</Card>
 	{/each}
 {:else}
-	<P class="my-2">No active threads</P>
+	<Card size="lg" padding="sm" class="my-6" >
+		<Heading tag="h4" class="mb-2">No Active Threads</Heading>
+		<P class="my-2">This character is not currently in any active threads.</P>
+	</Card>
+	
 {/if}

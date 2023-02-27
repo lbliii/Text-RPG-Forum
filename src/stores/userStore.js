@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { authStore } from './authStore.js';
-import { getUser, updateUser, createUser, deleteUser } from '../shared/actions.js'
+import { getUser } from '../shared/actions.js'
 import { handleError } from '../shared/helpers.js';
 
 // Fetch, Add, Edit, Remove
@@ -8,7 +8,7 @@ import { handleError } from '../shared/helpers.js';
 const createUserStore = () => {
 	const store = writable({});
 
-	const { subscribe, set, update } = store;
+	const { subscribe, set,  } = store;
 
 	const fetchUser = async () => {
 		let user;
@@ -17,86 +17,19 @@ const createUserStore = () => {
 			user = value;
 		})();
 
-		if (!user.id) return;
-
 		try {
-			const { data: loggedInUser} = await getUser(user.id);
-
-			if (!loggedInUser) {
-				throw new Error('User not found');
+			if (user.aud === "authenticated"){
+				const { data: loggedInUser } = await getUser(user.id);
+				set(loggedInUser);
+				return loggedInUser;
 			}
-
-			set(loggedInUser);
-			return loggedInUser;
+			
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
-	const fetchOtherUser = async (id) => {
-		try {
-			const { data: otherUser} = await getUser(id);
-			if (!otherUser) {
-				throw new Error('User not found');
-			}
-			return otherUser;
-		} catch (error) {
-			handleError(error);
-		}
-	};
-
-	const addUser = async (user) => {
-		try {
-			const { data: addedUser } = await createUser(user);
-			if (!addedUser) {
-				throw new Error('User not added');
-			}
-			update((users) => [...users, addedUser]);
-
-			return addedUser;
-		}
-		catch (error) {
-			handleError(error);
-		}
-	};
-
-	const editUser = async (user) => {
-		try {
-			const { data: editedUser } = await updateUser(user);
-			if (!editedUser) {
-				throw new Error('User not edited');
-			}
-			update((users) => {
-				const index = users.findIndex((u) => u.id === editedUser.id);
-				if (index === -1) return users;
-				users[index] = editedUser;
-				return users;
-			});
-			return editedUser;
-		}
-		catch (error) {
-			handleError(error);
-		}
-	};
-
-	const removeUser = async (user) => {
-		try {
-			const { data: deletedUser} = await deleteUser(user);
-			if (!deletedUser) {
-				throw new Error('User not deleted');
-			}
-			update((users) => {
-				const index = users.findIndex((u) => u.id === deletedUser.id);
-				if (index === -1) return users;
-				users.splice(index, 1);
-				return users;
-			});
-			return deletedUser;
-		}
-		catch (error) {
-			handleError(error);
-		}
-	};
+	
 
 
 	authStore.subscribe(() => {
@@ -107,11 +40,7 @@ const createUserStore = () => {
 
 	return {
 		subscribe,
-		addUser,
-		editUser,
-		removeUser,
 		fetchUser,
-		fetchOtherUser,
 	};
 };
 

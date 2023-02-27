@@ -1,11 +1,9 @@
-import {userStore} from '../../../stores/userStore.js';
+import {playerStore} from '../../../stores/playerStore.js';
 
 export async function load({ params }) {
-	let user_id = params.slug;
+	let player_id = params.slug;
 
-	let user = await userStore.fetchOtherUser(user_id);
-
-	return user;
+	return await playerStore.fetchPlayer(player_id);
 }
 
 
