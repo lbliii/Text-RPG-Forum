@@ -5,6 +5,7 @@
     import { characterStore } from '../../../stores/characterStore.js';
     import CharacterCRUD from '../../../components/CharacterCRUD.svelte';
 
+
     export let data;
     let character = data;
 

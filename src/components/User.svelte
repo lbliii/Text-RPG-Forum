@@ -56,7 +56,7 @@
 				/></svg
 			>
 		</Hr>
-		<Characters {user} owner={isOwner()} />
+		<Characters {user}  />
 	</Card>
 </div>
 

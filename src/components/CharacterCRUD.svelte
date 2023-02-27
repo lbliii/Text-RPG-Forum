@@ -3,7 +3,7 @@
 	import { userStore } from '../stores/userStore.js';
 	import { gender, soul, species, relationship_status} from '../shared/character-details.js';
 	import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Input } from 'flowbite-svelte';
-	import { goto } from '$app/navigation'
+	import {ArchiveBoxXMark as DeleteIcon} from 'svelte-heros-v2'
 
 	export let create = false
 	export let character = {
@@ -30,8 +30,8 @@
 		}
 
 
-	const handleDelete = () => {
-		characterStore.removeCharacter(character);
+	const handleDelete = async () => {
+		await characterStore.removeCharacter(character);
 		deleteConfirmed = false;
 		
 	}
@@ -49,23 +49,26 @@
 <Modal bind:open={openModal} size="xs" autoclose={false} title="Create Character">
 
 	<div class="flex flex-col text-sm mb-2">
-		<FloatingLabelInput
+		<div class="flex flex-row justify-between "> 
+			<FloatingLabelInput
 			id="first_name"
 			name="first_name"
 			type="text"
 			label="First Name"
 			class="mb-4"
 			bind:value={character.first_name}
-		/>
+			/>
 
-		<FloatingLabelInput
-			id="last_name"
-			name="last_name"
-			type="text"
-			label="Last Name"
-			class="mb-4"
-			bind:value={character.last_name}
-		/>
+			<FloatingLabelInput
+				id="last_name"
+				name="last_name"
+				type="text"
+				label="Last Name"
+				class="mb-4"
+				bind:value={character.last_name}
+			/>
+		</div>
+		
 
 		<FloatingLabelInput
 			id="age"
@@ -131,11 +134,10 @@
 	</div>
 	<div class="flex justify-center">
 		<Button color="green" size="lg" type="submit" on:click={handleSubmit}> {create ? 'Create ' : 'Save Changes'} </Button>
-
-		{#if deleteConfirmed }
-			<Button color="red" size="lg" type="submit" on:click={handleDelete}> Confirm Delete </Button>
-		{:else}
-			<Button color="red" size="lg" type="submit" on:click={() => (deleteConfirmed = true)}> Delete </Button>
+		{#if character.id !== undefined && deleteConfirmed }
+			<Button  color="red" size="xs" type="submit" class="mx-2" on:click={handleDelete}> <DeleteIcon/>  </Button>
+		{:else if character.id !== undefined && !deleteConfirmed}
+			<Button outline color="dark" size="xs" type="submit" class="mx-2" on:click={() => (deleteConfirmed = true)}> <DeleteIcon/> </Button>
 		{/if}
 		
 	</div>
