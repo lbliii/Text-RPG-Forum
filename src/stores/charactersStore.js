@@ -32,6 +32,7 @@ const createCharacterStore = () => {
 	return {
 		subscribe,
 		fetchCharacters,
+		set,
 		update 
 	};
 };

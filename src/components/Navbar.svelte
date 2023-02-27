@@ -11,16 +11,22 @@
 		NavUl,
 		NavHamburger
 	} from 'flowbite-svelte';
+	import { UserCircle, RectangleStack } from 'svelte-heros-v2';
+	import { authStore } from '../stores/authStore.js';
+	import { userStore } from '../stores/userStore.js';
+
 
 	export let user;
 
 	const logout = () => {
 		supabase.auth.signOut();
+		// clear the auth and user store 
+		authStore.set(null);
 	};
 
 </script>
 
-<Navbar color="gray" class="rounded" let:hidden let:toggle>
+<Navbar color="light"  let:hidden let:toggle rounded>
 	<NavBrand href="/">
 		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
 			Emdash
@@ -30,11 +36,7 @@
 	<NavUl {hidden}>
 		<NavLi href="/users">Users</NavLi>
 		<NavLi href="/forums">Forums</NavLi>
-		<NavLi id="auth-menu" class="cursor-pointer"
-			><Chevron aligned
-				>{#if user}@{user.alias}{/if}</Chevron
-			></NavLi
-		>
+		<NavLi id="auth-menu" class="cursor-pointer"> {#if user}<UserCircle color="{user.admin ? 'red' : 'black'} "/>{/if}</NavLi>
 
 		{#if user}
 			<Dropdown color="green" triggeredBy="#auth-menu" class="">

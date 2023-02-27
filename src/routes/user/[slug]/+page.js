@@ -1,15 +1,11 @@
-import { supabase } from '../../../supabase.js';
-
+import {userStore} from '../../../stores/userStore.js';
 
 export async function load({ params }) {
 	let user_id = params.slug;
 
-	const { data, error } = await supabase.from('users').select().match({ user_id });
+	let user = await userStore.fetchOtherUser(user_id);
 
-	if (error) {
-		return console.error(error || 'Error loading user');
-	}
-	return data[0];
+	return user;
 }
 
 

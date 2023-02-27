@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { handleError } from '../shared/helpers.js';
-import { getThreadCharacterLink, createThreadCharacterLink, updateThreadCharacterLink, deleteThreadCharacterLink } from '../shared/actions.js';
+import { getThreadCharacterLink, getCharacterThreads, createThreadCharacterLink, updateThreadCharacterLink, deleteThreadCharacterLink } from '../shared/actions.js';
 
 const createThreadCharacterStore = () => {
 	const store = writable({});
@@ -24,6 +24,25 @@ const createThreadCharacterStore = () => {
 
 			set(link);
 			return link;
+		} catch (error) {
+			handleError(error);
+		}
+	};
+
+
+	const fetchCharacterThreads = async (character_id) => {
+		try {
+			if (!character_id) {
+				throw new Error('No character_id provided');
+			}
+			const { data: threads } = await getCharacterThreads(character_id);
+
+			if (!threads) {
+				throw new Error(`No links found matching character: ${character_id}`);
+			}
+
+			set(threads);
+			return threads;
 		} catch (error) {
 			handleError(error);
 		}
@@ -85,6 +104,7 @@ const createThreadCharacterStore = () => {
 	
 	return {
 		fetchThreadCharacter,
+		fetchCharacterThreads,
 		subscribe,
 		addCharacter,
 		editCharacter,
@@ -93,4 +113,4 @@ const createThreadCharacterStore = () => {
 	};
 };
 
-export const threadCharactersStore = createThreadCharacterStore();
+export const threadCharacterStore = createThreadCharacterStore();

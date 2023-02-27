@@ -21,10 +21,25 @@ const createUserStore = () => {
 
 		try {
 			const { data: loggedInUser} = await getUser(user.id);
+
 			if (!loggedInUser) {
 				throw new Error('User not found');
 			}
+
 			set(loggedInUser);
+			return loggedInUser;
+		} catch (error) {
+			handleError(error);
+		}
+	};
+
+	const fetchOtherUser = async (id) => {
+		try {
+			const { data: otherUser} = await getUser(id);
+			if (!otherUser) {
+				throw new Error('User not found');
+			}
+			return otherUser;
 		} catch (error) {
 			handleError(error);
 		}
@@ -96,6 +111,7 @@ const createUserStore = () => {
 		editUser,
 		removeUser,
 		fetchUser,
+		fetchOtherUser,
 	};
 };
 

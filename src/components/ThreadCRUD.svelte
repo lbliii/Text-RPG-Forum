@@ -1,7 +1,8 @@
 <script>
 	import { threadStore } from '../stores/threadStore.js';
 	import { userStore } from '../stores/userStore.js';
-	import { Button, ButtonGroup, P, Modal, Input, Textarea } from 'flowbite-svelte';
+	import { Button, ButtonGroup, P, Modal, Input, Textarea, Dropdown, DropdownItem, Chevron } from 'flowbite-svelte';
+	import { EllipsisHorizontalCircle } from 'svelte-heros-v2';
 	import { goto } from '$app/navigation';
 
 	export let thread = $threadStore;
@@ -23,15 +24,16 @@
 </script>
 
 {#if $userStore.user_id === thread.user_id}
-	<section class="flex justify-end">
-		<ButtonGroup class="mb-3">
-			<Button size="xs" on:click={() => (openEditModal = true)} class="btn btn-primary">Edit</Button>
-			<Button size="xs" color="red" on:click={() => (openDeleteModal = true)} >Delete</Button>
-		</ButtonGroup>
-	</section>
+	<div class="flex flex-row justify-end items-center my-2">
+		<EllipsisHorizontalCircle size="30" class="text-green-900 cursor-pointer"  />
+		<Dropdown >
+			<DropdownItem on:click={() => (openEditModal = true)}>Edit</DropdownItem>
+			<DropdownItem  on:click={() => (openDeleteModal = true)} >Delete</DropdownItem>
+		</Dropdown>
+	</div>
 {/if}
 
-<Modal bind:open={openEditModal} title="Edit Forum">
+<Modal bind:open={openEditModal} title="Edit Thread">
 	<form>
 		<div class="mb-3">
 			<label for="title" class="form-label">Title</label>

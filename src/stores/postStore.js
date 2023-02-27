@@ -64,16 +64,15 @@ const createPostStore = () => {
 			if(!post) {
 				throw new Error('No post provided');
 			}
-
+			console.log("postStore.js: ", post)
 			const { data: updatedPost } = await updatePost(post);
 
 			if (!updatedPost) {
 				throw new Error(`No post updated for post: ${post}`);
 			}
 
-			
 			postsStore.update((posts) => posts.map((p) => (p.id === post.id ? post : p)));
-			return updatedPost;
+
 		} catch (error) {
 			handleError(error);
 		}
@@ -86,10 +85,10 @@ const createPostStore = () => {
 			}
 
 			const { data: deletedPost } = await deletePost(post);
+		
+			postsStore.update((posts) => posts.filter((p) => p.id !== post.id));
+		
 
-			postsStore.update(posts => posts.filter(p => p.id !== post.id));
-
-			return deletedPost;
 		} catch (error) {
 			handleError(error);
 		}

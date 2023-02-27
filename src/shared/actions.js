@@ -24,7 +24,12 @@ export const updateAuth = (callback) => {
 
 export const getCharacters = async (user_id) => {
 	try {
-		return await supabase.from('characters').select('*').match({ user_id: user_id });
+		const { data, error } = await supabase
+			.from('characters')
+			.select('*')
+			.match({ user_id: user_id });
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -32,7 +37,9 @@ export const getCharacters = async (user_id) => {
 
 export const getCharacter = async (id) => {
 	try {
-		return await supabase.from('characters').select().eq('id', id).single();
+		const { data, error } = await supabase.from('characters').select().eq('id', id).single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -40,7 +47,9 @@ export const getCharacter = async (id) => {
 
 export const createCharacter = async (character) => {
 	try {
-		return await supabase.from('characters').insert([character]).select().single();
+		const { data, error } = await supabase.from('characters').insert([character]).select().single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -48,7 +57,14 @@ export const createCharacter = async (character) => {
 
 export const updateCharacter = async (character) => {
 	try {
-		return await supabase.from('characters').update([character]).eq('id', character.id).select().single()
+		const { data, error } = await supabase
+			.from('characters')
+			.update([character])
+			.eq('id', character.id)
+			.select()
+			.single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);;
 	}
@@ -56,8 +72,9 @@ export const updateCharacter = async (character) => {
 
 export const deleteCharacter = async (character) => {
 	try {
-		await supabase.from('characters').delete().eq('id', character.id);
-		return true;
+		const {data, error} = await supabase.from('characters').delete().eq('id', character.id);
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -67,7 +84,9 @@ export const deleteCharacter = async (character) => {
 
 export const getForums = async () => {
 	try {
-		return await supabase.from('forums').select('*');
+		const { data, error } = await supabase.from('forums').select('*');
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -75,7 +94,9 @@ export const getForums = async () => {
 
 export const getForum = async (id) => {
 	try {
-		return await supabase.from('forums').select('*').match({ id }).single()
+		const { data, error } = await supabase.from('forums').select('*').match({ id }).single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -83,7 +104,9 @@ export const getForum = async (id) => {
 
 export const createForum = async (forum) => {
 	try {
-		return await supabase.from('forums').insert(forum).select().single()
+		const { data, error } = await supabase.from('forums').insert(forum).select().single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -91,7 +114,14 @@ export const createForum = async (forum) => {
 
 export const updateForum = async (forum) => {
 	try {
-		return await supabase.from('forums').update(forum).eq('id', forum.id).select().single()
+		const { data, error } = await supabase
+			.from('forums')
+			.update(forum)
+			.eq('id', forum.id)
+			.select()
+			.single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -99,8 +129,9 @@ export const updateForum = async (forum) => {
 
 export const deleteForum = async (id) => {
 	try {
-		await supabase.from('forums').delete().eq('id', id);
-		return true;
+		const {data, error} = await supabase.from('forums').delete().eq('id', id);
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -110,7 +141,12 @@ export const deleteForum = async (id) => {
 
 export const getPosts = async (thread_id) => {
 	try {
-		return await supabase.from('posts').select('*').match({ thread_id: thread_id });
+		const { data, error } = await supabase
+			.from('posts')
+			.select('*')
+			.match({ thread_id: thread_id });
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -118,7 +154,9 @@ export const getPosts = async (thread_id) => {
 
 export const getPost = async (id) => {
 	try {
-		return await supabase.from('posts').select().match({ id }).single()
+		const { data, error } = await supabase.from('posts').select().match({ id }).single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -126,7 +164,9 @@ export const getPost = async (id) => {
 
 export const createPost = async (post) => {
 	try {
-		return await supabase.from('posts').insert(post).select().single()
+		const { data, error } = await supabase.from('posts').insert(post).select().single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -134,11 +174,17 @@ export const createPost = async (post) => {
 
 export const updatePost = async (post) => {
 	try {
-		return await supabase.from('posts').update({ 
-			body: post.body,
-			updated_at: new Date(),
-			character_id: post.character_id
-		 }).match({ id: post.id }).select();
+		const { data, error } = await supabase
+			.from('posts')
+			.update({
+				body: post.body,
+				updated_at: new Date(),
+				character_id: post.character_id
+			})
+			.match({ id: post.id })
+			.select();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -146,8 +192,9 @@ export const updatePost = async (post) => {
 
 export const deletePost = async (post) => {
 	try {
-		await supabase.from('posts').delete().match({ id: post.id });
-		return true;
+		const {data, error} = await supabase.from('posts').delete().match({ id: post.id });
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -155,17 +202,25 @@ export const deletePost = async (post) => {
 
 // Thread Actions
 
-export const getThreads = async (forum_id) => {
+export const getForumThreads = async (forum_id) => {
 	try {
-		return await supabase.from('threads').select('*').match({ forum_id: forum_id });
+		const { data, error } = await supabase
+			.from('threads')
+			.select('*')
+			.match({ forum_id: forum_id });
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
 };
 
+
 export const getThread = async (id) => {
 	try {
-		return await supabase.from('threads').select().match({ id }).single()
+		const { data, error } = await supabase.from('threads').select().match({ id }).single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -173,7 +228,9 @@ export const getThread = async (id) => {
 
 export const createThread = async (thread) => {
 	try {
-		return await supabase.from('threads').insert(thread).select().single()
+		const { data, error } = await supabase.from('threads').insert(thread).select().single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -181,7 +238,13 @@ export const createThread = async (thread) => {
 
 export const updateThread = async (thread) => {
 	try {
-		return await supabase.from('threads').update({ ...thread }).match({ id: thread.id }).select();
+		const { data, error } = await supabase
+			.from('threads')
+			.update({ ...thread })
+			.match({ id: thread.id })
+			.select();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -189,8 +252,9 @@ export const updateThread = async (thread) => {
 
 export const deleteThread = async (thread) => {
 	try {
-		await supabase.from('threads').delete().match({ id: thread.id });
-		return true;
+		const {data, error} = await supabase.from('threads').delete().match({ id: thread.id });
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -201,7 +265,9 @@ export const deleteThread = async (thread) => {
 
 export const getUsers = async () => {
 	try {
-		return await supabase.from('users').select('*');
+		const { data, error } = await supabase.from('users').select('*');
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -209,7 +275,9 @@ export const getUsers = async () => {
 
 export const getUser = async (user_id) => {
 	try {
-		return await supabase.from('users').select().eq('user_id', user_id).single()
+		const { data, error } = await supabase.from('users').select().eq('user_id', user_id).single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -217,7 +285,9 @@ export const getUser = async (user_id) => {
 
 export const createUser = async (user) => {
 	try {
-		return await supabase.from('users').insert([user]).select().single()
+		const { data, error } = await supabase.from('users').insert([user]).select().single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -225,7 +295,13 @@ export const createUser = async (user) => {
 
 export const updateUser = async (user) => {
 	try {
-		return await supabase.from('users').update([user]).eq('user_id', user.user_id).select();
+		const { data, error } = await supabase
+			.from('users')
+			.update([user])
+			.eq('user_id', user.user_id)
+			.select();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -233,8 +309,9 @@ export const updateUser = async (user) => {
 
 export const deleteUser = async (user) => {
 	try {
-		await supabase.from('users').delete().eq('user_id', user.user_id);
-		return true;
+		const {data, error} = await supabase.from('users').delete().eq('user_id', user.user_id);
+		if (error) throw error;
+		return {data} ;
 	} catch (error) {
 		handleError(error);
 	}
@@ -245,7 +322,12 @@ export const deleteUser = async (user) => {
 
 export const getThreadCharacterLinks = async (thread_id) => {
 	try {
-		return await supabase.from('thread_characters').select('*').match({ thread_id: thread_id });
+		const { data, error } = await supabase
+			.from('thread_characters')
+			.select('*')
+			.match({ thread_id: thread_id });
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -253,11 +335,48 @@ export const getThreadCharacterLinks = async (thread_id) => {
 
 export const getThreadCharacterLink = async (thread_id, user_id, character_id) => {
 	try {
-		return await supabase.from('thread_characters').select().match({ thread_id, user_id, character_id }).single();
+		const { data, error } = await supabase
+			.from('thread_characters')
+			.select()
+			.match({ thread_id, user_id, character_id })
+			.single();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
 };
+
+export const getCharacterThreadLinks = async (character_id) => {
+	try {
+		const { data, error } = await supabase
+			.from('thread_characters')
+			.select('*')
+			.match({ character_id })
+
+		console.log("character threads: ", {data});
+		if (error) throw error;
+		return {data};
+	} catch (error) {
+		handleError(error);
+	}
+}
+
+export const getCharacterThreads = async (character_id) => {
+	try {
+		const { data: characterThreadLinks} = await getCharacterThreadLinks(character_id);
+		
+		const thread_ids = characterThreadLinks.map((link) => link.thread_id);
+		const { data, error } = await supabase
+			.from('threads')
+			.select('*')
+			.in('id', thread_ids);
+		if (error) throw error;
+		return {data};
+	} catch (error) {
+		handleError(error);
+	}
+}
 
 export const createThreadCharacterLink = async (thread_id, user_id, character_id) => {
 	try {
@@ -268,10 +387,12 @@ export const createThreadCharacterLink = async (thread_id, user_id, character_id
 			throw new Error("Link already exists for this thread + user + character combination.")
 		}
 
-		return await supabase
+		const { data, error } = await supabase
 			.from('thread_characters')
 			.insert({ thread_id: thread_id, user_id: user_id, character_id: character_id })
 			.select();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -279,11 +400,13 @@ export const createThreadCharacterLink = async (thread_id, user_id, character_id
 
 export const updateThreadCharacterLink = async (thread_id, user_id, character_id) => {
 	try {
-		return await supabase
+		const { data, error } = await supabase
 			.from('thread_characters')
 			.update(character_id)
 			.match({ thread_id: thread_id, user_id: user_id })
 			.select();
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}
@@ -291,11 +414,12 @@ export const updateThreadCharacterLink = async (thread_id, user_id, character_id
 
 export const deleteThreadCharacterLink = async (thread_id, user_id) => {
 	try {
-		await supabase
+		const { data, error } = await supabase
 			.from('thread_characters')
 			.delete()
 			.match({ thread_id: thread_id, user_id: user_id });
-		return true;
+		if (error) throw error;
+		return {data};
 	} catch (error) {
 		handleError(error);
 	}

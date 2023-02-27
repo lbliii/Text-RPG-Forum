@@ -28,7 +28,7 @@
 	let openCreateModal = false;
 	
 	async function loadComponentData(){
-		threadsStore.fetchThreads(forum.id)
+		threadsStore.fetchForumThreads(forum.id)
 		await userStore.fetchUser(); 
 		await charactersStore.fetchCharacters($userStore.user_id);
 	}
@@ -73,7 +73,7 @@
 	}
 </script>
 
-<section>
+<section >
 	<div class="flex flex-row justify-end my-2">
 		<ButtonGroup class="space-x-px">
 			<Button size="xs" color="light" on:click={toggleSort}>
@@ -98,14 +98,15 @@
 			{#each filteredThreads as thread}
 			{#if thread.id !== undefined}
 				<Card size="lg" padding="sm" img={thread.image} href={`/thread/${thread.id}`} class="my-4">
-					<div class="flex flex-row justify-start my-2">
-						<Badge color="green"> {new Date(thread.last_updated).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
+					<div class="flex flex-col">
+						<Badge color="green" class="w-fit"> {new Date(thread.last_updated).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
+						<Heading tag="h3" class="my-2">{thread.title}</Heading>
+						{#if thread.description}
+							<P>{thread.description}</P>
+						{/if}
 					</div>
-					
-					<Heading size="md" class="text-center">{thread.title}</Heading>
-					{#if thread.description}
-						<P class="text-center">{thread.description}</P>
-					{/if}
+
+						
 					<ThreadCharacterDetails thread={thread} />
 					
 				</Card>

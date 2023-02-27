@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { handleError } from '../shared/helpers.js';
 import { getCharacter, createCharacter, deleteCharacter, updateCharacter } from '../shared/actions.js';
+import { goto } from '$app/navigation'
 
 // Verbs: Fetch, Add, Edit, Remove
 
@@ -23,7 +24,7 @@ const createCharacterStore = () => {
 				throw new Error(`No character found matching id: ${id}`);
 			}
 
-			set({});
+			set(character);
 			return character;
 		} catch (error) {
 			handleError(error);
@@ -45,7 +46,7 @@ const createCharacterStore = () => {
 				throw new Error(`Character ${newCharacter.first_name} was not created.`);
 			}
 
-			window.location.href = `/character/${character[0].id}`;
+			window.location.href = `/character/${character.id}`;
 			return character[0];
 		} catch (error) {
 			handleError(error);
@@ -61,17 +62,19 @@ const createCharacterStore = () => {
 				throw new Error(`Character ${character.first_name} was not updated.`);
 			}
 
-			update(editedCharacter);
+			set(character);
 			return editedCharacter;
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
-	const deleteCharacter = async (deletedCharacter) => {
+	const removeCharacter = async (character) => {
 		try {
-			await deleteCharacter(deletedCharacter);
-			window.location.href = `/user/${deletedCharacter.user_id}`;
+			let user_id = character.user_id;
+			await deleteCharacter(character);
+
+			goto(`/user/${user_id}`);
 		} catch (error) {
 			handleError(error);
 			return null;
@@ -83,7 +86,9 @@ const createCharacterStore = () => {
 		fetchCharacter,
 		addCharacter,
 		editCharacter,
-		deleteCharacter,
+		removeCharacter,
+		set,
+		update,
 	};
 };
 
