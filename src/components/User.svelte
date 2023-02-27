@@ -56,7 +56,7 @@
 				/></svg
 			>
 		</Hr>
-		<CharacterList />
+		<CharacterList user={user}/>
 	</Card>
 </div>
 

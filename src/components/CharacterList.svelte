@@ -1,7 +1,7 @@
 <script>
-	import { Avatar, Badge,  Card, Heading, P } from 'flowbite-svelte';
 	import { charactersStore } from '../stores/charactersStore.js';
 	import { userStore } from '../stores/userStore.js';
+	import { Avatar, Badge,  Card, Heading, P } from 'flowbite-svelte';
 	import CharacterThreadCounter from './CharacterThreadCounter.svelte';
 
 	export let user = $userStore;

@@ -33,11 +33,13 @@
 	
 </script>
 
-<div class="flex flex-row justify-end my-2">
-	<ButtonGroup> 
-		<Button color="green" on:click={() => (openModal = true)}> {create ? 'Create ' : 'Edit'} Character</Button>
-	</ButtonGroup>
-</div>
+{#if $userStore.user_id == character.user_id}
+	<div class="flex flex-row justify-end my-2">
+		<ButtonGroup> 
+			<Button color="green" on:click={() => (openModal = true)}> {create ? 'Create ' : 'Edit'} Character</Button>
+		</ButtonGroup>
+	</div>
+{/if}
 
 <Modal bind:open={openModal} size="xs" autoclose={false} title="{create ? 'Create ' : 'Edit'}  Character">
 

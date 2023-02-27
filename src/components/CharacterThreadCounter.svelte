@@ -1,6 +1,6 @@
 <script>
-	import { Badge} from 'flowbite-svelte';
 	import { threadCharacterStore } from '../stores/threadCharacterStore.js';
+	import { Badge} from 'flowbite-svelte';
 
 	export let character
 	let thread_count;

@@ -3,8 +3,11 @@
 	import { forumStore } from '../stores/forumStore.js';
 	import { threadCharacterStore } from '../stores/threadCharacterStore.js';
 
-	export let character;
-	threadCharacterStore.fetchCharacterThreads(character.id) // list of threads with matching character_id
+	export let character 
+
+	threadCharacterStore.fetchCharacterThreads(character.id)
+
+   $: threadCharacterStore
 
 	async function fetchForumTitle (id) {
         return forumStore.fetchForum(id)
@@ -13,7 +16,7 @@
 </script>
 
 
-
+<Heading tag="h4" class="my-6 text-center text-white">Active Threads</Heading>
 {#if $threadCharacterStore.length > 0}
 	{#each $threadCharacterStore as thread}
 		<Card size="lg" padding="sm" class="my-6" href="/thread/{thread.id}" >

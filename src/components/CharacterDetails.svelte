@@ -1,7 +1,6 @@
 <script>
-	import { Badge, Card, Heading, P } from 'flowbite-svelte';
+	import { Avatar, Badge, Card, Heading, P } from 'flowbite-svelte';
     import { threadCharacterStore } from '../stores/threadCharacterStore.js';
-    import CharacterThreadList from './CharacterThreadList.svelte';
 
     /**
 	 * @type {{ id: any; soul: string; species: string; age: number; gender: string; relationship_status: string; bio: string; }}
@@ -12,6 +11,12 @@
 
 
 </script>
+
+<div class="flex flex-row my-10 items-center ">
+        <Heading tag="h3" class="my-3 text-center text-white">{character.first_name} </Heading>
+        <Avatar src={character.avatar} size="xl" class="mx-auto" />
+        <Heading tag="h3" class="my-3 text-center text-white">{character.last_name}</Heading>
+</div>
 
     <div class="flex flex-row justify-between my-6">
         <Card size="lg" padding="sm" class="text-center" >
@@ -48,8 +53,3 @@
         <P class="my-2">{@html character.bio}</P>
     </Card>
 
-    <Heading tag="h4" class="my-6 text-white text-center">Active Threads</Heading>
-    <div class="flex flex-col">
-        <CharacterThreadList character={character} />
-    </div>
-    
