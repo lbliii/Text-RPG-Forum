@@ -1,10 +1,10 @@
 <script>
-  import ForumList from '../../components/ForumList.svelte';
   import { userStore } from '../../stores/userStore.js';
+  import ForumsDetails from '../../components/ForumsDetails.svelte';
+  import ForumList from '../../components/ForumList.svelte';
 </script>
 
 <main>
-  <h1 class="text-4xl font-bold text-white text-center my-6">Forums</h1>
-
+  <ForumsDetails />
   <ForumList user={$userStore} />
 </main>
