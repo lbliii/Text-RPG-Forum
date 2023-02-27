@@ -8,6 +8,13 @@
     export let edit;
     export let player = $playerStore;
     let openModal = false;
+
+    const handleSubmit = () => {
+        player.likes = player.likes.replace(/\r?\n/g, '<br />');
+        player.dislikes = player.dislikes.replace(/\r?\n/g, '<br />');
+        playerStore.editPlayer(player);
+        openModal = false;
+    }
 	
 </script>
 
@@ -51,7 +58,7 @@
     
     <div class="flex flex-row justify-center my-2">
         <ButtonGroup>
-            <Button color="green" on:click={() => (openModal = false)}>Save</Button>
+            <Button color="green" on:click={handleSubmit}>Save</Button>
             <Button color="red" on:click={() => (openModal = false)}>Cancel</Button>
         </ButtonGroup>
     </div>

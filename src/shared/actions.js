@@ -299,7 +299,8 @@ export const updateUser = async (user) => {
 			.from('users')
 			.update([user])
 			.eq('user_id', user.user_id)
-			.select();
+			.select()
+			.single();
 		if (error) throw error;
 		return {data};
 	} catch (error) {
