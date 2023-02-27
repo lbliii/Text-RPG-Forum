@@ -20,8 +20,13 @@
 
 	export let forum = $forumStore;
 	let user = $userStore;
-	let newThread = $threadStore;
-	let newPost = $postStore;
+	let newThread = {
+		title: '',
+		description: '',
+	}
+	let newPost = {
+		body: '',
+	}
 	let sortAscending = true;
 	let filteredThreads = $threadsStore;
 	let searchTerm = '';

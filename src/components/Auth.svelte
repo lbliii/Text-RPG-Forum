@@ -1,6 +1,7 @@
 <script>
 	import { supabase } from '../supabase.js';
-	import { Card, Heading, Modal, P, Button, ButtonGroup, Input }  from 'flowbite-svelte';
+	import { Card, P, Button, }  from 'flowbite-svelte';
+	import { goto } from '$app/navigation';
 
 	let loading = false;
 	let email;
@@ -16,6 +17,7 @@
 			alert(`Error: ${error.message || error.error_description}`);
 		} finally {
 			loading = false;
+			goto('/forums')
 		}
 	};
 </script>

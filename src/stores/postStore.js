@@ -48,6 +48,8 @@ const createPostStore = () => {
 				throw new Error(`No post created for post: Thread ID: ${post.thread_id}, Character ID: ${post.character_id}, User ID: ${post.user_id}, Body: ${post.body}`);
 			}
 
+			console.log('linkstuff', {thread_id: newPost.thread_id, user_id: newPost.user_id, character_id: newPost.character_id})
+
 			createThreadCharacterLink(newPost.thread_id, newPost.user_id, newPost.character_id);
 
 			postsStore.update(posts => [...posts, newPost]);

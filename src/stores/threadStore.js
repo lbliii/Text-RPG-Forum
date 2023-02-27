@@ -9,6 +9,7 @@ import {
 } from '../shared/actions.js';
 import { handleError } from '../shared/helpers.js';
 import {threadsStore} from './threadsStore.js';
+import { goto } from '$app/navigation';
 
 // Fetch, Add, Edit, Remove
 
@@ -71,6 +72,7 @@ export const createThreadStore = () => {
 			threadsStore.update((threads) => [...threads, addedThread]);
 			
 			set({})
+			goto(`/thread/${addedThread.id}`);
 
 		} catch (error) {
 			handleError(error);

@@ -59,7 +59,7 @@ function handlePostDelete() {
 </script>
 
 <section>
-	<div class="flex flex-row justify-end my-2">
+	<div class="flex flex-row justify-end my-6">
 		<ButtonGroup class="space-x-px">
 			<Button size="xs" color="light" on:click={toggleSort}>
 				{sortAscending ? 'Newest' : 'Oldest'}
