@@ -15,12 +15,12 @@
 
 <main>
     {#if $userStore.user_id == character.user_id}
-        <CharacterCRUD create={false} character={character} />
+        <CharacterCRUD create={false} character={$characterStore} />
     {/if}
     <div class="flex flex-row my-10 items-center ">
-        <Heading tag="h3" class="my-3 text-center text-white">{character.first_name} </Heading>
-        <Avatar src={character.avatar} size="xl" class="mx-auto" />
-        <Heading tag="h3" class="my-3 text-center text-white">{character.last_name}</Heading>
+        <Heading tag="h3" class="my-3 text-center text-white">{$characterStore.first_name} </Heading>
+        <Avatar src={$characterStore.avatar} size="xl" class="mx-auto" />
+        <Heading tag="h3" class="my-3 text-center text-white">{$characterStore.last_name}</Heading>
     </div>
     <Character character={$characterStore} />
 </main>

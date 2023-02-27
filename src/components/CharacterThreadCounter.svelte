@@ -3,14 +3,19 @@
 	import { threadCharacterStore } from '../stores/threadCharacterStore.js';
 
 	export let character
-	let thread_count = []
+	let thread_count;
 
 	async function countThreads(character_id) {
 		let count = await threadCharacterStore.fetchCharacterThreads(character_id)
-		thread_count = count.length
+		return thread_count = count.length
 	}
 
-    countThreads(character.id)
 </script>
 
-<Badge color="gray">{thread_count} Threads</Badge>
+<Badge color="gray">
+	{#await countThreads(character.id)}
+		...
+	{:then thread_count}
+		{thread_count} Threads
+	{/await}
+</Badge>

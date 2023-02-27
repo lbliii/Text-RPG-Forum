@@ -46,7 +46,7 @@
 
 </div>
 
-<Modal bind:open={openModal} size="xs" autoclose={false} title="Create Character">
+<Modal bind:open={openModal} size="xs" autoclose={false} title="{create ? 'Create ' : 'Edit'}  Character">
 
 	<div class="flex flex-col text-sm mb-2">
 		<div class="flex flex-row justify-between "> 

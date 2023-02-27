@@ -1,21 +1,18 @@
 <script>
 	import { threadCharactersStore } from '../stores/threadCharactersStore.js';
 	import { characterStore } from '../stores/characterStore.js';
-	import { Avatar, Popover } from 'flowbite-svelte';
+	import { Avatar } from 'flowbite-svelte';
 
 	export let thread;
 
-	
-
 	async function loadThreadCharacters() {
-  	let characterIds = await threadCharactersStore.fetchThreadCharacters(thread.id).then(data => data.map(link => link.character_id));
-  	let characters = await Promise.all(characterIds.map(characterId => characterStore.fetchCharacter(characterId)));
+  		let characterIds = await threadCharactersStore.fetchThreadCharacters(thread.id).then(data => data.map(link => link.character_id));
+  		let characters = await Promise.all(characterIds.map(characterId => characterStore.fetchCharacter(characterId)));
   	return characters;
 }
 
 	
 </script>
-
 {#await loadThreadCharacters() then characters }
 	<div class="flex flex-row justify-end my-2"> 
 	{#each characters as character}
@@ -25,6 +22,7 @@
 	{/each}
 	</div>
 {/await}
+
 
 
 <!-- todo: check the thread_characters table to list the characters -->
