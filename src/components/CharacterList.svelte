@@ -16,7 +16,7 @@
 		<Card size="lg" padding="sm" class="my-2" href="/character/{character.id}">
 			<div class="flex flex-row justify-between items-center"> 
 				<Avatar size="lg" src="{character.avatar}" />
-				<Heading tag="h3" class="ml-2 text-center">{character.first_name} {character.last_name}</Heading>
+				<Heading tag="h3" class="ml-6">{character.first_name} {character.last_name}</Heading>
 			</div>
 			
 			<div class="flex flex-row justify-between my-4">
