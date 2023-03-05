@@ -14,13 +14,11 @@
 	
 </script>
 {#await loadThreadCharacters() then characters }
-	<div class="flex flex-row justify-end my-2"> 
 	{#each characters as character}
-		{#if character !== undefined}
+		{#if character.avatar }
 			<Avatar size="md" stacked="true" alt="{character.first_name}" src="{character.avatar}"/>
 		{/if}
 	{/each}
-	</div>
 {/await}
 
 
