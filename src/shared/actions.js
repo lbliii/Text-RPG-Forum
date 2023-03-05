@@ -343,13 +343,17 @@ export const getThreadCharacterLinks = async (thread_id) => {
 
 export const getThreadCharacterLink = async (thread_id, user_id, character_id) => {
 	try {
+
 		const { data, error } = await supabase
 			.from('thread_characters')
 			.select()
 			.match({ thread_id, user_id, character_id })
-			.single();
+			.maybeSingle();
+
 		if (error) throw error;
-		return {data};
+		
+		return data;
+	
 	} catch (error) {
 		handleError(error);
 	}
@@ -390,20 +394,20 @@ export const createThreadCharacterLink = async (thread_id, user_id, character_id
 
 		const link_check  = await getThreadCharacterLink(thread_id, user_id, character_id);
 
-		console.log(link_check)
+		if (link_check === null)  {
+			const { data, error } = await supabase
+				.from('thread_characters')
+				.insert({ thread_id: thread_id, user_id: user_id, character_id: character_id })
+				.select('*')
+				.single();
 
-		if (link_check !== undefined )  {
-			throw new Error("Link already exists for this thread + user + character combination.")
+			if (error) throw error;
+
+			return { data };
+			
+		} else {
+			console.warn("Link already exists for this thread + user + character combination.")
 		}
-
-		const { data, error } = await supabase
-			.from('thread_characters')
-			.insert({ thread_id: thread_id, user_id: user_id, character_id: character_id })
-			.select('*')
-			.single();
-		if (error) throw error;
-	
-		return {data}
 	} catch (error) {
 		handleError(error);
 	}
