@@ -15,19 +15,17 @@
 
 </script>
 
-{#if character }
-	<a href="/user/{character.user_id}">
-			<div class="flex flex-row {post.id % 2 === 0 ? 'justify-start' : 'justify-end'}">
-				<div class="text-center">
-					{#if character.avatar}
-					<Avatar size="xl" src="{character.avatar}"/>
-					{/if}
-					{#if character.first_name}
-					<Badge>{character.first_name} {character.last_name}</Badge>
-					{/if}
-				</div>
-			</div>
-	</a>
+{#if characterId && character }
+	<div class="flex flex-col text-center w-fit space-y-3">
+		<a href="/user/{character.user_id}">
+			{#if character.avatar}
+				<Avatar size="xl" src="{character.avatar}" class="-mb-5"/>
+			{/if}
+			{#if character.first_name}
+				<Badge>{character.first_name} {character.last_name}</Badge>
+			{/if}
+		</a>
+	</div>
 {/if }
 
 

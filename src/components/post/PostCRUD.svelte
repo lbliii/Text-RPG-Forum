@@ -49,21 +49,19 @@
 		>Add a Post</Button
 	>
 {:else if post.user_id === user.user_id}
-	<div class="flex  justify-end">
-		<EllipsisHorizontalCircle size="30" class="cursor-pointer" />
-		<Dropdown>
-			<DropdownItem
-				on:click={() => (
-					(modalOpen = true), (action = 'edit'), (modalTitle = 'Edit Post'), (activePost = post)
-				)}>Edit</DropdownItem
-			>
-			<DropdownItem
-				on:click={() => (
-					(modalOpen = true), (action = 'delete'), (modalTitle = 'Delete Post'), (activePost = post)
-				)}>Delete</DropdownItem
-			>
-		</Dropdown>
-	</div>
+	<EllipsisHorizontalCircle size="30" class="cursor-pointer" />
+	<Dropdown>
+		<DropdownItem
+			on:click={() => (
+				(modalOpen = true), (action = 'edit'), (modalTitle = 'Edit Post'), (activePost = post)
+			)}>Edit</DropdownItem
+		>
+		<DropdownItem
+			on:click={() => (
+				(modalOpen = true), (action = 'delete'), (modalTitle = 'Delete Post'), (activePost = post)
+			)}>Delete</DropdownItem
+		>
+	</Dropdown>
 {/if}
 
 <Modal bind:open={modalOpen} title={modalTitle}>

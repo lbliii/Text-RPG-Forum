@@ -2,6 +2,7 @@
 import { Button, ButtonGroup} from 'flowbite-svelte';
 import { postsStore } from '../../stores/postsStore.js';
 import Post from './Post.svelte';
+import { BarsArrowDown, BarsArrowUp } from 'svelte-heros-v2';
 
 export let thread;
 export let user;
@@ -24,16 +25,20 @@ function toggleSort() {
 <div class="flex flex-row justify-end my-6">
 	<ButtonGroup class="space-x-px">
 		<Button size="xs" color="light" on:click={toggleSort}>
-			{sortAscending ? 'Newest' : 'Oldest'}
+			{#if sortAscending}
+				<BarsArrowUp size="15" />
+			{:else}
+				<BarsArrowDown size="15" />
+			{/if}
 		</Button>
 		<slot> </slot>
 	</ButtonGroup>
 </div>
 
-<div class="flex {sortAscending ? 'flex-col-reverse' : 'flex-col'}">
+<div class="flex {sortAscending ? 'flex-col-reverse' : 'flex-col'} space-y-10">
 
 	{#each $postsStore as post }
-		<Post thread={thread} post={post} user={user} sort={sortAscending} margin="mb-9"/>
+		<Post thread={thread} post={post} user={user} sort={sortAscending}/>
 	{/each}
 
 </div>
