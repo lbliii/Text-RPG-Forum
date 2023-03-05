@@ -1,11 +1,10 @@
 <script>
-import { Button, ButtonGroup, Card, P } from 'flowbite-svelte';
+import { Button, ButtonGroup} from 'flowbite-svelte';
 import { postsStore } from '../../stores/postsStore.js';
 import Post from './Post.svelte';
 
 export let thread;
 export let user;
-let delay = 10000;
 
 let sortAscending = true;
 
