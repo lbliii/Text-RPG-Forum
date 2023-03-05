@@ -24,7 +24,7 @@ export let sort;
         <Badge color="green"> {new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
     </div>
     
-    <P class="my-10">{post.body}</P>
+    <P class="my-20 mx-2">{post.body}</P>
 
     <div class="flex flex-row justify-end space-x-3">
         <PostLikesCounter post={post} />

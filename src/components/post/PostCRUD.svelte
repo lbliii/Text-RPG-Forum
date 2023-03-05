@@ -12,8 +12,8 @@
 	export let user = {};
 	export let thread = {};
 
-	let newPost = {};
-	let activePost = {};
+	let postData = {};
+
 
 	$: {
 		if (user.user_id) {
@@ -25,70 +25,61 @@
 		postStore.addPost({
 			user_id: user.user_id,
 			thread_id: thread.id,
-			...newPost
+			...postData
 		});
-		newPost = {};
+		postData = {};
 		modalOpen = false;
 	}
 
 	function handlePostUpdate() {
-		postStore.editPost(activePost);
-		activePost = {};
+		postStore.editPost(postData);
+		postData = {};
 		modalOpen = false;
 	}
 
 	function handlePostDelete() {
-		postStore.removePost(activePost);
-		activePost = {};
+		postStore.removePost(postData);
+		postData = {};
 		modalOpen = false;
 	}
 </script>
 
 {#if action === 'create'}
-	<Button size="xs" color="green" on:click={() => ((modalOpen = true), (modalTitle = 'Add a Post'))}
-		>Add a Post</Button
-	>
+	<Button size="xs" color="green" on:click={() => ((modalOpen = true), (modalTitle = 'Add a Post'))}>Add a Post</Button>
 {:else if post.user_id === user.user_id}
 	<EllipsisHorizontalCircle size="30" class="cursor-pointer" />
 	<Dropdown>
 		<DropdownItem
 			on:click={() => (
-				(modalOpen = true), (action = 'edit'), (modalTitle = 'Edit Post'), (activePost = post)
+				(modalOpen = true), (action = 'edit'), (modalTitle = 'Edit Post'), (postData = post)
 			)}>Edit</DropdownItem
 		>
 		<DropdownItem
 			on:click={() => (
-				(modalOpen = true), (action = 'delete'), (modalTitle = 'Delete Post'), (activePost = post)
+				(modalOpen = true), (action = 'delete'), (modalTitle = 'Delete Post'), (postData = post)
 			)}>Delete</DropdownItem
 		>
 	</Dropdown>
 {/if}
 
 <Modal bind:open={modalOpen} title={modalTitle}>
-	{#if action === 'create'}
-		{#if newPost.character_id}
-			<PostCharacterDetails characterId={newPost.character_id} />
-		{/if}
-		<select bind:value={newPost.character_id} required>
+	<div class="flex flex-row justify-between items-center">
+		<select bind:value={postData.character_id} required class="h-fit">
 			{#each $charactersStore as character}
 				<option value={character.id}>{character.first_name} {character.last_name} </option>
 			{/each}
 		</select>
-		<Label for="body" class="mb-2">Write a Post Body</Label>
-		<Textarea id="body" rows="10" bind:value={newPost.body} />
-		<div>
+		{#if postData.character_id}
+			<PostCharacterDetails characterId={postData.character_id} />
+		{/if}
+	</div>
+	<Label for="body" class="mb-2 text-center">Write a Post Body</Label>
+	<Textarea id="body" rows="10" bind:value={postData.body} placeholder={"Write a post from the POV of your selected character. It can be in first, second, or third person depending on your style/what you've agreed upon with your writing partner. Try to match at least 80% of the word count (WC) of the first post. "}/>
+	{#if action === 'create'}
+		<div> 
 			<Button color="green" on:click={handlePostCreate}>Create</Button>
 		</div>
 	{:else if action === 'edit'}
-		{#if activePost.character_id}
-			<PostCharacterDetails characterId={activePost.character_id} />
-		{/if}
-		<select bind:value={activePost.character_id} required>
-			{#each $charactersStore as character}
-				<option value={character.id}>{character.first_name} {character.last_name}</option>
-			{/each}
-		</select>
-		<Textarea bind:value={activePost.body} />
 		<Button color="green" on:click={handlePostUpdate}>Update</Button>
 	{:else if action === 'delete'}
 		<P>Are you sure you want to delete this post?</P>
