@@ -1,1 +1,0 @@
-<!-- todo: move all of the CRUD options from Posts into this component to consolidate (see CharacterCRUD, UserCrud) -->
