@@ -1,6 +1,6 @@
 <script>
-	import { threadStore } from '../stores/threadStore.js';
-	import { userStore } from '../stores/userStore.js';
+	import { threadStore } from '../../stores/threadStore.js';
+	import { userStore } from '../../stores/userStore.js';
 	import { Button, ButtonGroup, P, Modal, Input, Textarea, Dropdown, DropdownItem, Chevron } from 'flowbite-svelte';
 	import { EllipsisHorizontalCircle } from 'svelte-heros-v2';
 	import { goto } from '$app/navigation';

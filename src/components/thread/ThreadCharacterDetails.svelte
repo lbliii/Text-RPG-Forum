@@ -1,6 +1,6 @@
 <script>
-	import { threadCharactersStore } from '../stores/threadCharactersStore.js';
-	import { characterStore } from '../stores/characterStore.js';
+	import { threadCharactersStore } from '../../stores/threadCharactersStore.js';
+	import { characterStore } from '../../stores/characterStore.js';
 	import { Avatar } from 'flowbite-svelte';
 
 	export let thread;
