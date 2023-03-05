@@ -18,7 +18,6 @@ $: {
 function toggleSort() {
 		sortAscending = !sortAscending;
 	}
-
 </script>
 
 
@@ -31,15 +30,13 @@ function toggleSort() {
 				<BarsArrowDown size="15" />
 			{/if}
 		</Button>
-		<slot> </slot>
+		<slot/>
 	</ButtonGroup>
 </div>
 
 <div class="flex {sortAscending ? 'flex-col-reverse' : 'flex-col'} space-y-10">
-
 	{#each $postsStore as post }
-		<Post thread={thread} post={post} user={user} sort={sortAscending}/>
+		<Post thread={thread} post={post} user={user}/>
 	{/each}
-
 </div>
 	
