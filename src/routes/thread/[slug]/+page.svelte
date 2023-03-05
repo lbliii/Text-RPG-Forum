@@ -1,7 +1,8 @@
 <script>
   import { threadStore } from '../../../stores/threadStore.js';
   import { userStore } from '../../../stores/userStore.js';
-  import Posts from '../../../components/Posts.svelte';
+  import PostList from '../../../components/post/PostList.svelte';
+  import PostCRUD from '../../../components/post/PostCRUD.svelte';
   import ThreadDetails from '../../../components/ThreadDetails.svelte';
 
   $: $threadStore
@@ -10,5 +11,7 @@
 
 <main> 
   <ThreadDetails thread={$threadStore} />
-  <Posts thread={$threadStore} user={$userStore} />
+  <PostList thread={$threadStore} user={$userStore} >
+    <PostCRUD thread={$threadStore} user={$userStore} action="create" />
+   </PostList>
 </main>
