@@ -4,7 +4,7 @@
 	import { threadStore } from '../../stores/threadStore.js';
 	import { threadsStore } from '../../stores/threadsStore.js';
 	import { userStore } from '../../stores/userStore.js';
-	import ThreadCharacterDetails  from '../ThreadCharacterDetails.svelte';
+	import ThreadCharacterDetails  from '../thread/ThreadCharacterDetails.svelte';
 	import {
 		Button,
 		ButtonGroup,

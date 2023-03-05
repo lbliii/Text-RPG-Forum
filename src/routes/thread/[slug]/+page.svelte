@@ -3,7 +3,7 @@
   import { userStore } from '../../../stores/userStore.js';
   import PostList from '../../../components/post/PostList.svelte';
   import PostCRUD from '../../../components/post/PostCRUD.svelte';
-  import ThreadDetails from '../../../components/ThreadDetails.svelte';
+  import ThreadDetails from '../../../components/thread/ThreadDetails.svelte';
 
   $: $threadStore
 
