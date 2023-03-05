@@ -1,11 +1,10 @@
 <script>
-	import { charactersStore } from '../stores/charactersStore.js';
-	import { forumStore } from '../stores/forumStore.js';
-	import { postStore } from '../stores/postStore.js';
-	import { threadStore } from '../stores/threadStore.js';
-	import { threadsStore } from '../stores/threadsStore.js';
-	import { userStore } from '../stores/userStore.js';
-	import ThreadCharacterDetails  from './ThreadCharacterDetails.svelte';
+	import { charactersStore } from '../../stores/charactersStore.js';
+	import { forumStore } from '../../stores/forumStore.js';
+	import { threadStore } from '../../stores/threadStore.js';
+	import { threadsStore } from '../../stores/threadsStore.js';
+	import { userStore } from '../../stores/userStore.js';
+	import ThreadCharacterDetails  from '../ThreadCharacterDetails.svelte';
 	import {
 		Button,
 		ButtonGroup,
