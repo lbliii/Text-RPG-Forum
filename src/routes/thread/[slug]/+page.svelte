@@ -11,6 +11,7 @@
 
 <main> 
   <ThreadDetails thread={$threadStore} />
-  <PostCRUD thread={$threadStore} user={$userStore} action="create" />
-  <PostList thread={$threadStore} user={$userStore} />
+  <PostList thread={$threadStore} user={$userStore} >
+    <PostCRUD thread={$threadStore} user={$userStore} action="create" />
+   </PostList>
 </main>

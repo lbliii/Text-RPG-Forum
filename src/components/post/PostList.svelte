@@ -5,6 +5,7 @@ import Post from './Post.svelte';
 
 export let thread;
 export let user;
+let delay = 10000;
 
 let sortAscending = true;
 
@@ -17,6 +18,7 @@ $: {
 function toggleSort() {
 		sortAscending = !sortAscending;
 	}
+
 </script>
 
 
@@ -25,13 +27,14 @@ function toggleSort() {
 		<Button size="xs" color="light" on:click={toggleSort}>
 			{sortAscending ? 'Newest' : 'Oldest'}
 		</Button>
+		<slot> </slot>
 	</ButtonGroup>
 </div>
 
 <div class="flex {sortAscending ? 'flex-col-reverse' : 'flex-col'}">
 
 	{#each $postsStore as post }
-		<Post thread={thread} post={post} user={user} sort={sortAscending} />
+		<Post thread={thread} post={post} user={user} sort={sortAscending} margin="mb-9"/>
 	{/each}
 
 </div>

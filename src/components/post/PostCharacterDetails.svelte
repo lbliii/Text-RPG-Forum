@@ -3,7 +3,7 @@
 	import { Avatar, Badge } from 'flowbite-svelte';
 
 	export let characterId 
-	export let post;
+	export let post = {}
 
 	let character = {}
 
@@ -17,7 +17,7 @@
 
 {#if character }
 	<a href="/user/{character.user_id}">
-			<div class="flex flex-row {post.id % 2 === 0 ? 'justify-start' : 'justify-end'} space-x-4">
+			<div class="flex flex-row {post.id % 2 === 0 ? 'justify-start' : 'justify-end'}">
 				<div class="text-center">
 					{#if character.avatar}
 					<Avatar size="xl" src="{character.avatar}"/>
