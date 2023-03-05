@@ -12,7 +12,6 @@
 	} from 'flowbite-svelte';
 	import { UserCircle } from 'svelte-heros-v2';
 	import { authStore } from '../stores/authStore.js';
-	import { goto } from '$app/navigation'
 
 	export let user;
 
@@ -20,7 +19,6 @@
 		supabase.auth.signOut();
 		// clear the auth and user store 
 		authStore.set(null);
-		goto('/');
 	};
 
 </script>
