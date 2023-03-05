@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store';
-import { authStore } from './authStore.js';
-import { getUser } from '../shared/actions.js'
+import { getAuth, getUser, createUser } from '../shared/actions.js'
 import { handleError } from '../shared/helpers.js';
 
 // Fetch, Add, Edit, Remove
@@ -11,30 +10,27 @@ const createUserStore = () => {
 	const { subscribe, set,  } = store;
 
 	const fetchUser = async () => {
-		let user;
 
-		authStore.subscribe((value) => {
-			user = value;
-		})();
 
 		try {
-			if (user.aud === "authenticated"){
-				const { data: loggedInUser } = await getUser(user.id);
-				set(loggedInUser);
-				return loggedInUser;
+			const { data: auth } = await getAuth();
+
+			if (!auth.user.id) {
+				console.warn('No auth found. Are you logged in?');
+				return;
+			} else {
+				// try to get the user if one exists from the users table 
+				const { data: user } = await getUser(auth.user.id);
+				set(user);
+				return user;
 			}
+
 			
 		} catch (error) {
 			handleError(error);
 		}
 	};
 
-	
-
-
-	authStore.subscribe(() => {
-		fetchUser();
-	});
 
 	fetchUser();
 

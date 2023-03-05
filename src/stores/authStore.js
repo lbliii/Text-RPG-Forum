@@ -10,7 +10,7 @@ const createAuthStore = () => {
 
 	const { subscribe, set, update } = store
 
-	const fetchUser = async () => {
+	const fetchAuth = async () => {
 		try {
 			const { data: {user} } = await getAuth();
 
@@ -29,13 +29,13 @@ const createAuthStore = () => {
 	});
 
 
-	fetchUser()
+	fetchAuth()
 
 	return {
 		subscribe,
 		set,
 		update,
-		fetchUser,
+		fetchAuth,
 
 	};
 };

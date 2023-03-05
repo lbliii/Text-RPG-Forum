@@ -11,6 +11,7 @@ import { handleError } from '../shared/helpers.js';
 export const getAuth = async () => {
 	try {
 		return await supabase.auth.getUser()
+
 	} catch (error) {
 		handleError(error);
 	}
@@ -273,16 +274,14 @@ export const getUsers = async () => {
 	}
 }
 
-export const getUser = async (user_id) => {
+export const getUser = async (/** @type {string} */ user_id) => {
 	try {
-		const { data, error } = await supabase.from('users').select().eq('user_id', user_id).single();
+		const { data, error } = await supabase.from('users').select().eq('user_id', user_id).maybeSingle();
 
-		if (!data) {
-			// creates a new user if one doesn't exist for the authenticated user.
-			const { data, error } = await supabase.from('users').insert({ user_id }).select().single();
-			if (error) throw error;
-			return {data};
+		if (data === null) {
+			createUser(user_id);
 		}
+
 		if (error) throw error;
 		return {data};
 	} catch (error) {
@@ -290,15 +289,22 @@ export const getUser = async (user_id) => {
 	}
 };
 
-export const createUser = async (user) => {
+export const createUser = async (/** @type {string} */ user_id) => {
+	console.log('creating user', user_id);
 	try {
-		const { data, error } = await supabase.from('users').insert([user]).select().single();
+		const { data, error } = await supabase
+			.from('users')
+			.insert({ user_id })
+			.select('*')
+			.single();
+
 		if (error) throw error;
-		return {data};
+		return { data };
 	} catch (error) {
 		handleError(error);
 	}
-}
+};
+
 
 export const updateUser = async (user) => {
 	try {

@@ -1,4 +1,4 @@
 
-    import { authStore } from '../stores/authStore.js';
+    // import { authStore } from '../stores/authStore.js';
 
-    authStore.fetchUser()
+    // authStore.fetchAuth()
