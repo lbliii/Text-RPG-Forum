@@ -4,6 +4,7 @@
     import { userStore } from '../../stores/userStore.js';
     import { Card, Badge, Heading } from 'flowbite-svelte';
     import ThreadCRUD from './ThreadCRUD.svelte';
+    import ThreadBookmark from './ThreadBookmark.svelte';
 
     export let thread;
     
@@ -26,6 +27,7 @@
     <Heading tag="h4" class="my-3">{#if $threadStore.description}{$threadStore.description}{/if}</Heading>
 
     <div class="flex justify-end">
+      <ThreadBookmark thread={$threadStore} user={$userStore}/>
       <ThreadCRUD thread={$threadStore} user={$userStore}/> 
     </div>
   </Card>
