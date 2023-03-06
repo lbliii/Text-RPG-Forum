@@ -11,11 +11,12 @@
 	}
 
 </script>
-
-<Badge color="gray">
-	{#await countThreads(character.id)}
-		...
-	{:then thread_count}
-		{thread_count} Threads
-	{/await}
-</Badge>
+{#if character.id}
+	<Badge color="gray">
+		{#await countThreads(character.id)}
+			...
+		{:then thread_count}
+			{thread_count} Threads
+		{/await}
+	</Badge>
+{/if}

@@ -43,9 +43,9 @@
         </div>
 
         <div class="flex flex-row justify-end items-center">
-            {#if character.id}
+          
             <CharacterThreadCounter character={character}/>
-            {/if}
+    
         </div>
     </Card>
 </div>

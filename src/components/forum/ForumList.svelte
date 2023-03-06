@@ -37,7 +37,7 @@
 	{#if filteredForums.length > 0}
 		{#each filteredForums as forum}
 			<div in:fade="{{ duration: 1100 }}" class="flex self-stretch">
-				<Forum forum={forum} user={user} />
+				<Forum forum={forum} />
 			</div>
 			
 		{/each}
