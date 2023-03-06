@@ -335,16 +335,24 @@ export const deleteUser = async (user) => {
 export const getUserThreadBookmarks = async (user_id) => {
 	try {
 		const { data, error } = await supabase
-			.from('user_thread_bookmarks') 
+			.from('user_thread_bookmarks')
 			.select('*')
 			.match({ user_id: user_id });
 
 		if (error) throw error;
-		return {data};
+
+		if (data.length > 0) {
+			const thread_ids = data.map((bookmark) => bookmark.thread_id);
+			const threads = await Promise.all(thread_ids.map((thread_id) => getThread(thread_id)));
+			return threads.map((thread) => thread.data);
+		} else {
+			return [];
+		}
 	} catch (error) {
 		handleError(error);
 	}
-}
+};
+
 
 export const getUserThreadBookmark = async (thread_id, user_id) => {
 	try {
