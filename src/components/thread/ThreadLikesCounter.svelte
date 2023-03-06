@@ -4,4 +4,4 @@
     export let thread = {};
 </script>
 
-<Fire size="30" class="cursor-pointer"  />
+<Fire size="30" class="cursor-not-allowed"  />

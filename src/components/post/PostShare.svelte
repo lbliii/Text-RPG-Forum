@@ -3,4 +3,4 @@
     export let post = {};
 </script>
 
-<ArrowUpTray size="30" class="cursor-pointer" />
+<ArrowUpTray size="30" class="cursor-not-allowed" />

@@ -17,3 +17,19 @@ declare namespace App {
     }): void;
   }
 }
+
+export interface character {
+  id: number;
+  first_name: string;
+  last_name: string;
+  age: number;
+  gender: 'Androgyne' | 'Cisgender' | 'Bigender' | 'Fluid' | 'Non-Binary' | 'Queer' | 'Transgender' 
+  bio: string;
+  user_id: string;
+  relationship_status: string;
+  species: string;
+  soul: string;
+  avatar: string;
+}
+
+  

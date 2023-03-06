@@ -24,5 +24,8 @@
 
     <Heading tag="h2" class="my-3 ">{#if $threadStore.title}{$threadStore.title}{/if}</Heading>
     <Heading tag="h4" class="my-3">{#if $threadStore.description}{$threadStore.description}{/if}</Heading>
-    <ThreadCRUD thread={$threadStore} user={$userStore}/>
+
+    <div class="flex justify-end">
+      <ThreadCRUD thread={$threadStore} user={$userStore}/> 
+    </div>
   </Card>
