@@ -50,3 +50,14 @@ export const relationship_status = [
 	{ value: 'Single', name: 'Single' },
 	{ value: 'Widowed', name: 'Widowed' }
 ];
+
+export const avatars = [
+	{
+		value: 'https://cdn.midjourney.com/4e9b6a58-c047-4fc9-bc18-472db8afe5d1/grid_0.png',
+		name: 'Avatar 1'
+	},
+	{
+		value: 'https://cdn.midjourney.com/c080f7f9-2603-4529-bbec-cc9504436c68/grid_0.png',
+		name: 'Avatar 2'
+	}
+];

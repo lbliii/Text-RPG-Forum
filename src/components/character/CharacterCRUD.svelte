@@ -2,8 +2,8 @@
 	import { characterStore } from '../../stores/characterStore.js';
 	import { userStore } from '../../stores/userStore.js';
 	import {playerStore} from '../../stores/playerStore.js'
-	import { gender, soul, species, relationship_status} from '../../shared/character-details.js';
-	import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup } from 'flowbite-svelte';
+	import { avatars, gender, soul, species, relationship_status} from '../../shared/character-details.js';
+	import { Avatar, Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup } from 'flowbite-svelte';
 	import {Trash} from 'svelte-heros-v2'
 
 	export let create = false
@@ -14,6 +14,7 @@
 
 	let openModal = false;
 	let deleteConfirmed = false;
+	let chosen;
 
 	const handleSubmit = () => {
 
@@ -48,6 +49,15 @@
 {/if}
 
 <Modal bind:open={openModal} size="xs" autoclose={false} title="{create ? 'Create ' : 'Edit'}  Character">
+
+	<div class="flex flex-row justify-between items-center">
+		<select id="avatar-select" name="avatar-select" bind:value={chosen} class="h-fit">
+			{#each avatars as avatar}
+				<option value={avatar.value}>{avatar.name}</option>
+			{/each}
+		</select>
+		<Avatar size="xl" src="{chosen}"/>
+	</div>
 
 	<div class="flex flex-col text-sm mb-2">
 		<div class="flex flex-row justify-between "> 
