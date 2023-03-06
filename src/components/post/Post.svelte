@@ -9,7 +9,6 @@ import PostShare from './PostShare.svelte';
 export let thread;
 export let user;
 export let post;
-export let sort;
 
 </script>
 

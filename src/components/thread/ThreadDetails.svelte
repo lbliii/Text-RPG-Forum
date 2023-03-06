@@ -1,6 +1,7 @@
 <script>
-    import { threadStore } from '../stores/threadStore.js';
-    import { forumStore } from '../stores/forumStore.js';
+    import { threadStore } from '../../stores/threadStore.js';
+    import { forumStore } from '../../stores/forumStore.js';
+    import { userStore } from '../../stores/userStore.js';
     import { Card, Badge, Heading } from 'flowbite-svelte';
     import ThreadCRUD from './ThreadCRUD.svelte';
 
@@ -23,7 +24,5 @@
 
     <Heading tag="h2" class="my-3 ">{#if $threadStore.title}{$threadStore.title}{/if}</Heading>
     <Heading tag="h4" class="my-3">{#if $threadStore.description}{$threadStore.description}{/if}</Heading>
-
-    <ThreadCRUD thread={thread} />
-    
+    <ThreadCRUD thread={$threadStore} user={$userStore}/>
   </Card>

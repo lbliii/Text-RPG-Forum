@@ -3,16 +3,19 @@
     import { userStore } from '../../../stores/userStore.js';
     import ForumCRUD from '../../../components/forum/ForumCRUD.svelte';
     import ForumDetails from '../../../components/forum/ForumDetails.svelte';
-    import ForumThreadList from '../../../components/forum/ForumThreadList.svelte';
+    import ThreadList from '../../../components/thread/ThreadList.svelte';
+    import ThreadCRUD from '../../../components/thread/ThreadCRUD.svelte';
 
     $: $forumStore
 
 </script>
 
 
-<main >
+<main>
     <ForumDetails forum={$forumStore}>
         <ForumCRUD color="white" forum={$forumStore} user={$userStore} />
     </ForumDetails>
-    <ForumThreadList forum={$forumStore} />
+    <ThreadList forum={$forumStore}> 
+        <ThreadCRUD forum={$forumStore} user={$userStore} action="create" />
+    </ThreadList>
 </main>
