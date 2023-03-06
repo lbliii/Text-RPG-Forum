@@ -9,10 +9,9 @@
   		let characterIds = await threadCharactersStore.fetchThreadCharacters(thread.id).then(data => data.map(link => link.character_id));
   		let characters = await Promise.all(characterIds.map(characterId => characterStore.fetchCharacter(characterId)));
   	return characters;
-}
-
-	
+}	
 </script>
+
 {#await loadThreadCharacters() then characters }
 	{#each characters as character}
 		{#if character.avatar }
@@ -20,7 +19,3 @@
 		{/if}
 	{/each}
 {/await}
-
-
-
-<!-- todo: check the thread_characters table to list the characters -->

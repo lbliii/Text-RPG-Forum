@@ -15,8 +15,6 @@
 
 </script>
 
-
-
  <Card size="lg" padding="lg" class="my-6" color="green">
     {#await loadComponentData()}
       <Badge color="purple" class="my-3 w-fit">Loading...</Badge>
@@ -27,5 +25,4 @@
     <Heading tag="h2" class="my-3 ">{#if $threadStore.title}{$threadStore.title}{/if}</Heading>
     <Heading tag="h4" class="my-3">{#if $threadStore.description}{$threadStore.description}{/if}</Heading>
     <ThreadCRUD thread={$threadStore} user={$userStore}/>
-    
   </Card>

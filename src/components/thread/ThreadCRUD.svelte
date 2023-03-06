@@ -39,10 +39,6 @@
 		postData = {};
         modalOpen = false;
     }
-    $: console.log(thread)
-    $: console.log(threadData)
-
-
 </script>
 
 

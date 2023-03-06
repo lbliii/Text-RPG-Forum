@@ -13,9 +13,7 @@
 
 	threadsStore.fetchForumThreads(forum.id)
 
-
 	$: {
-		
 		$threadsStore
 
 		if (searchTerm) {
@@ -25,7 +23,6 @@
 		} else {
 			filteredThreads = $threadsStore;
 		}
-
 	}
 
 	function toggleSort() {
@@ -53,7 +50,6 @@
 		<slot/>
 	</ButtonGroup>
 </div>
-
 
 <div class="flex {sortAscending ? 'flex-col-reverse' : 'flex-col'}">
 	{#if filteredThreads.length > 0 }
