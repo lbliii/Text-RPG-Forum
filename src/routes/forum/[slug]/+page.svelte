@@ -4,6 +4,7 @@
     import ForumCRUD from '../../../components/forum/ForumCRUD.svelte';
     import ForumDetails from '../../../components/forum/ForumDetails.svelte';
     import ThreadList from '../../../components/thread/ThreadList.svelte';
+    import ThreadCRUD from '../../../components/thread/ThreadCRUD.svelte';
 
     $: $forumStore
 
@@ -14,5 +15,7 @@
     <ForumDetails forum={$forumStore}>
         <ForumCRUD color="white" forum={$forumStore} user={$userStore} />
     </ForumDetails>
-    <ThreadList forum={$forumStore} />
+    <ThreadList forum={$forumStore}> 
+        <ThreadCRUD forum={$forumStore} user={$userStore} action="create" />
+    </ThreadList>
 </main>

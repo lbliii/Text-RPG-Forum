@@ -7,7 +7,7 @@
 
 	let character = {}
 
-	if (characterId) {
+	$: if (characterId) {
 		characterStore.fetchCharacter(characterId).then((data) => {
 		character = data;
 		});

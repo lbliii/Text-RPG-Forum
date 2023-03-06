@@ -19,6 +19,7 @@
 		if (user.user_id) {
 			charactersStore.fetchCharacters(user.user_id);
 		}
+
 	}
 
 	function handlePostCreate() {

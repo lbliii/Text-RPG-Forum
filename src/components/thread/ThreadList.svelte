@@ -34,7 +34,7 @@
 </script>
 
 
-<div class="flex flex-row justify-end my-2 space-x-3">
+<div class="flex flex-row justify-end my-2 space-x-3 mx-2">
 	<input
 		type="text"
 		placeholder="Search threads"
