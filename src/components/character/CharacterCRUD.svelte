@@ -14,7 +14,6 @@
 
 	let openModal = false;
 	let deleteConfirmed = false;
-	let chosen;
 
 	const handleSubmit = () => {
 
@@ -51,12 +50,12 @@
 <Modal bind:open={openModal} size="xs" autoclose={false} title="{create ? 'Create ' : 'Edit'}  Character">
 
 	<div class="flex flex-row justify-between items-center">
-		<select id="avatar-select" name="avatar-select" bind:value={chosen} class="h-fit">
+		<select id="avatar-select" name="avatar-select" bind:value={character.avatar} class="h-fit">
 			{#each avatars as avatar}
 				<option value={avatar.value}>{avatar.name}</option>
 			{/each}
 		</select>
-		<Avatar size="xl" src="{chosen}"/>
+		<Avatar size="xl" src="{character.avatar}"/>
 	</div>
 
 	<div class="flex flex-col text-sm mb-2">

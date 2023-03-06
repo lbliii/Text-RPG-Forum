@@ -1,6 +1,6 @@
 <script>
 	import { threadCharacterStore } from '../../stores/threadCharacterStore.js';
-	import { Badge} from 'flowbite-svelte';
+	import { Newspaper } from 'svelte-heros-v2'
 
 	export let character
 	let thread_count;
@@ -9,14 +9,12 @@
 		let count = await threadCharacterStore.fetchCharacterThreads(character_id)
 		return thread_count = count.length
 	}
-
 </script>
+
 {#if character.id}
-	<Badge color="gray">
-		{#await countThreads(character.id)}
-			...
-		{:then thread_count}
-			{thread_count} Threads
-		{/await}
-	</Badge>
+	{#await countThreads(character.id)}
+		...
+	{:then thread_count}
+		<Newspaper/> {thread_count} 
+	{/await}
 {/if}
