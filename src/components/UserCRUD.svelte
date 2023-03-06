@@ -3,7 +3,7 @@
     import { playerStore } from '../stores/playerStore.js';
     import { time_zone } from '../shared/user-details.js';
     import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Label, Input } from 'flowbite-svelte';
-    import  CharacterCRUD  from './CharacterCRUD.svelte';
+    import  CharacterCRUD  from './character/CharacterCRUD.svelte';
 
     export let edit;
     export let player = $playerStore;

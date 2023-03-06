@@ -3,7 +3,7 @@
   import { playerStore } from '../../../stores/playerStore.js';
   import UserDetails from '../../../components/UserDetails.svelte'
   import UserCRUD from '../../../components/UserCRUD.svelte'
-  import CharacterList from '../../../components/CharacterList.svelte'
+  import CharacterList from '../../../components/character/CharacterList.svelte'
   
  $: $playerStore
 

@@ -1,6 +1,6 @@
 <script>
 	import { Avatar, Badge, Card, Heading, P } from 'flowbite-svelte';
-    import { threadCharacterStore } from '../stores/threadCharacterStore.js';
+    import { threadCharacterStore } from '../../stores/threadCharacterStore.js';
 
     /**
 	 * @type {{ id: any; soul: string; species: string; age: number; gender: string; relationship_status: string; bio: string; }}

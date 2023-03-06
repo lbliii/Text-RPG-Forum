@@ -15,7 +15,7 @@ export let post;
 <div in:fade="{{ duration: 1100 }}">
 
     <div class="flex flex-row {post.id % 2 === 0 ? 'justify-start -ml-1' : 'justify-end -mr-1'}">
-        <PostCharacterDetails characterId={post.character_id} post={post} />
+        <PostCharacterDetails characterId={post.character_id} />
     </div>
 
     <Card size="lg" padding="md" class="-mt-20 mb-7">

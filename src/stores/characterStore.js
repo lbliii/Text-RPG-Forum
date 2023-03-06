@@ -1,7 +1,8 @@
 import { writable } from 'svelte/store';
 import { handleError } from '../shared/helpers.js';
 import { getCharacter, createCharacter, deleteCharacter, updateCharacter } from '../shared/actions.js';
-import { goto } from '$app/navigation'
+import { goto } from '$app/navigation';
+
 
 // Verbs: Fetch, Add, Edit, Remove
 

@@ -3,7 +3,6 @@
 	import { Avatar, Badge } from 'flowbite-svelte';
 
 	export let characterId 
-	export let post = {}
 
 	let character = {}
 

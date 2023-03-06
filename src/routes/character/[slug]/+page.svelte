@@ -1,8 +1,8 @@
 <script>
     import { characterStore } from '../../../stores/characterStore.js';
-    import CharacterCRUD from '../../../components/CharacterCRUD.svelte';
-    import CharacterDetails from '../../../components/CharacterDetails.svelte';
-    import CharacterThreadList from '../../../components/CharacterThreadList.svelte';
+    import CharacterCRUD from '../../../components/character/CharacterCRUD.svelte';
+    import CharacterDetails from '../../../components/character/CharacterDetails.svelte';
+    import CharacterThreadList from '../../../components/character/CharacterThreadList.svelte';
 
     $: $characterStore
 

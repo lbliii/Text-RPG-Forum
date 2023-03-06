@@ -3,4 +3,4 @@
     export let thread = {};
 </script>
 
-<ArrowUpTray size="30" class="cursor-pointer" />
+<ArrowUpTray size="30" class="cursor-not-allowed" />

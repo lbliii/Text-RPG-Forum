@@ -290,7 +290,6 @@ export const getUser = async (/** @type {string} */ user_id) => {
 };
 
 export const createUser = async (/** @type {string} */ user_id) => {
-	console.log('creating user', user_id);
 	try {
 		const { data, error } = await supabase
 			.from('users')
