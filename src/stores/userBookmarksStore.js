@@ -50,11 +50,9 @@ const createUserBookmarksStore = () => {
 
     const removeUserBookmark = async (thread_id, user_id) => {
 			try {
-				const bookmark = await deleteUserThreadBookmark(thread_id, user_id);
-				update((bookmarks) => {
-					delete bookmarks[bookmark.id];
-					return bookmarks;
-				});
+				await deleteUserThreadBookmark(thread_id, user_id);
+
+                userBookmarksStore.update((bookmarks) => bookmarks.filter((b) => b.id !== b.id));
 			} catch (error) {
 				handleError(error);
 			}
@@ -65,7 +63,8 @@ const createUserBookmarksStore = () => {
         fetchUserBookmarks,
         fetchUserBookmark,
         addUserBookmark,
-        removeUserBookmark
+        removeUserBookmark,
+        update,
     }
 
 };

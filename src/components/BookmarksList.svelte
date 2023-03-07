@@ -1,25 +1,18 @@
 <script>
     import { userBookmarksStore } from '../stores/userBookmarksStore';
+    import { Bookmark } from 'svelte-heros-v2'
     import Thread from './thread/Thread.svelte';
-    import { Heading, Card} from 'flowbite-svelte';
+    import { Heading, Card, P} from 'flowbite-svelte';
 
     export let user = {}
 
-    
-
     $: if (user.user_id) {
-
-        let threads;
         userBookmarksStore.fetchUserBookmarks(user.user_id)
     }
 
-    $: console.log($userBookmarksStore)
-
 </script>
 
-
-<Heading tag="h2" class="mb-4 text-white">Bookmarks</Heading>
-
+<Heading tag="h2" class="my-6 text-white flex items-center"><Bookmark size="30" class="inline-flex mr-3"/> Bookmarks  </Heading>
 
 {#if $userBookmarksStore.length > 0}
     {#each $userBookmarksStore as bookmark}
@@ -27,6 +20,7 @@
     {/each}
 {:else}
     <Card size="lg" padding="md" class="mb-4">
-        <p class="text-center">No bookmarks yet</p>
+        <P size="xl" class="mb-3 font-semibold">Your bookmarks are as empty as ghost town. 👻 </P>
+        <P>Give that <Bookmark size="30"color="green" class="inline-flex"/> button a clickaroo next time you stumble upon a thread that tickles your fancy, and watch as it magically appears in this nifty list of bookmarks.</P>
     </Card>
 {/if}

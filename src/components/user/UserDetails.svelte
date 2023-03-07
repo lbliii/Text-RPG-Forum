@@ -1,5 +1,5 @@
 <script>
-	import { playerStore } from '../stores/playerStore.js';
+	import { playerStore } from '../../stores/playerStore.js';
 	import { Badge, Card, Heading, P } from 'flowbite-svelte';
 
 	export let user = $playerStore
