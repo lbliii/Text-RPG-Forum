@@ -32,10 +32,13 @@
         } else if (action === 'edit') {
             threadStore.editThread(threadData);
         } else if (action === 'delete') {
+           
             threadStore.removeThread(threadData);
-            goto('/forum/{thread.forum_id}');
+            goto(`/forum/${thread.forum_id}`);
+
         }
         threadData = {};
+        thread = {};
 		postData = {};
         modalOpen = false;
     }

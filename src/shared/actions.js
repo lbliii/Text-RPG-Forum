@@ -254,6 +254,11 @@ export const updateThread = async (thread) => {
 
 export const deleteThread = async (thread) => {
 	try {
+		// Delete all posts in thread
+		const {data: posts, error: postsError} = await supabase.from('posts').delete().match({ thread_id: thread.id });
+		if (postsError) throw postsError;
+
+		// Delete thread
 		const {data, error} = await supabase.from('threads').delete().match({ id: thread.id });
 		if (error) throw error;
 		return {data};
