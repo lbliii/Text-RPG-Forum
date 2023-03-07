@@ -11,11 +11,11 @@
 </script>
 
   <body class="bg-transparent dark:bg-gray-800 container mx-auto my-6 max-w-xl px-1">
-    {#if $authStore.id}
-        <Navbar user={$authStore.id} />
-        <slot />
-    {:else}
+    {#if $authStore === null || !$authStore.id }
         <Auth />
+    {:else if $authStore !== null && $authStore.id}
+         <Navbar user={$authStore.id} />
+        <slot />
     {/if}
   </body>
 

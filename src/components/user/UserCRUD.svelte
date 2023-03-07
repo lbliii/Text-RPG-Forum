@@ -7,7 +7,7 @@
 
     export let edit;
     export let player = $playerStore;
-    let openModal = false;
+    let modalOpen = false;
 
     const handleSubmit = () => {
         if(player.likes !== null) {
@@ -21,7 +21,7 @@
 
         playerStore.editPlayer(player);
     
-        openModal = false;
+        modalOpen = false;
     }
 	
 </script>
@@ -30,13 +30,13 @@
 {#if $userStore.user_id == player.user_id}
     <div class="flex flex-row justify-end my-6">
         <ButtonGroup>
-            <Button size="xs" color="light" on:click={() => (openModal = true)}> {edit ? 'Edit ' : 'Create'} Profile</Button>
+            <Button size="xs" color="light" on:click={() => (modalOpen = true)}> {edit ? 'Edit ' : 'Create'} Profile</Button>
             <CharacterCRUD create={true} player={player} />
         </ButtonGroup>
     </div>
 {/if}
 
-<Modal bind:open={openModal} size="xs" autoclose={false} title="{edit ? 'Edit ' : 'Create'} Your User Profile">
+<Modal bind:open={modalOpen} size="xs" autoclose={false} title="{edit ? 'Edit ' : 'Create'} Your User Profile">
 
     <div class="flex flex-col text-sm mb-2">
         <FloatingLabelInput
@@ -70,7 +70,7 @@
     <div class="flex flex-row justify-center my-2">
         <ButtonGroup>
             <Button color="green" on:click={handleSubmit}>Save</Button>
-            <Button color="red" on:click={() => (openModal = false)}>Cancel</Button>
+            <Button color="red" on:click={() => (modalOpen = false)}>Cancel</Button>
         </ButtonGroup>
     </div>
 </Modal>

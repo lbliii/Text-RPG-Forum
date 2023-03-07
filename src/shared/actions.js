@@ -400,7 +400,23 @@ export const deleteUserThreadBookmark = async (thread_id, user_id) => {
 	}
 };
 
-// Thread <-> Character Junction Table Actions
+// Thread <-> Character <-> User  Junction Table Actions
+
+export const getUserThreadParticipationCount = async (user_id) => {
+	try {
+		const { data, error } = await supabase
+			.from('thread_characters')
+			.select('*')
+			.match({ user_id: user_id });
+
+		if (error) throw error;
+
+		return data.length;
+	} catch (error) {
+		handleError(error);
+	}
+};
+
 
 export const getThreadCharacterLinks = async (thread_id) => {
 	try {
