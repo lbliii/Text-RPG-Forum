@@ -5,6 +5,11 @@
     import { Button, Select, Textarea, FloatingLabelInput, Modal, ButtonGroup, Label, Input } from 'flowbite-svelte';
     import  CharacterCRUD  from '../character/CharacterCRUD.svelte';
 
+    // export let modalOpen = false;
+	// export let modalTitle = '';
+	// export let action = ''; 
+
+
     export let edit;
     export let player = $playerStore;
     let openModal = false;
