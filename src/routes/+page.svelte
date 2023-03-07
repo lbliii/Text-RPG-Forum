@@ -1,12 +1,12 @@
  <script>
     import { userStore } from '../stores/userStore.js';
     import BookmarksList from '../components/BookmarksList.svelte';
-    import Onboarding from '../components/Onboarding.svelte';
+    import SetupCheck from '../components/guide/SetupCheck.svelte';
 
     userStore.fetchUser()
 
  </script>
 
-    <Onboarding user={$userStore} />
+    <SetupCheck user={$userStore} />
     <BookmarksList user={$userStore} />
 
