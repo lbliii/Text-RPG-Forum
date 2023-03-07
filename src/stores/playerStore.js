@@ -34,7 +34,6 @@ const createPlayerStore = () => {
 	const fetchPlayerThreadParticipationCount = async (player_id) => {
 
 		try {
-			console.log('player_id', player_id)
 			const { data } = await getPlayerThreadParticipationCount(player_id);
 
 			if (!data) {

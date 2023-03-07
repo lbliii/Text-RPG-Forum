@@ -405,7 +405,7 @@ export const deleteUserThreadBookmark = async (thread_id, user_id) => {
 
 export const getPlayerThreadParticipationCount = async (player_id) => {
 	try {
-		console.log('getPlayerThreadParticipationCount', player_id)
+	
 		const { data, error } = await supabase
 			.from('thread_characters')
 			.select('*')
