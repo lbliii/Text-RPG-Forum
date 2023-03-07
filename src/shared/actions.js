@@ -6,6 +6,7 @@ import { handleError } from '../shared/helpers.js';
 // .select() returns an array of objects
 // .single() returns a single object
 
+
 // Auth Actions
 
 export const getAuth = async () => {
@@ -402,16 +403,17 @@ export const deleteUserThreadBookmark = async (thread_id, user_id) => {
 
 // Thread <-> Character <-> User  Junction Table Actions
 
-export const getUserThreadParticipationCount = async (user_id) => {
+export const getPlayerThreadParticipationCount = async (player_id) => {
 	try {
+		console.log('getPlayerThreadParticipationCount', player_id)
 		const { data, error } = await supabase
 			.from('thread_characters')
 			.select('*')
-			.match({ user_id: user_id });
+			.match({ user_id: player_id })
 
 		if (error) throw error;
 
-		return data.length;
+		return {data}
 	} catch (error) {
 		handleError(error);
 	}

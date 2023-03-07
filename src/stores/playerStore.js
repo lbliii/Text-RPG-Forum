@@ -1,5 +1,11 @@
 import { writable } from 'svelte/store';
-import { getUser, updateUser, createUser, deleteUser } from '../shared/actions.js'
+import {
+	getUser,
+	updateUser,
+	createUser,
+	deleteUser,
+	getPlayerThreadParticipationCount
+} from '../shared/actions.js';
 import { handleError } from '../shared/helpers.js';
 
 // Fetch, Add, Edit, Remove
@@ -20,6 +26,22 @@ const createPlayerStore = () => {
 
 			set(data);
 			return data;
+		} catch (error) {
+			handleError(error);
+		}
+	};
+
+	const fetchPlayerThreadParticipationCount = async (player_id) => {
+
+		try {
+			console.log('player_id', player_id)
+			const { data } = await getPlayerThreadParticipationCount(player_id);
+
+			if (!data) {
+				throw new Error('Player not found');
+			}
+
+			return data.length;
 		} catch (error) {
 			handleError(error);
 		}
@@ -75,6 +97,7 @@ const createPlayerStore = () => {
 	return {
 		subscribe,
 		fetchPlayer,
+		fetchPlayerThreadParticipationCount,
 		editPlayer,
 		addPlayer,
 		removePlayer

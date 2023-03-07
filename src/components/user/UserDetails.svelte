@@ -3,8 +3,15 @@
 	import { Badge, Card, Heading, P } from 'flowbite-svelte';
 
 	export let user = $playerStore
+	let threadCount = 0
 
-	$: $playerStore
+	$: {
+		if (user.user_id) {
+			playerStore.fetchPlayerThreadParticipationCount(user.user_id).then((data) => {
+				threadCount = data
+			})
+		}
+	}
 
 </script>
 
@@ -14,13 +21,14 @@
 	<Card size="lg" padding="sm" class="my-6">
 		<div class="flex flex-row justify-between items-center">
 			<div>
-				<Heading tag="h4"> Stats</Heading>
+				<Heading tag="h4">Stats</Heading>
 			</div>
 			<div>
+				<Badge color="green" class="mr-2">{threadCount} Threads</Badge>
 				{#if user.age}
-				<Badge color="pink" class="mr-2 ">lvl. {user.age}</Badge>
+				<Badge color="pink" class="mr-2 ">LVL. {user.age}</Badge>
 			{:else}
-				<Badge color="pink" class="mr-2 ">lvl. 0 </Badge>
+				<Badge color="pink" class="mr-2 ">LVL. 0 </Badge>
 			{/if}
 			{#if user.time_zone}
 				<Badge color="indigo">{user.time_zone}</Badge>
