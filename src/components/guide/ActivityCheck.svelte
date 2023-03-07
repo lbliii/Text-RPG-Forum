@@ -17,7 +17,7 @@
 
 <div in:fade="{{ duration: 1100 }}">
   {#if $charactersStore.length > 0}
-    <Heading tag="h2" class="text-white my-6"><Newspaper size="30" class="inline-flex mr-3"/> Active Threads</Heading>
+    <Heading tag="h2" class="text-white my-6"><Newspaper size="30" class="inline-flex mr-3"/>Active Threads</Heading>
 
       {#each $charactersStore as character}
           <div class="mx-3">

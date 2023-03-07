@@ -1,5 +1,5 @@
 <script>
-	import { Card, Heading, P} from 'flowbite-svelte';
+	import { Card, Heading, P, A} from 'flowbite-svelte';
 	import { threadCharacterStore } from '../../stores/threadCharacterStore.js';
 	import Thread from '../thread/Thread.svelte';
 
@@ -24,6 +24,6 @@
 {:else}
 	<Card size="lg" padding="sm" class="my-6" >
 		<Heading tag="h4" class="mb-2">No Active Threads</Heading>
-		<P class="my-2">This character is not currently in any active threads.</P>
+		<P class="my-2">This character has no active threads. Explore the <A  href="/forums" class="text-green-500 font-semibold">forums</A> to join a thread or start your own! </P>
 	</Card>
 {/if}
