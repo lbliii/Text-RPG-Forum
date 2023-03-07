@@ -1,5 +1,5 @@
 <script>
-    import Users from '../../components/Users.svelte';
+    import Users from '../../components/user/Users.svelte';
     import { Heading } from 'flowbite-svelte';
 
 </script>

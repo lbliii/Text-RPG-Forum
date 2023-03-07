@@ -1,8 +1,8 @@
 <script>
 
   import { playerStore } from '../../../stores/playerStore.js';
-  import UserDetails from '../../../components/UserDetails.svelte'
-  import UserCRUD from '../../../components/UserCRUD.svelte'
+  import UserDetails from '../../../components/user/UserDetails.svelte'
+  import UserCRUD from '../../../components/user/UserCRUD.svelte'
   import CharacterList from '../../../components/character/CharacterList.svelte'
   
  $: $playerStore

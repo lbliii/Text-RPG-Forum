@@ -330,6 +330,75 @@ export const deleteUser = async (user) => {
 	}
 }
 
+// User <-> Thread Junction Table Actions (Bookmarks)
+
+export const getUserThreadBookmarks = async (user_id) => {
+	try {
+		const { data, error } = await supabase
+			.from('user_thread_bookmarks')
+			.select('*')
+			.match({ user_id: user_id });
+
+		if (error) throw error;
+
+		if (data.length > 0) {
+			const thread_ids = data.map((bookmark) => bookmark.thread_id);
+			const threads = await Promise.all(thread_ids.map((thread_id) => getThread(thread_id)));
+			return threads.map((thread) => thread.data);
+		} else {
+			return [];
+		}
+	} catch (error) {
+		handleError(error);
+	}
+};
+
+
+export const getUserThreadBookmark = async (thread_id, user_id) => {
+	try {
+		const { data, error } = await supabase
+			.from('user_thread_bookmarks')
+			.select()
+			.match({ thread_id, user_id })
+			.maybeSingle();
+
+		if (error) throw error;
+		return data;
+	} catch (error) {
+		handleError(error);
+	}
+}
+
+export const createUserThreadBookmark = async (thread_id, user_id) => {
+	try {
+		const { data, error } = await supabase
+			.from('user_thread_bookmarks')
+			.insert({ thread_id, user_id })
+			.select()
+			.single();
+
+		if (error) throw error;
+
+		return data;
+	} catch (error) {
+		handleError(error);
+	}
+};
+
+export const deleteUserThreadBookmark = async (thread_id, user_id) => {
+	try {
+		const { data, error } = await supabase
+			.from('user_thread_bookmarks')
+			.delete()
+			.match({ thread_id, user_id });
+
+		if (error) throw error;
+
+		return data;
+	} catch (error) {
+		handleError(error);
+	}
+};
 
 // Thread <-> Character Junction Table Actions
 

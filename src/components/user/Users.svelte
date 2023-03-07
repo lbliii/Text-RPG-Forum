@@ -1,5 +1,5 @@
 <script>
-  import { usersStore } from '../stores/usersStore.js';
+  import { usersStore } from '../../stores/usersStore.js';
   import { Button, Badge,  Card, } from 'flowbite-svelte';
 
   let searchTerm = "";

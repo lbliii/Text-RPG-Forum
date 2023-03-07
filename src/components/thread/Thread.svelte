@@ -16,7 +16,7 @@ async function fetchForumTitle (id) {
 </script>
 
 
-{#if thread.id !== undefined}
+{#if thread !== undefined}
     <div in:fade="{{ duration: 1100 }}">
         <Card size="lg" padding="sm" img={thread.image} href={`/thread/${thread.id}`} class="my-4">
             {#if displayForumTitle}
@@ -36,6 +36,7 @@ async function fetchForumTitle (id) {
             </div>
                 
             <div class="flex items-center justify-end">
+                
                 <ThreadCharacterDetails thread={thread} />
 
                 <div class="flex items-center space-x-3 ml-3">
