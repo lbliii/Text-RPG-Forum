@@ -4,6 +4,7 @@
 	import Thread from '../thread/Thread.svelte';
 
 	export let character 
+	export let compact = false;
 
 	threadCharacterStore.fetchCharacterThreads(character.id)
 
@@ -11,11 +12,12 @@
 
 </script>
 
-
+{#if !compact}
 <Heading tag="h4" class="my-6 text-center text-white">Active Threads</Heading>
+{/if}
 {#if $threadCharacterStore.length > 0}
 	{#each $threadCharacterStore as thread}
-		<Thread thread={thread} displayForumTitle={true} />
+		<Thread thread={thread} displayForumTitle={true} compact={compact} />
 	{/each}
 {:else}
 	<Card size="lg" padding="sm" class="my-6" >
