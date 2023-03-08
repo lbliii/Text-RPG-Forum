@@ -1,48 +1,39 @@
 <script>
 	import { supabase } from '../supabase.js';
-	import {
-		Dropdown,
-		DropdownItem,
-		DropdownDivider,
-		Navbar,
-		NavBrand,
-		NavLi,
-		NavUl,
-		NavHamburger
+	import { Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger, Chevron
 	} from 'flowbite-svelte';
 	import { UserCircle } from 'svelte-heros-v2';
 	import { authStore } from '../stores/authStore.js';
-	import { goto } from '$app/navigation';
+	import { userStore } from '../stores/userStore.js';
 
-	export let user;
+	export let user = {};
+
+	$: if (user) {
+		userStore.fetchUser(user)
+		}
 
 	const logout = () => {
 		supabase.auth.signOut();
 		// clear the auth and user store 
 		authStore.set(null);
-		goto('/');
+
 	};
 
 </script>
 
-<Navbar color="light"  let:hidden let:toggle rounded>
-	<NavBrand href="/">
-		<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-			Emdash
-		</span>
-	</NavBrand>
-	<NavHamburger on:click={toggle} />
-	<NavUl {hidden}>
-		<NavLi href="/users">Users</NavLi>
-		<NavLi href="/forums">Forums</NavLi>
-		<NavLi id="auth-menu" class="cursor-pointer"> {#if user}<UserCircle color="{user.admin ? 'red' : 'black'} "/>{/if}</NavLi>
-	</NavUl>
+<Navbar let:hidden let:toggle>
+  <NavBrand href="/">
+    <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Emdash</span>
+  </NavBrand>
+  <NavHamburger on:click={toggle} />
+  <NavUl {hidden}>
+    <NavLi href="/forums">Forums</NavLi>
+    <NavLi href="/users">Users</NavLi>
+    <NavLi id="nav-menu1" class="cursor-pointer"><Chevron aligned><UserCircle/></Chevron></NavLi>
+    <Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
+      <DropdownItem href="/user/{$userStore.user_id}">View Profile</DropdownItem>
+      <DropdownDivider />
+      <DropdownItem on:click={logout}>Sign out</DropdownItem>
+    </Dropdown>
+  </NavUl>
 </Navbar>
-
-{#if user}
-	<Dropdown color="green" triggeredBy="#auth-menu" class="">
-		<DropdownItem class="hover:bg-white" href="/user/{$authStore.id}">View Profile</DropdownItem>
-		<DropdownDivider />
-		<DropdownItem href="/" on:click={logout}>Sign Out</DropdownItem>
-	</Dropdown>
-{/if}
