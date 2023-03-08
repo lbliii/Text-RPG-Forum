@@ -1,5 +1,6 @@
 import { supabase } from '../supabase.js';
 import { handleError } from '../shared/helpers.js';
+import { generateAlias } from '../shared/alias-generator.js';
 
 // Get, Create, Update, Delete
 
@@ -285,7 +286,8 @@ export const getUser = async (/** @type {string} */ user_id) => {
 		const { data, error } = await supabase.from('users').select().eq('user_id', user_id).maybeSingle();
 
 		if (data === null) {
-			createUser(user_id);
+			let alias = generateAlias();
+			createUser({ user_id, alias });
 		}
 
 		if (error) throw error;
@@ -295,11 +297,11 @@ export const getUser = async (/** @type {string} */ user_id) => {
 	}
 };
 
-export const createUser = async (/** @type {string} */ user_id) => {
+export const createUser = async ({user_id, alias}) => {
 	try {
 		const { data, error } = await supabase
 			.from('users')
-			.insert({ user_id })
+			.insert({ user_id, alias })
 			.select('*')
 			.single();
 
