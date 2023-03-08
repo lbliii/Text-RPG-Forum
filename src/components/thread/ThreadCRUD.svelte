@@ -8,7 +8,7 @@
     export let modalOpen = false;
     export let modalTitle = '';
     export let action = '';
-    export let user = {};
+    export let user = {}
     export let forum = {}
 	export let thread = {}
 
@@ -21,6 +21,8 @@
 		if (user.user_id) {
 			charactersStore.fetchCharacters(user.user_id);
 		}
+
+        user 
 	}
 
     function handleAction() {
@@ -32,10 +34,13 @@
         } else if (action === 'edit') {
             threadStore.editThread(threadData);
         } else if (action === 'delete') {
+           
             threadStore.removeThread(threadData);
-            goto('/forum/{thread.forum_id}');
+            goto(`/forum/${thread.forum_id}`);
+
         }
         threadData = {};
+        thread = {};
 		postData = {};
         modalOpen = false;
     }

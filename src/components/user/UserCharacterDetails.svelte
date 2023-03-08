@@ -1,0 +1,1 @@
+<!-- todo: make it so that a list of the user's characters display as avatars that can be embedded in other components like the user component -->

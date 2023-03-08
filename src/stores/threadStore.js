@@ -104,6 +104,7 @@ export const createThreadStore = () => {
 			}
 			
 			await deleteThread(thread);
+			threadsStore.update((threads) => threads.filter((t) => t.id !== thread.id));
 		} catch (error) {
 			handleError(error);
 		}
