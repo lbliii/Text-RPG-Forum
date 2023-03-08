@@ -8,7 +8,7 @@
     export let modalOpen = false;
     export let modalTitle = '';
     export let action = '';
-    export let user = {};
+    export let user = {}
     export let forum = {}
 	export let thread = {}
 
@@ -21,6 +21,8 @@
 		if (user.user_id) {
 			charactersStore.fetchCharacters(user.user_id);
 		}
+
+        user 
 	}
 
     function handleAction() {
