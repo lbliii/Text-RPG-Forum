@@ -4,14 +4,12 @@
     import SetupCheck from '../components/guide/SetupCheck.svelte';
     import ActivityCheck from '../components/guide/ActivityCheck.svelte';
 
-    userStore.fetchUser()
-
-    $: $userStore
+   userStore.fetchUser()
 
  </script>
 
-
+{#if $userStore}
     <SetupCheck user={$userStore} />
     <ActivityCheck user={$userStore} />
     <BookmarksList user={$userStore} />
-
+{/if}

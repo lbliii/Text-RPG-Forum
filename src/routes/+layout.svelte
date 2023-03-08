@@ -5,7 +5,7 @@
   import Navbar from '../components/Navbar.svelte';
   import "../app.css";
 
-  $: $userStore
+  $userStore
 
 
 </script>
