@@ -22,7 +22,9 @@
       {#each $charactersStore as character}
           <div class="mx-3">
               <Heading tag="h3" class="text-white my-6">{character.first_name} {character.last_name}</Heading>
+           
               <CharacterThreadList character={character} compact={true}/>
+  
           </div>
       {/each}
 
