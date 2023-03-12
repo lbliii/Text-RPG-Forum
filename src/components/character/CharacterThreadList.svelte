@@ -5,11 +5,12 @@
 
 	export let character 
 	export let compact = false;
+	let threads = []
 
-	$: {
-		if (character.id){
-		threadCharacterStore.fetchCharacterThreads(character.id);
-		}
+	$:if (character.id) {
+		threadCharacterStore.fetchCharacterThreads(character.id).then((data) => {
+			threads = data;
+		});
 	}
 
 </script>
@@ -17,8 +18,8 @@
 {#if !compact}
 <Heading tag="h4" class="my-6 text-center text-white">Active Threads</Heading>
 {/if}
-{#if $threadCharacterStore.length > 0}
-	{#each $threadCharacterStore as thread}
+{#if threads.length > 0}
+	{#each threads as thread}
 		<Thread thread={thread} displayForumTitle={true} compact={compact} />
 	{/each}
 {:else}
