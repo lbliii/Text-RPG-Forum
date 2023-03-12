@@ -5,8 +5,10 @@
 	import { UserCircle } from 'svelte-heros-v2';
 	import { authStore } from '../stores/authStore.js';
 	import { userStore } from '../stores/userStore.js';
+	import Auth from '../components/Auth.svelte';
 
 	export let user = {};
+	let modalOpen = false;
 
 	$: if (user) {
 		userStore.fetchUser(user)
@@ -18,6 +20,10 @@
 		authStore.set(null);
 
 	};
+
+	const openAuthModal = () => {
+		modalOpen = true;
+	}
 
 </script>
 
@@ -31,9 +37,15 @@
     <NavLi href="/users">Users</NavLi>
     <NavLi id="nav-menu1" class="cursor-pointer"><Chevron aligned><UserCircle/></Chevron></NavLi>
     <Dropdown triggeredBy="#nav-menu1" class="w-44 z-20">
-      <DropdownItem href="/user/{$userStore.user_id}">View Profile</DropdownItem>
-      <DropdownDivider />
-      <DropdownItem on:click={logout}>Sign out</DropdownItem>
+	  {#if $userStore.user_id }
+		<DropdownItem href="/user/{$userStore.user_id}">View Profile</DropdownItem>
+		<DropdownDivider />
+		<DropdownItem on:click={logout}>Sign out</DropdownItem>
+	  {:else }
+	  	<DropdownItem on:click={openAuthModal} > Sign in</DropdownItem>
+	  {/if}
     </Dropdown>
   </NavUl>
 </Navbar>
+
+<Auth modalOpen={modalOpen}  />

@@ -11,23 +11,27 @@
     if (user.user_id) {
       charactersStore.fetchCharacters(user.user_id);
     }
+
   }
 
 </script>
-
+{#if user.user_id}
 <div in:fade="{{ duration: 1100 }}">
-  {#if $charactersStore.length > 0}
+  {#if $charactersStore.length > 0 }
     <Heading tag="h2" class="text-white my-6"><Newspaper size="30" class="inline-flex mr-3"/>Active Threads</Heading>
 
       {#each $charactersStore as character}
+      {#if character.first_name}
           <div class="mx-3">
               <Heading tag="h3" class="text-white my-6">{character.first_name} {character.last_name}</Heading>
            
               <CharacterThreadList character={character} compact={true}/>
   
           </div>
+      {/if}
       {/each}
 
   {/if}
 </div>
+{/if}
 

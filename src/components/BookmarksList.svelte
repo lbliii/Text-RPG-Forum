@@ -24,8 +24,12 @@
     </div>
     {:else}
         <Card size="lg" padding="md" class="mb-4">
+            {#if user.user_id}
             <P size="xl" class="mb-3 font-semibold">Your bookmarks are as empty as ghost town. 👻 </P>
             <P>Give that <Bookmark size="30"color="green" class="inline-flex"/> button a clickaroo next time you stumble upon a thread that tickles your fancy, and watch as it magically appears in this nifty list of bookmarks.</P>
+            {:else}
+            Create an account to bookmark threads and keep track of your favorite threads.
+            {/if}
         </Card>
     {/if}
 </div>

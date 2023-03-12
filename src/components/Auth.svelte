@@ -1,8 +1,10 @@
 <script>
 	import { supabase } from '../supabase.js';
-	import { Card, P, Button, }  from 'flowbite-svelte';
+	import { Card, P, Button, Modal }  from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
+	export let modalOpen = false;
+	export let modalTitle = 'Log In';
 	let loading = false;
 	let email;
 
@@ -22,12 +24,11 @@
 	};
 </script>
 
-<h1 class="text-2xl font-bold text-center text-white md:text-3xl">Log In</h1>
+<Modal bind:open={modalOpen} title={modalTitle} on:close={() => modalOpen = false}>
 
-<P class="text-white text-center my-4">Sign in via magic link with your email below</P>
+	<h1 class="text-2xl font-bold text-center md:text-3xl">Log In</h1>
 
-
-<Card size="lg">
+	<P class="text-center my-4">Sign in via magic link with your email below. No passwords needed!</P>
 
 	<form on:submit|preventDefault={handleLogin}>
 	<div class="flex flex-col text-sm mb-2">
@@ -46,5 +47,5 @@
 	>
 </form>
 
-</Card>
+</Modal>
 
