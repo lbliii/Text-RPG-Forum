@@ -31,7 +31,7 @@
     <div class="flex flex-row justify-end my-6">
         <ButtonGroup>
             <Button size="xs" color="light" on:click={() => (modalOpen = true)}> {edit ? 'Edit ' : 'Create'} Profile</Button>
-            <CharacterCRUD create={true} player={player} />
+            <CharacterCRUD create={true} player_id={player.user_id} />
         </ButtonGroup>
     </div>
 {/if}

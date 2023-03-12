@@ -27,7 +27,7 @@
 
 				(And don't worry, you can always create more characters later from your profile page.)
 			</P>
-			<CharacterCRUD create={true} player={player.user_id}/>
+			<CharacterCRUD create={true} player_id={player.user_id}/>
 		</div>
 		{:else}
 		<P size="xl" class="mb-3 font-semibold"> @{player.alias} has no characters yet. </P>
