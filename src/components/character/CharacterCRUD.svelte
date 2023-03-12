@@ -14,7 +14,7 @@
 	};
 
 	$: {
-		if (player) {
+		if (player.user_id) {
 		charactersStore.fetchCharacters(player.user_id)
 		}
 
@@ -44,7 +44,7 @@
 	
 </script>
 
-{#if $userStore.user_id == player}
+{#if $userStore.user_id == player.user_id}
 	{#if create}
 		<Button size="xs" color="green" on:click={() => (openModal = true)}> Create Character</Button>
 	{:else}
@@ -58,7 +58,7 @@
 
 <Modal bind:open={openModal} size="xs" autoclose={false} title="{create ? 'Create ' : 'Edit'}  Character">
 
-	{#if create == true && $charactersStore.length < 3 } 
+	{#if !create || $charactersStore.length < 3 } 
 
 		<div class="flex flex-row justify-between items-center">
 			<select id="avatar-select" name="avatar-select" bind:value={character.avatar} class="h-fit">
