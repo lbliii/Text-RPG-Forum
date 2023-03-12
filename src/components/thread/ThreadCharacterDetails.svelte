@@ -8,14 +8,20 @@
 	async function loadThreadCharacters() {
   		let characters = await threadCharactersStore.fetchThreadCharacters(thread.id);
   	return characters;
+
+	console.log("characters", characters);
 }	
 </script>
+
+
 {#if thread.id}
 	{#await loadThreadCharacters() then characters }
-		{#each characters as character}
-			{#if character.avatar }
-				<Avatar size="md" stacked="true" alt="{character.first_name}" src="{character.avatar}"/>
-			{/if}
-		{/each}
+		{#if characters}
+			{#each characters as character}
+				{#if character.avatar }
+					<Avatar size="md" stacked="true" alt="{character.first_name}" src="{character.avatar}"/>
+				{/if}
+			{/each}
+		{/if}
 	{/await}
 {/if}

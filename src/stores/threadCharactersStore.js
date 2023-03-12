@@ -17,7 +17,7 @@ const createThreadCharactersStore = () => {
 			}
 			const { data: characterIds } = await getThreadCharacterLinks(thread_id);
 
-			if (!characterIds) {
+			if (!characterIds || characterIds) {
 				throw new Error(`No links found matching thread: ${thread_id}`);
 			}
 

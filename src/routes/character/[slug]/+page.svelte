@@ -9,7 +9,7 @@
 </script>
 
 <main>
-    <CharacterCRUD create={false} character={$characterStore} />
+    <CharacterCRUD create={false} character={$characterStore} player={$characterStore.user_id}/>
     <CharacterDetails character={$characterStore} />
     <CharacterThreadList character={$characterStore} />
 </main>
