@@ -15,29 +15,29 @@ const createThreadCharactersStore = () => {
 			if (!thread_id) {
 				throw new Error('No thread_id provided');
 			}
-			const { data: characterIds } = await getThreadCharacterLinks(thread_id);
 
-			if (!characterIds || characterIds) {
+			const data  = await getThreadCharacterLinks(thread_id);
+
+			if (!data) {
 				throw new Error(`No links found matching thread: ${thread_id}`);
 			}
 
-			characterIds.forEach(async (id) => {
-				const { data: character } = await getCharacter(id);
-				if (!character) {
-					throw new Error(`No character found matching id: ${id}`);
-				}
+		
+
+			for (let i = 0; i < data.length; i++) {
+				const {data: character} = await getCharacter(data[i].character_id);
 				characters.push(character);
+			}
 
-			});
-
+			console.log(characters)
 			set(characters);
 			return characters;
-			
 
 		} catch (error) {
 			handleError(error);
 		}
 	};
+
  
 
 	return {

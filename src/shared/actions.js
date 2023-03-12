@@ -431,13 +431,13 @@ export const getThreadCharacterLinks = async (thread_id) => {
 	try {
 		const { data, error } = await supabase
 			.from('thread_characters')
-			.select('*')
+			.select('character_id')
 			.match({ thread_id: thread_id })
 
-		
-
 		if (error) throw error;
-		return data? {data} : {}
+
+		return data
+
 	} catch (error) {
 		handleError(error);
 	}

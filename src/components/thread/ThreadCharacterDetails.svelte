@@ -5,17 +5,17 @@
 	export let thread;
 	
 
-	async function loadThreadCharacters() {
+	async function loadThreadCharacters(thread_id) {
+	
   		let characters = await threadCharactersStore.fetchThreadCharacters(thread.id);
-  	return characters;
-
-	console.log("characters", characters);
+		
+  	return characters? characters : [];
 }	
 </script>
 
 
 {#if thread.id}
-	{#await loadThreadCharacters() then characters }
+	{#await loadThreadCharacters(thread.id) then characters }
 		{#if characters}
 			{#each characters as character}
 				{#if character.avatar }
