@@ -66,6 +66,7 @@
 {/if}
 
 <Modal bind:open={modalOpen} bind:title={modalTitle}>
+    {#if user.user_id}
     <form>
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
@@ -104,4 +105,7 @@
         {/if}
         <Button size="xs" color="dark" on:click={() => (modalOpen = false)}>Cancel</Button>
     </ButtonGroup>
+    {:else}
+        <P>You must be logged in to create a thread.</P>
+    {/if}
 </Modal>

@@ -12,5 +12,5 @@
 <main>
   <UserCRUD player={$playerStore} edit={$playerStore.profile_setup}/>
   <UserDetails user={$playerStore} />
-  <CharacterList user={$playerStore} />
+  <CharacterList player={$playerStore} />
 </main>

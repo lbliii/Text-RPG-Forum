@@ -64,6 +64,7 @@
 {/if}
 
 <Modal bind:open={modalOpen} title={modalTitle}>
+	{#if user.user_id}
 	<div class="flex flex-row justify-between items-center">
 		<select bind:value={postData.character_id} required class="h-fit">
 			{#each $charactersStore as character}
@@ -85,5 +86,8 @@
 	{:else if action === 'delete'}
 		<P>Are you sure you want to delete this post?</P>
 		<Button color="red" on:click={handlePostDelete}>Delete</Button>
+	{/if}
+	{:else }
+		<P>You must be logged in to create a post.</P>
 	{/if}
 </Modal>
