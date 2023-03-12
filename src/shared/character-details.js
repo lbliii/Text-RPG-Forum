@@ -113,8 +113,14 @@ export const avatars = [
 		name: 'Avatar 15'
 	},
 	{
-		value: 'https://cdn.midjourney.com/1b0f1b0f-0b1f-4b0f-8b0f-0b1f4b0f8b0f/grid_0.png',
+		value:
+			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/african-woman.png',
 		name: 'Avatar 16'
+	},
+	{
+		value:
+			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/arab-woman.png',
+		name: 'Avatar 17'
 	}
 ];
 

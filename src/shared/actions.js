@@ -40,7 +40,7 @@ export const getCharacters = async (user_id) => {
 
 export const getCharacter = async (id) => {
 	try {
-		const { data, error } = await supabase.from('characters').select().eq('id', id).single();
+		const { data, error } = await supabase.from('characters').select().eq('id', id).maybeSingle();
 		if (error) throw error;
 		return {data};
 	} catch (error) {
@@ -431,10 +431,13 @@ export const getThreadCharacterLinks = async (thread_id) => {
 	try {
 		const { data, error } = await supabase
 			.from('thread_characters')
-			.select('*')
-			.match({ thread_id: thread_id });
+			.select('character_id')
+			.match({ thread_id: thread_id })
+
 		if (error) throw error;
-		return {data};
+
+		return data
+
 	} catch (error) {
 		handleError(error);
 	}

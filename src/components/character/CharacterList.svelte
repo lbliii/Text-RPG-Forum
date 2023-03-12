@@ -26,11 +26,11 @@
 
 				(And don't worry, you can always create more characters later from your profile page.)
 			</P>
-			<CharacterCRUD create={true} player={user}/>
+			<CharacterCRUD create={true} player={user.user_id}/>
 		</div>
 	</Card>
 {:else }
 	{#each $charactersStore as character}
-		<Character character={character} user={user}/>
+		<Character character={character} user={user.user_id}/>
 	{/each}
 {/if}
