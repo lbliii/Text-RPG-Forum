@@ -21,11 +21,6 @@
 
 	}
 
-	console.log(player)
-	
-	
-	
-
 	let openModal = false;
 	let deleteConfirmed = false;
 

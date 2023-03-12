@@ -1,14 +1,10 @@
 <script>
 	import { Avatar, Badge, Card, Heading, P } from 'flowbite-svelte';
-    import { threadCharacterStore } from '../../stores/threadCharacterStore.js';
 
     /**
 	 * @type {{ id: any; soul: string; species: string; age: number; gender: string; relationship_status: string; bio: string; }}
 	 */
     export let character;
-
-   threadCharacterStore.fetchCharacterThreads(character.id) // list of threads with matching character_id
-
 
 </script>
 

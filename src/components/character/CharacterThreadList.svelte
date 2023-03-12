@@ -6,11 +6,9 @@
 	export let character 
 	export let compact = false;
 
-	$: {
-		if (character.id){
-		threadCharacterStore.fetchCharacterThreads(character.id);
-		}
-	}
+	threadCharacterStore.fetchCharacterThreads(character.id);
+
+
 
 </script>
 
