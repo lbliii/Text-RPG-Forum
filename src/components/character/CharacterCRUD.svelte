@@ -15,7 +15,7 @@
 
 	$: {
 		if (player) {
-		charactersStore.fetchCharacters(player)
+		charactersStore.fetchCharacters(player.user_id)
 		}
 
 

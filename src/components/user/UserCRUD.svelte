@@ -36,6 +36,7 @@
     </div>
 {/if}
 
+
 <Modal bind:open={modalOpen} size="xs" autoclose={false} title="{edit ? 'Edit ' : 'Create'} Your User Profile">
 
     <div class="flex flex-col text-sm mb-2">

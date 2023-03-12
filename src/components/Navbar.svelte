@@ -1,6 +1,6 @@
 <script>
 	import { supabase } from '../supabase.js';
-	import { Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger, Chevron
+	import { Dropdown, DropdownItem, DropdownDivider, Navbar, NavBrand, NavLi, NavUl, NavHamburger, Chevron, Badge
 	} from 'flowbite-svelte';
 	import { UserCircle } from 'svelte-heros-v2';
 	import { authStore } from '../stores/authStore.js';
@@ -23,7 +23,7 @@
 
 <Navbar let:hidden let:toggle>
   <NavBrand href="/">
-    <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Emdash</span>
+    <span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Emdash</span> <Badge class="ml-1">Alpha</Badge>
   </NavBrand>
   <NavHamburger on:click={toggle} />
   <NavUl {hidden}>
