@@ -5,14 +5,12 @@
 	import Character from './Character.svelte';
 
 	export let user 
-	
-	$: $charactersStore
 
-	$: {
-    if (user.user_id) {
+
+	$: if (user.user_id) {
       charactersStore.fetchCharacters(user.user_id);
     }
-  }
+  
 </script>
 
 <Heading tag="h2" class="text-center text-white my-6">{user.alias}'s Characters</Heading>
