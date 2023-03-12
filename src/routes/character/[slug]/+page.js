@@ -1,4 +1,3 @@
-import { userStore } from '../../../stores/userStore.js';
 import { characterStore } from '../../../stores/characterStore.js';
 
 export async function load({ params }) {

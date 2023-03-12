@@ -8,18 +8,10 @@
 	import {Trash} from 'svelte-heros-v2'
 
 	export let create = false
-	export let player = $playerStore
+	export let player_id = null
 	export let character = {
 		user_id: $userStore.user_id
-	};
-
-	$: {
-		if (player.user_id) {
-		charactersStore.fetchCharacters(player.user_id)
-		}
-
-
-	}
+	};	
 
 	let openModal = false;
 	let deleteConfirmed = false;
@@ -42,9 +34,11 @@
 		deleteConfirmed = false;
 	}
 	
+	
 </script>
 
-{#if $userStore.user_id && $userStore.user_id == player.user_id}
+{#if $userStore.user_id && $userStore.user_id == player_id}
+ 
 	{#if create}
 		<Button size="xs" color="green" on:click={() => (openModal = true)}> Create Character</Button>
 	{:else}

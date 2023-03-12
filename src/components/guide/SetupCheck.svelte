@@ -37,7 +37,7 @@
 
                     (And don't worry, you can always create more characters later from your profile page.)
                 </P>
-                <CharacterCRUD create={true} player={user} />
+                <CharacterCRUD create={true} player_id={user.user_id} />
             
             </Card>
         {/if}
@@ -49,7 +49,7 @@
                         Emdash is a play-by-post roleplaying platform tailored for co-authoring threads and managing many different character profiles. <br><br>
                         This platform is in alpha testing, so please be patient as we work out the kinks. ⚠️ Characters, threads, and posts you make during alpha may be lost/erased when moving to beta or public release. ⚠️ <br><br> 
                     </P>
-                    <CharacterCRUD create={true} player={user} />
+                    <CharacterCRUD create={true} player_id={user.user_id} />
                 
                 </Card>
     {/if}
