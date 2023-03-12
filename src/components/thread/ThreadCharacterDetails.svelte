@@ -5,10 +5,13 @@
 	export let thread;
 
 	let characters = []
+
+	if (thread.id) {
 	
 		threadCharactersStore.fetchThreadCharacters(thread.id).then((data) => {
 			characters = data;
 		});
+	}
 	
 </script>
 
