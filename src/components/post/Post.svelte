@@ -11,7 +11,7 @@ export let user;
 export let post;
 
 
-console.log(post.body)
+
 </script>
 
 <div in:fade="{{ duration: 1100 }}">
@@ -25,9 +25,7 @@ console.log(post.body)
         <Badge color="green"> {new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
     </div>
     <section class="my-20">
-        {#each post.body.split('\n') as paragraph}
-            <P class="mx-2 my-4">{paragraph}</P>
-        {/each}
+        <P whitespace="prewrap" class="mx-2 my-4">{@html post.body}</P>
     </section>
 
     <div class="flex flex-row justify-end space-x-3">
@@ -35,7 +33,6 @@ console.log(post.body)
         <PostShare post={post} />
         <PostCRUD thread={thread} user={user} post={post} action="edit" />
     </div>
-    
 
     </Card>
 </div>
