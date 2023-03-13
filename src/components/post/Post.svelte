@@ -10,6 +10,8 @@ export let thread;
 export let user;
 export let post;
 
+
+console.log(post.body)
 </script>
 
 <div in:fade="{{ duration: 1100 }}">
@@ -22,8 +24,11 @@ export let post;
     <div class="flex flex-row {post.id % 2 === 0 ? 'justify-end' : 'justify-start'}">
         <Badge color="green"> {new Date(post.created_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour:'numeric'  })}</Badge>
     </div>
-    
-    <P class="my-20 mx-2">{post.body}</P>
+    <section class="my-20">
+        {#each post.body.split('\n') as paragraph}
+            <P class="mx-2 my-4">{paragraph}</P>
+        {/each}
+    </section>
 
     <div class="flex flex-row justify-end space-x-3">
         <PostLikesCounter post={post} />
