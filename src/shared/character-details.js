@@ -53,29 +53,60 @@ export const relationship_status = [
 
 export const avatars = [
 	{
-		value: 'https://cdn.midjourney.com/4e9b6a58-c047-4fc9-bc18-472db8afe5d1/grid_0.png',
-		name: 'Avatar 1'
-	},
-	{
-		value: 'https://cdn.midjourney.com/c080f7f9-2603-4529-bbec-cc9504436c68/grid_0.png',
-		name: 'Avatar 2'
-	},
-	{
-		value: 'https://cdn.midjourney.com/570f385e-3007-4b01-bd2a-efe8f82674cd/grid_0.png',
-		name: 'Avatar 3'
-	},
-	{
-		value: 'https://cdn.midjourney.com/fc453c15-9420-40ee-8c77-8d915c07a155/grid_0.png',
-		name: 'Avatar 4'
-	},
-	{
-		value: 'https://cdn.midjourney.com/6d7627a8-2b2d-4468-b24a-b6b487b29747/grid_0.png',
-		name: 'Avatar 5'
+		value:
+			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/brunette-woman.png',
+		name: 'Feminine 1'
 	},
 	{
 		value:
 			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/african-woman.png',
-		name: 'Avatar 6'
+		name: 'Feminine 2'
+	},
+	{
+		value:
+			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/asian-woman.png',
+		name: 'Feminine 3'
+	},
+	{
+		value:
+			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/arab-woman.png',
+		name: 'Feminine 4'
+	},
+	{
+		value:
+			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/black-woman.png',
+		name: 'Feminine 5'
+	},
+
+	{
+		value:
+			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/red-headded-woman.png',
+		name: 'Feminine 6'
+	},
+	{
+		value: 'https://cdn.midjourney.com/4e9b6a58-c047-4fc9-bc18-472db8afe5d1/grid_0.png',
+		name: 'Masculine 1'
+	},
+	{
+		value: 'https://cdn.midjourney.com/c080f7f9-2603-4529-bbec-cc9504436c68/grid_0.png',
+		name: 'Masculine 2'
+	},
+	{
+		value: 'https://cdn.midjourney.com/570f385e-3007-4b01-bd2a-efe8f82674cd/grid_0.png',
+		name: 'Masculine 3'
+	},
+	{
+		value: 'https://cdn.midjourney.com/fc453c15-9420-40ee-8c77-8d915c07a155/grid_0.png',
+		name: 'Masculine 4'
+	},
+	{
+		value: 'https://cdn.midjourney.com/6d7627a8-2b2d-4468-b24a-b6b487b29747/grid_0.png',
+		name: 'Masculine 5'
+	},
+	{
+		value:
+			'https://msmhmtgznaccuejwuklv.supabase.co/storage/v1/object/public/emdash-character-avatars/character-avatars/indian-man.png',
+		name: 'Masculine 6'
 	}
 ];
 
