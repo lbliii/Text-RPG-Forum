@@ -2,6 +2,7 @@
 
 ## Todos:
 
+### Plumbery Plan
 I believe this is the correct way to re-map everything so concerns are properly separated:
 
 - `+server.js` should probably be used for authentication globally?
@@ -9,22 +10,15 @@ I believe this is the correct way to re-map everything so concerns are properly 
 - `+page.js` should handle the user's interactions with the page.
 - `+page.svelte` should handle the rendering of the page, using the props from +page.server.js and the user's interactions from `+page.js`.
 
--- is it okay/good to keep my store files as is, with each CRUD action centralized?
--- do i need to simplify my current store system? 
---- 
+### Questions
+- is it okay/good to keep my store files as is, with each CRUD action centralized?
+- do i need to simplify my current store system? 
+
+## Features / Goals
 - look into implementing [svelte tip-tap](https://tiptap.dev/installation/svelte) for rich text. 
 - set character limit to 3 for free tier. 
-- add archive col to threads db so users can archive finished threads + admin can auto archive stale threads
+- add archive column to threads table so users can archive finished threads + admin can auto archive stale threads
 - Move shared js into a lib folder and update to use $/lib imports  https://kit.svelte.dev/docs/modules#$lib
-- Standardize language conventions for toggling crud modals. (`openEditModal`, `openDeleteModal`, `openEditModal`).
-- Standardize component naming for clarity 
-- Figure out how to use +server.js file types to fetch supabase DB data faster versus on page.js/page.svelte files
-- collapse CRUD uis so that there's a  ThreadCRUD, CharacterCRUD, PostCRUD, etc. 
-
-
-
-
-
 
 ----------------
 
