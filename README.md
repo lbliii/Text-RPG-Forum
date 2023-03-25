@@ -12,6 +12,7 @@ I believe this is the correct way to re-map everything so concerns are properly 
 -- is it okay/good to keep my store files as is, with each CRUD action centralized?
 -- do i need to simplify my current store system? 
 --- 
+- look into implementing [svelte tip-tap](https://tiptap.dev/installation/svelte) for rich text. 
 - set character limit to 3 for free tier. 
 - add archive col to threads db so users can archive finished threads + admin can auto archive stale threads
 - Move shared js into a lib folder and update to use $/lib imports  https://kit.svelte.dev/docs/modules#$lib
