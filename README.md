@@ -1,7 +1,17 @@
 # EMDASH Text RPG 
 
 ## Todos:
- 
+
+I believe this is the correct way to re-map everything so concerns are properly separated:
+
+- `+server.js` should probably be used for authentication globally?
+- `+page.server.js` should fetch the thread/forum details by id and then fetch all of the thread/post details matching the forum/thread id and return them as props. 
+- `+page.js` should handle the user's interactions with the page.
+- `+page.svelte` should handle the rendering of the page, using the props from +page.server.js and the user's interactions from `+page.js`.
+
+-- is it okay/good to keep my store files as is, with each CRUD action centralized?
+-- do i need to simplify my current store system? 
+--- 
 - set character limit to 3 for free tier. 
 - add archive col to threads db so users can archive finished threads + admin can auto archive stale threads
 - Move shared js into a lib folder and update to use $/lib imports  https://kit.svelte.dev/docs/modules#$lib
